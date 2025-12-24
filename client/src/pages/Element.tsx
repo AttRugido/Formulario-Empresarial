@@ -107,6 +107,7 @@ export const Element = (): JSX.Element => {
     email: "",
     phone: ""
   });
+  const [isSegmentDropdownOpen, setIsSegmentDropdownOpen] = useState(false);
 
   const transitionToStep = (newStep: number) => {
     if (isTransitioning) return;
@@ -517,6 +518,7 @@ export const Element = (): JSX.Element => {
     const handleOptionClick = (option: string) => {
       if (isTransitioning) return;
       setFormData({ ...formData, segment: option });
+      setIsSegmentDropdownOpen(false);
       setTimeout(() => {
         transitionToStep(step + 1);
       }, 500);
@@ -527,31 +529,65 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Em qual segmento sua empresa atua?
         </h2>
-        <div className="flex flex-col max-w-[450px] pb-[30px]">
-          {options.map((option, index) => (
-            <div key={option}>
-              <div 
-                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
-                  formData.segment && formData.segment !== option ? 'opacity-50' : 'opacity-100'
-                }`}
-                onClick={() => handleOptionClick(option)}
-              >
-                <CustomCheck 
-                  checked={formData.segment === option}
-                  onClick={() => {}}
-                  className="mt-[4px]"
-                />
-                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
-                }`}>
-                  {option}
-                </span>
-              </div>
-              {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[6px]" />
-              )}
+        <div className="relative max-w-[450px]">
+          {/* Dropdown trigger */}
+          <div 
+            className="flex items-center justify-between gap-[9px] cursor-pointer py-[12px] px-[16px] border border-white/10 rounded-[8px] transition-all duration-200 hover:border-white/20"
+            onClick={() => setIsSegmentDropdownOpen(!isSegmentDropdownOpen)}
+          >
+            <div className="flex items-center gap-[9px]">
+              <CustomCheck 
+                checked={!!formData.segment}
+                onClick={() => {}}
+                className="mt-0"
+              />
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+                formData.segment ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {formData.segment || "Selecione o segmento"}
+              </span>
             </div>
-          ))}
+            <svg 
+              className={`w-5 h-5 text-[#b8b8b8] transition-transform duration-200 ${isSegmentDropdownOpen ? 'rotate-180' : ''}`}
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+
+          {/* Dropdown options */}
+          <div 
+            className={`absolute top-full left-0 right-0 mt-2 bg-[#151515] border border-white/10 rounded-[8px] overflow-hidden z-20 transition-all duration-200 ${
+              isSegmentDropdownOpen ? 'opacity-100 max-h-[300px] overflow-y-auto' : 'opacity-0 max-h-0 pointer-events-none'
+            }`}
+          >
+            {options.map((option, index) => (
+              <div key={option}>
+                <div 
+                  className={`flex items-center gap-[9px] cursor-pointer py-[10px] px-[16px] transition-all duration-200 hover:bg-white/5 ${
+                    formData.segment === option ? 'bg-white/5' : ''
+                  }`}
+                  onClick={() => handleOptionClick(option)}
+                >
+                  <CustomCheck 
+                    checked={formData.segment === option}
+                    onClick={() => {}}
+                    className="mt-0"
+                  />
+                  <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+                    formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
+                  }`}>
+                    {option}
+                  </span>
+                </div>
+                {index < options.length - 1 && (
+                  <div className="h-[1px] bg-white/5 mx-[16px]" />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
