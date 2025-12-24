@@ -221,33 +221,35 @@ export const Element = (): JSX.Element => {
           />
         </div>
         {/* Sidebar Text */}
-        <h2 className="font-['Inter'] font-medium text-white text-[18px] leading-[110%] mb-3">
+        <h2 className="font-['Inter'] font-medium text-white/80 text-[18px] leading-[110%] mb-3">
           {sidebarMessages[displayStep]}
         </h2>
-        {/* Logo Carousel */}
-        <div className="logo-carousel py-2">
-          <div className="logo-carousel-track">
-            <img src={logoArtsPortas} alt="Arts Portas" />
-            <img src={logoWallTravel} alt="Wall Travel" />
-            <img src={logoTimbo} alt="Timbo" />
-            <img src={logoRainha} alt="Rainha" />
-            <img src={logoMansaoMaromba} alt="Mansão Maromba" />
-            <img src={logoLuzianaLanna} alt="Luziana Lanna" />
-            <img src={logoGranMoney} alt="Gran Money" />
-            <img src={logoHidrogyn} alt="Hidrogyn" />
-            <img src={logoCenter} alt="Center" />
-            {/* Duplicate for seamless loop */}
-            <img src={logoArtsPortas} alt="Arts Portas" />
-            <img src={logoWallTravel} alt="Wall Travel" />
-            <img src={logoTimbo} alt="Timbo" />
-            <img src={logoRainha} alt="Rainha" />
-            <img src={logoMansaoMaromba} alt="Mansão Maromba" />
-            <img src={logoLuzianaLanna} alt="Luziana Lanna" />
-            <img src={logoGranMoney} alt="Gran Money" />
-            <img src={logoHidrogyn} alt="Hidrogyn" />
-            <img src={logoCenter} alt="Center" />
+        {/* Logo Carousel - only on page 1 */}
+        {displayStep === 1 && (
+          <div className="logo-carousel py-2">
+            <div className="logo-carousel-track">
+              <img src={logoArtsPortas} alt="Arts Portas" />
+              <img src={logoWallTravel} alt="Wall Travel" />
+              <img src={logoTimbo} alt="Timbo" />
+              <img src={logoRainha} alt="Rainha" />
+              <img src={logoMansaoMaromba} alt="Mansão Maromba" />
+              <img src={logoLuzianaLanna} alt="Luziana Lanna" />
+              <img src={logoGranMoney} alt="Gran Money" />
+              <img src={logoHidrogyn} alt="Hidrogyn" />
+              <img src={logoCenter} alt="Center" />
+              {/* Duplicate for seamless loop */}
+              <img src={logoArtsPortas} alt="Arts Portas" />
+              <img src={logoWallTravel} alt="Wall Travel" />
+              <img src={logoTimbo} alt="Timbo" />
+              <img src={logoRainha} alt="Rainha" />
+              <img src={logoMansaoMaromba} alt="Mansão Maromba" />
+              <img src={logoLuzianaLanna} alt="Luziana Lanna" />
+              <img src={logoGranMoney} alt="Gran Money" />
+              <img src={logoHidrogyn} alt="Hidrogyn" />
+              <img src={logoCenter} alt="Center" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       
       {/* Container 1 - Left Sidebar (Desktop only) */}
