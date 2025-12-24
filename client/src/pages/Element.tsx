@@ -112,29 +112,21 @@ export const Element = (): JSX.Element => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     
-    // Phase 1: Fade out Container 2
+    // Fade out both containers
+    setContainer1Visible(false);
     setContainer2Visible(false);
     
     setTimeout(() => {
-      // Phase 2: Fade out Container 1
-      setContainer1Visible(false);
+      // Update step and fade in both containers together
+      setStep(newStep);
+      setDisplayStep(newStep);
+      setContainer1Visible(true);
+      setContainer2Visible(true);
       
       setTimeout(() => {
-        // Phase 3: Update step and fade in Container 2
-        setStep(newStep);
-        setDisplayStep(newStep);
-        setContainer2Visible(true);
-        
-        setTimeout(() => {
-          // Phase 4: Fade in Container 1
-          setContainer1Visible(true);
-          
-          setTimeout(() => {
-            setIsTransitioning(false);
-          }, 300);
-        }, 300);
-      }, 300);
-    }, 300);
+        setIsTransitioning(false);
+      }, 200);
+    }, 200);
   };
 
   const handleNext = () => {
@@ -153,7 +145,11 @@ export const Element = (): JSX.Element => {
 
   const renderWelcomeScreen = () => (
     <div className="bg-[#090909] w-full h-screen flex items-center justify-center overflow-hidden">
-      <div className="flex flex-col items-center gap-6 max-w-[690px] px-4">
+      <div 
+        className={`flex flex-col items-center gap-6 max-w-[690px] px-4 transition-opacity duration-200 ease-in-out ${
+          container2Visible ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         <img
           className="w-[44.26px] h-16"
           alt="Logo"
@@ -175,6 +171,7 @@ export const Element = (): JSX.Element => {
         </div>
         <Button 
           onClick={handleNext}
+          disabled={isTransitioning}
           className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5"
         >
           <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
@@ -190,7 +187,7 @@ export const Element = (): JSX.Element => {
     <div className="bg-[#0a0a0a] w-full h-screen flex overflow-hidden">
       {/* Container 1 - Left Sidebar */}
       <div 
-        className={`hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden transition-opacity duration-300 ${
+        className={`hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -232,7 +229,7 @@ export const Element = (): JSX.Element => {
       </div>
       {/* Container 2 - Right Content */}
       <div 
-        className={`flex-1 flex flex-col h-screen bg-[#0a0a0a] overflow-hidden relative transition-opacity duration-300 ${
+        className={`flex-1 flex flex-col h-screen bg-[#0a0a0a] overflow-hidden relative transition-opacity duration-200 ease-in-out ${
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -243,12 +240,12 @@ export const Element = (): JSX.Element => {
             src="/figmaAssets/logo.png"
           />
         </div>
-        <div className="flex-1 flex flex-col items-center pt-[133px] px-8">
+        <div className="flex-1 flex flex-col items-center pt-[80px] px-8">
           <div className="w-full max-w-[290px]">
             {children}
           </div>
         </div>
-        <div className="absolute bottom-[129px] left-1/2 -translate-x-1/2">
+        <div className="absolute bottom-[100px] left-1/2 -translate-x-1/2">
           <div className="relative">
             <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="absolute -left-[39px] top-[21px]">
               <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#222222"/>
