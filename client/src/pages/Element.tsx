@@ -310,25 +310,29 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Primeiro, qual é a sua função na empresa?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px]">
-          {options.map((option) => (
-            <div 
-              key={option} 
-              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
-                formData.role && formData.role !== option ? 'opacity-50' : 'opacity-100'
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              <CustomCheck 
-                checked={formData.role === option}
-                onClick={() => {}}
-                className="mt-[4px]"
-              />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
-              }`}>
-                {option}
-              </span>
+        <div className="flex flex-col max-w-[450px]">
+          {options.map((option, index) => (
+            <div key={option}>
+              <div 
+                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                  formData.role && formData.role !== option ? 'opacity-50' : 'opacity-100'
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                <CustomCheck 
+                  checked={formData.role === option}
+                  onClick={() => {}}
+                  className="mt-[4px]"
+                />
+                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
+                  formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
+                }`}>
+                  {option}
+                </span>
+              </div>
+              {index < options.length - 1 && (
+                <div className="h-[1px] bg-white/5 my-[4px]" />
+              )}
             </div>
           ))}
         </div>
@@ -359,25 +363,29 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px]">
-          {options.map((option) => (
-            <div 
-              key={option} 
-              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
-                formData.bottleneck && formData.bottleneck !== option ? 'opacity-50' : 'opacity-100'
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              <CustomCheck 
-                checked={formData.bottleneck === option}
-                onClick={() => {}}
-                className="mt-[4px]"
-              />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                formData.bottleneck === option ? 'text-white' : 'text-[#b8b8b8]'
-              }`}>
-                {option}
-              </span>
+        <div className="flex flex-col max-w-[450px]">
+          {options.map((option, index) => (
+            <div key={option}>
+              <div 
+                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                  formData.bottleneck && formData.bottleneck !== option ? 'opacity-50' : 'opacity-100'
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                <CustomCheck 
+                  checked={formData.bottleneck === option}
+                  onClick={() => {}}
+                  className="mt-[4px]"
+                />
+                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
+                  formData.bottleneck === option ? 'text-white' : 'text-[#b8b8b8]'
+                }`}>
+                  {option}
+                </span>
+              </div>
+              {index < options.length - 1 && (
+                <div className="h-[1px] bg-white/5 my-[4px]" />
+              )}
             </div>
           ))}
         </div>
@@ -408,25 +416,29 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual é o faturamento MENSAL aproximado da sua empresa?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px]">
-          {options.map((option) => (
-            <div 
-              key={option} 
-              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
-                formData.revenue && formData.revenue !== option ? 'opacity-50' : 'opacity-100'
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              <CustomCheck 
-                checked={formData.revenue === option}
-                onClick={() => {}}
-                className="mt-[4px]"
-              />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                formData.revenue === option ? 'text-white' : 'text-[#b8b8b8]'
-              }`}>
-                {option}
-              </span>
+        <div className="flex flex-col max-w-[450px]">
+          {options.map((option, index) => (
+            <div key={option}>
+              <div 
+                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                  formData.revenue && formData.revenue !== option ? 'opacity-50' : 'opacity-100'
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                <CustomCheck 
+                  checked={formData.revenue === option}
+                  onClick={() => {}}
+                  className="mt-[4px]"
+                />
+                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
+                  formData.revenue === option ? 'text-white' : 'text-[#b8b8b8]'
+                }`}>
+                  {option}
+                </span>
+              </div>
+              {index < options.length - 1 && (
+                <div className="h-[1px] bg-white/5 my-[4px]" />
+              )}
             </div>
           ))}
         </div>
@@ -457,25 +469,29 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Quantas pessoas trabalham na sua empresa hoje?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px]">
-          {options.map((option) => (
-            <div 
-              key={option} 
-              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
-                formData.teamSize && formData.teamSize !== option ? 'opacity-50' : 'opacity-100'
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              <CustomCheck 
-                checked={formData.teamSize === option}
-                onClick={() => {}}
-                className="mt-[4px]"
-              />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                formData.teamSize === option ? 'text-white' : 'text-[#b8b8b8]'
-              }`}>
-                {option}
-              </span>
+        <div className="flex flex-col max-w-[450px]">
+          {options.map((option, index) => (
+            <div key={option}>
+              <div 
+                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                  formData.teamSize && formData.teamSize !== option ? 'opacity-50' : 'opacity-100'
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                <CustomCheck 
+                  checked={formData.teamSize === option}
+                  onClick={() => {}}
+                  className="mt-[4px]"
+                />
+                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
+                  formData.teamSize === option ? 'text-white' : 'text-[#b8b8b8]'
+                }`}>
+                  {option}
+                </span>
+              </div>
+              {index < options.length - 1 && (
+                <div className="h-[1px] bg-white/5 my-[4px]" />
+              )}
             </div>
           ))}
         </div>
@@ -511,25 +527,29 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Em qual segmento sua empresa atua?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px] pb-[30px]">
-          {options.map((option) => (
-            <div 
-              key={option} 
-              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
-                formData.segment && formData.segment !== option ? 'opacity-50' : 'opacity-100'
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              <CustomCheck 
-                checked={formData.segment === option}
-                onClick={() => {}}
-                className="mt-[4px]"
-              />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
-              }`}>
-                {option}
-              </span>
+        <div className="flex flex-col max-w-[450px] pb-[30px]">
+          {options.map((option, index) => (
+            <div key={option}>
+              <div 
+                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                  formData.segment && formData.segment !== option ? 'opacity-50' : 'opacity-100'
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                <CustomCheck 
+                  checked={formData.segment === option}
+                  onClick={() => {}}
+                  className="mt-[4px]"
+                />
+                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
+                  formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
+                }`}>
+                  {option}
+                </span>
+              </div>
+              {index < options.length - 1 && (
+                <div className="h-[1px] bg-white/5 my-[4px]" />
+              )}
             </div>
           ))}
         </div>
@@ -558,25 +578,29 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Para quando você precisa estruturar a receita da empresa?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px]">
-          {options.map((option) => (
-            <div 
-              key={option} 
-              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
-                formData.urgency && formData.urgency !== option ? 'opacity-50' : 'opacity-100'
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              <CustomCheck 
-                checked={formData.urgency === option}
-                onClick={() => {}}
-                className="mt-[4px]"
-              />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                formData.urgency === option ? 'text-white' : 'text-[#b8b8b8]'
-              }`}>
-                {option}
-              </span>
+        <div className="flex flex-col max-w-[450px]">
+          {options.map((option, index) => (
+            <div key={option}>
+              <div 
+                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                  formData.urgency && formData.urgency !== option ? 'opacity-50' : 'opacity-100'
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                <CustomCheck 
+                  checked={formData.urgency === option}
+                  onClick={() => {}}
+                  className="mt-[4px]"
+                />
+                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
+                  formData.urgency === option ? 'text-white' : 'text-[#b8b8b8]'
+                }`}>
+                  {option}
+                </span>
+              </div>
+              {index < options.length - 1 && (
+                <div className="h-[1px] bg-white/5 my-[4px]" />
+              )}
             </div>
           ))}
         </div>
@@ -603,25 +627,29 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Você tem sócio(s) na empresa?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px]">
-          {options.map((option) => (
-            <div 
-              key={option} 
-              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
-                formData.hasPartner && formData.hasPartner !== option ? 'opacity-50' : 'opacity-100'
-              }`}
-              onClick={() => handleOptionClick(option)}
-            >
-              <CustomCheck 
-                checked={formData.hasPartner === option}
-                onClick={() => {}}
-                className="mt-[4px]"
-              />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                formData.hasPartner === option ? 'text-white' : 'text-[#b8b8b8]'
-              }`}>
-                {option}
-              </span>
+        <div className="flex flex-col max-w-[450px]">
+          {options.map((option, index) => (
+            <div key={option}>
+              <div 
+                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                  formData.hasPartner && formData.hasPartner !== option ? 'opacity-50' : 'opacity-100'
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                <CustomCheck 
+                  checked={formData.hasPartner === option}
+                  onClick={() => {}}
+                  className="mt-[4px]"
+                />
+                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
+                  formData.hasPartner === option ? 'text-white' : 'text-[#b8b8b8]'
+                }`}>
+                  {option}
+                </span>
+              </div>
+              {index < options.length - 1 && (
+                <div className="h-[1px] bg-white/5 my-[4px]" />
+              )}
             </div>
           ))}
         </div>
