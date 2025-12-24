@@ -201,55 +201,22 @@ export const Element = (): JSX.Element => {
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
     <div className="bg-[#0a0a0a] w-full h-screen flex flex-col lg:flex-row overflow-hidden">
-      {/* Mobile Container with Header, Text and Logo Carousel */}
-      <div className="lg:hidden flex flex-col bg-[#121212] px-4 pt-3 pb-4">
-        {/* Header with back button and logo */}
-        <div className="flex items-center justify-between mb-[20px]">
-          <Button
-            onClick={handleBack}
-            variant="ghost"
-            disabled={isTransitioning}
-            className="text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0"
-          >
-            <ArrowLeftIcon className="w-4 h-4" />
-            <span className="font-['Inter'] text-sm">Voltar</span>
-          </Button>
-          <img
-            className="w-[20px] h-[29px]"
-            alt="Logo"
-            src="/figmaAssets/logo.png"
-          />
-        </div>
-        {/* Sidebar Text */}
-        <h2 className="font-['Inter'] font-medium text-white/80 text-[18px] leading-[110%] mb-3">
-          {sidebarMessages[displayStep]}
-        </h2>
-        {/* Logo Carousel - only on page 1 */}
-        {displayStep === 1 && (
-          <div className="logo-carousel py-2">
-            <div className="logo-carousel-track">
-              <img src={logoArtsPortas} alt="Arts Portas" />
-              <img src={logoWallTravel} alt="Wall Travel" />
-              <img src={logoTimbo} alt="Timbo" />
-              <img src={logoRainha} alt="Rainha" />
-              <img src={logoMansaoMaromba} alt="Mansão Maromba" />
-              <img src={logoLuzianaLanna} alt="Luziana Lanna" />
-              <img src={logoGranMoney} alt="Gran Money" />
-              <img src={logoHidrogyn} alt="Hidrogyn" />
-              <img src={logoCenter} alt="Center" />
-              {/* Duplicate for seamless loop */}
-              <img src={logoArtsPortas} alt="Arts Portas" />
-              <img src={logoWallTravel} alt="Wall Travel" />
-              <img src={logoTimbo} alt="Timbo" />
-              <img src={logoRainha} alt="Rainha" />
-              <img src={logoMansaoMaromba} alt="Mansão Maromba" />
-              <img src={logoLuzianaLanna} alt="Luziana Lanna" />
-              <img src={logoGranMoney} alt="Gran Money" />
-              <img src={logoHidrogyn} alt="Hidrogyn" />
-              <img src={logoCenter} alt="Center" />
-            </div>
-          </div>
-        )}
+      {/* Mobile Header with back button and logo */}
+      <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-[#0a0a0a]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          size="icon"
+          disabled={isTransitioning}
+          className="text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30"
+        >
+          <ArrowLeftIcon className="w-5 h-5" />
+        </Button>
+        <img
+          className="w-[20px] h-[29px]"
+          alt="Logo"
+          src="/figmaAssets/logo.png"
+        />
       </div>
       
       {/* Container 1 - Left Sidebar (Desktop only) */}
