@@ -365,7 +365,7 @@ export const Element = (): JSX.Element => {
         </div>
         <footer className="absolute bottom-[16px] sm:bottom-[20px] left-0 right-0 text-center px-4">
           <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[10px] sm:text-[11px] leading-[1.3] mb-[8px]">
-            Ao clicar em PROSSEGUIR você automaticamente concordo com os <span className="underline">termos de uso</span> e <span className="underline">politica de privacidade</span>
+            Ao PROSSEGUIR você automaticamente concordo com os <span className="underline">termos de uso</span> e <span className="underline">politica de privacidade</span>
           </p>
           <p className="font-['Inter'] font-normal text-[#565656] text-[8px] sm:text-[9px] leading-[1.3]">
             © 2025 Grupo Rugido. CNPJ: 39.617.248/0001-31 Todos os direitos reservados.
