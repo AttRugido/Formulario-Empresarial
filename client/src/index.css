@@ -383,3 +383,17 @@
 .custom-input-group:hover .custom-input-icon {
   stroke: #0b9a1c;
 }
+
+.custom-input.input-error {
+  border-color: #ef4444;
+}
+
+.custom-input.input-error:focus,
+.custom-input.input-error:hover {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+}
+
+.custom-input-group.has-error .custom-input-icon {
+  stroke: #ef4444;
+}

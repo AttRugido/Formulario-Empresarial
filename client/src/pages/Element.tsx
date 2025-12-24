@@ -2,6 +2,7 @@ import { ArrowRightIcon, ArrowLeftIcon, ClockIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import InputMask from "react-input-mask";
 
 import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
 import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
@@ -108,6 +109,21 @@ export const Element = (): JSX.Element => {
     phone: ""
   });
   const [isSegmentDropdownOpen, setIsSegmentDropdownOpen] = useState(false);
+  const [emailError, setEmailError] = useState("");
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (value: string) => {
+    setFormData({ ...formData, email: value });
+    if (value && !validateEmail(value)) {
+      setEmailError("Por favor, insira um e-mail válido");
+    } else {
+      setEmailError("");
+    }
+  };
 
   const transitionToStep = (newStep: number) => {
     if (isTransitioning) return;
@@ -745,35 +761,47 @@ export const Element = (): JSX.Element => {
             data-testid="input-name"
           />
         </div>
-        <div className="custom-input-group">
-          <svg stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="custom-input-icon">
-            <path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" strokeLinejoin="round" strokeLinecap="round"></path>
-          </svg>
-          <input
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            placeholder="Digite seu e-mail profissional"
-            type="email"
-            className="custom-input"
-            data-testid="input-email"
-          />
+        <div className="flex flex-col gap-1">
+          <div className={`custom-input-group ${emailError ? 'has-error' : ''}`}>
+            <svg stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="custom-input-icon">
+              <path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" strokeLinejoin="round" strokeLinecap="round"></path>
+            </svg>
+            <input
+              value={formData.email}
+              onChange={(e) => handleEmailChange(e.target.value)}
+              placeholder="Digite seu e-mail profissional"
+              type="email"
+              className={`custom-input ${emailError ? 'input-error' : ''}`}
+              data-testid="input-email"
+            />
+          </div>
+          {emailError && (
+            <span className="text-red-500 text-xs font-['Inter'] ml-1">{emailError}</span>
+          )}
         </div>
         <div className="custom-input-group">
           <svg stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="custom-input-icon">
             <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" strokeLinejoin="round" strokeLinecap="round"></path>
           </svg>
-          <input
+          <InputMask
+            mask="(99) 9.9999-9999"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            placeholder="Digite seu WhatsApp"
-            type="tel"
-            className="custom-input"
-            data-testid="input-phone"
-          />
+          >
+            {(inputProps: any) => (
+              <input
+                {...inputProps}
+                placeholder="(00) 9.0000-0000"
+                type="tel"
+                className="custom-input"
+                data-testid="input-phone"
+              />
+            )}
+          </InputMask>
         </div>
         <Button
           onClick={handleNext}
-          disabled={!formData.name || !formData.email || !formData.phone || isTransitioning}
+          disabled={!formData.name || !formData.email || !formData.phone || emailError !== "" || isTransitioning}
           className="h-11 sm:h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[10px] px-6 sm:px-[40px] py-[12px] sm:py-[15px] gap-[10px] w-full disabled:opacity-50"
         >
           <span className="font-['Inter'] font-normal text-white/70 text-[16px] sm:text-[18px] leading-[1.3] uppercase">
