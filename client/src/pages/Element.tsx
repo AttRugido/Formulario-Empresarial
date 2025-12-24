@@ -280,11 +280,11 @@ export const Element = (): JSX.Element => {
         <Button
           onClick={handleBack}
           variant="ghost"
+          size="icon"
           disabled={isTransitioning}
-          className="hidden lg:flex absolute top-[20px] left-[20px] text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0 z-10"
+          className="hidden lg:flex absolute top-[20px] left-[20px] text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 z-10"
         >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter'] text-base">Voltar</span>
+          <ArrowLeftIcon className="w-5 h-5" />
         </Button>
         
         {/* Desktop centered logo */}
@@ -827,16 +827,17 @@ export const Element = (): JSX.Element => {
             </div>
           )}
           
-          <Button
+          <button
             onClick={handleNext}
             disabled={isTransitioning}
-            className="h-11 sm:h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[10px] px-6 sm:px-[40px] py-[12px] sm:py-[15px] gap-[10px] w-full"
+            className="green-animated-button w-full"
+            data-testid="button-avancar"
           >
-            <span className="font-['Inter'] font-normal text-white/70 text-[16px] sm:text-[18px] leading-[1.3] uppercase">
-              Avançar
+            <span>
+              AVANÇAR
+              <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
             </span>
-            <ArrowRightIcon className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-white/70" />
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -903,16 +904,17 @@ export const Element = (): JSX.Element => {
             )}
           </InputMask>
         </div>
-        <Button
+        <button
           onClick={handleNext}
           disabled={!formData.name || !formData.email || !formData.phone || emailError !== "" || isTransitioning}
-          className="h-11 sm:h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[10px] px-6 sm:px-[40px] py-[12px] sm:py-[15px] gap-[10px] w-full disabled:opacity-50"
+          className="green-animated-button w-full disabled:opacity-50"
+          data-testid="button-prosseguir"
         >
-          <span className="font-['Inter'] font-normal text-white/70 text-[16px] sm:text-[18px] leading-[1.3] uppercase">
-            Avançar
+          <span>
+            PROSSEGUIR
+            <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
           </span>
-          <ArrowRightIcon className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-white/70" />
-        </Button>
+        </button>
       </div>
     </div>
   );
