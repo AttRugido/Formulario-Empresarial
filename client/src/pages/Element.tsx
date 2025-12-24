@@ -204,7 +204,7 @@ export const Element = (): JSX.Element => {
       {/* Mobile Container with Header, Text and Logo Carousel */}
       <div className="lg:hidden flex flex-col bg-[#121212] px-4 pt-3 pb-4">
         {/* Header with back button and logo */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-[20px]">
           <Button
             onClick={handleBack}
             variant="ghost"
