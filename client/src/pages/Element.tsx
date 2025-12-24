@@ -90,6 +90,10 @@ const sidebarMessages = [
 
 export const Element = (): JSX.Element => {
   const [step, setStep] = useState(0);
+  const [displayStep, setDisplayStep] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [container1Visible, setContainer1Visible] = useState(true);
+  const [container2Visible, setContainer2Visible] = useState(true);
   const [formData, setFormData] = useState<FormData>({
     role: "",
     bottleneck: "",
@@ -104,9 +108,38 @@ export const Element = (): JSX.Element => {
     phone: ""
   });
 
+  const transitionToStep = (newStep: number) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    
+    // Phase 1: Fade out Container 2
+    setContainer2Visible(false);
+    
+    setTimeout(() => {
+      // Phase 2: Fade out Container 1
+      setContainer1Visible(false);
+      
+      setTimeout(() => {
+        // Phase 3: Update step and fade in Container 2
+        setStep(newStep);
+        setDisplayStep(newStep);
+        setContainer2Visible(true);
+        
+        setTimeout(() => {
+          // Phase 4: Fade in Container 1
+          setContainer1Visible(true);
+          
+          setTimeout(() => {
+            setIsTransitioning(false);
+          }, 300);
+        }, 300);
+      }, 300);
+    }, 300);
+  };
+
   const handleNext = () => {
     if (step < 9) {
-      setStep(step + 1);
+      transitionToStep(step + 1);
     } else {
       console.log("Form submitted:", formData);
     }
@@ -114,7 +147,7 @@ export const Element = (): JSX.Element => {
 
   const handleBack = () => {
     if (step > 0) {
-      setStep(step - 1);
+      transitionToStep(step - 1);
     }
   };
 
@@ -155,17 +188,22 @@ export const Element = (): JSX.Element => {
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
     <div className="bg-[#0a0a0a] w-full h-screen flex overflow-hidden">
-      <div className="hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden">
+      {/* Container 1 - Left Sidebar */}
+      <div 
+        className={`hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden transition-opacity duration-300 ${
+          container1Visible ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 897 836" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
           <path d="M2.03444 808.821C17.1929 965.5 32.4734 1043.01 -7.87744 1106.45C51.8152 1064.45 80.3883 1012.04 166.337 987.444C517.783 881.289 557.512 586.451 658.012 179.582C479.437 357.736 337.732 433.82 115.533 545.076C-1.43885 607.964 -10.4482 730.877 2.03444 808.821Z" fill="white" fillOpacity="0.01"/>
           <path d="M683.665 186.454C602.518 628.153 527.914 855.741 256.717 988.806C577.955 950.246 731.073 691.51 927.523 0C863.423 11.244 832.038 63.2881 782.505 112.466C745.047 146.426 722.632 173.283 683.665 186.454Z" fill="white" fillOpacity="0.01"/>
           <path d="M942.308 42.1156C803.582 530.653 724.92 749.992 561.09 866.963C772.603 802.13 868.013 741.977 1026.89 255.029C988.662 227.553 971.901 210.971 970.99 155.758C974.461 113.499 959.585 83.2633 942.308 42.1156Z" fill="white" fillOpacity="0.01"/>
         </svg>
-        <div className="relative z-10 p-[120px] pt-[626px]">
+        <div className="relative z-10 p-[120px] flex-1 flex flex-col justify-end">
           <h2 className="font-['Inter'] font-medium text-white text-[39.278px] leading-[110%] w-[379px] mb-4">
-            {sidebarMessages[step]}
+            {sidebarMessages[displayStep]}
           </h2>
-          {step === 1 && (
+          {displayStep === 1 && (
             <>
               <div className="w-[418px] h-[1px] bg-white/20 mt-[17px] mb-[17px]" />
               <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] w-[417px] mb-6">
@@ -192,7 +230,12 @@ export const Element = (): JSX.Element => {
           )}
         </div>
       </div>
-      <div className="flex-1 flex flex-col h-screen bg-[#0a0a0a] overflow-hidden relative">
+      {/* Container 2 - Right Content */}
+      <div 
+        className={`flex-1 flex flex-col h-screen bg-[#0a0a0a] overflow-hidden relative transition-opacity duration-300 ${
+          container2Visible ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         <div className="flex justify-center pt-[53px]">
           <img
             className="w-[44.263px] h-16"
@@ -243,9 +286,10 @@ export const Element = (): JSX.Element => {
     ];
 
     const handleOptionClick = (option: string) => {
+      if (isTransitioning) return;
       setFormData({ ...formData, role: option });
       setTimeout(() => {
-        handleNext();
+        transitionToStep(step + 1);
       }, 500);
     };
     
@@ -298,9 +342,10 @@ export const Element = (): JSX.Element => {
     ];
 
     const handleOptionClick = (option: string) => {
+      if (isTransitioning) return;
       setFormData({ ...formData, bottleneck: option });
       setTimeout(() => {
-        handleNext();
+        transitionToStep(step + 1);
       }, 500);
     };
 
@@ -353,9 +398,10 @@ export const Element = (): JSX.Element => {
     ];
 
     const handleOptionClick = (option: string) => {
+      if (isTransitioning) return;
       setFormData({ ...formData, revenue: option });
       setTimeout(() => {
-        handleNext();
+        transitionToStep(step + 1);
       }, 500);
     };
 
@@ -408,9 +454,10 @@ export const Element = (): JSX.Element => {
     ];
 
     const handleOptionClick = (option: string) => {
+      if (isTransitioning) return;
       setFormData({ ...formData, teamSize: option });
       setTimeout(() => {
-        handleNext();
+        transitionToStep(step + 1);
       }, 500);
     };
 
@@ -468,9 +515,10 @@ export const Element = (): JSX.Element => {
     ];
 
     const handleOptionClick = (option: string) => {
+      if (isTransitioning) return;
       setFormData({ ...formData, segment: option });
       setTimeout(() => {
-        handleNext();
+        transitionToStep(step + 1);
       }, 500);
     };
 
@@ -521,9 +569,10 @@ export const Element = (): JSX.Element => {
     ];
 
     const handleOptionClick = (option: string) => {
+      if (isTransitioning) return;
       setFormData({ ...formData, urgency: option });
       setTimeout(() => {
-        handleNext();
+        transitionToStep(step + 1);
       }, 500);
     };
 
@@ -572,9 +621,10 @@ export const Element = (): JSX.Element => {
     ];
 
     const handleOptionClick = (option: string) => {
+      if (isTransitioning) return;
       setFormData({ ...formData, hasPartner: option });
       setTimeout(() => {
-        handleNext();
+        transitionToStep(step + 1);
       }, 500);
     };
 
