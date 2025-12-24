@@ -3,6 +3,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
+import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
+import logoTimbo from "@assets/logo_timbo_1766593059523.png";
+import logoRainha from "@assets/Logo_rainha_1766593059523.png";
+import logoLuzianaLanna from "@assets/logo_LL_1766593059523.png";
+import logoHidrogyn from "@assets/Logo_Hg_1766593059522.png";
+import logoGranMoney from "@assets/Logo_Gran_Money_Branco_1766593059522.png";
+import logoCenter from "@assets/Group_2_1766593059521.png";
+
 const CustomCheck = ({ checked, onClick }: { checked: boolean; onClick: () => void }) => (
   <div className={`custom-check ${checked ? 'checked' : ''}`} onClick={onClick}>
     <svg viewBox="0 0 18 18" height="18px" width="18px">
@@ -163,16 +172,16 @@ export const Element = (): JSX.Element => {
               </p>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-4">
-                  <img src="/attached_assets/Logo_branco_e_amarelo_1766593059522.png" alt="Arts Portas" className="h-8 w-auto" />
-                  <img src="/attached_assets/Logo_Branco_1766593059522.png" alt="Wall Travel" className="h-4 w-auto" />
-                  <img src="/attached_assets/logo_timbo_1766593059523.png" alt="Timbo" className="h-6 w-auto" />
-                  <img src="/attached_assets/Logo_rainha_1766593059523.png" alt="Rainha" className="h-10 w-auto" />
+                  <img src={logoArtsPortas} alt="Arts Portas" className="h-8 w-auto" />
+                  <img src={logoWallTravel} alt="Wall Travel" className="h-4 w-auto" />
+                  <img src={logoTimbo} alt="Timbo" className="h-6 w-auto" />
+                  <img src={logoRainha} alt="Rainha" className="h-10 w-auto" />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src="/attached_assets/logo_LL_1766593059523.png" alt="Luziana Lanna" className="h-5 w-auto" />
-                  <img src="/attached_assets/Logo_Hg_1766593059522.png" alt="Hidrogyn" className="h-12 w-auto" />
-                  <img src="/attached_assets/Logo_Gran_Money_Branco_1766593059522.png" alt="Gran Money" className="h-7 w-auto" />
-                  <img src="/attached_assets/Group_2_1766593059521.png" alt="Center" className="h-10 w-auto" />
+                  <img src={logoLuzianaLanna} alt="Luziana Lanna" className="h-5 w-auto" />
+                  <img src={logoHidrogyn} alt="Hidrogyn" className="h-12 w-auto" />
+                  <img src={logoGranMoney} alt="Gran Money" className="h-7 w-auto" />
+                  <img src={logoCenter} alt="Center" className="h-10 w-auto" />
                 </div>
               </div>
             </>
