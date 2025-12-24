@@ -119,7 +119,7 @@ export const Element = (): JSX.Element => {
   };
 
   const renderWelcomeScreen = () => (
-    <div className="bg-[#090909] w-full min-h-screen flex items-center justify-center">
+    <div className="bg-[#090909] w-full h-screen flex items-center justify-center overflow-hidden">
       <div className="flex flex-col items-center gap-6 max-w-[690px] px-4">
         <img
           className="w-[44.26px] h-16"
@@ -154,7 +154,7 @@ export const Element = (): JSX.Element => {
   );
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
-    <div className="bg-[#0a0a0a] w-full min-h-screen flex">
+    <div className="bg-[#0a0a0a] w-full h-screen flex overflow-hidden">
       <div className="hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 897 836" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
           <path d="M2.03444 808.821C17.1929 965.5 32.4734 1043.01 -7.87744 1106.45C51.8152 1064.45 80.3883 1012.04 166.337 987.444C517.783 881.289 557.512 586.451 658.012 179.582C479.437 357.736 337.732 433.82 115.533 545.076C-1.43885 607.964 -10.4482 730.877 2.03444 808.821Z" fill="white" fillOpacity="0.01"/>
@@ -192,7 +192,7 @@ export const Element = (): JSX.Element => {
           )}
         </div>
       </div>
-      <div className="flex-1 flex flex-col min-h-screen bg-[#0a0a0a] overflow-hidden relative">
+      <div className="flex-1 flex flex-col h-screen bg-[#0a0a0a] overflow-hidden relative">
         <div className="flex justify-center pt-[53px]">
           <img
             className="w-[44.263px] h-16"
