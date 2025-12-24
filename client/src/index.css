@@ -114,6 +114,27 @@
   }
 }
 
+@keyframes vibrate {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-0.75px, 0.75px);
+  }
+  40% {
+    transform: translate(-0.75px, -0.75px);
+  }
+  60% {
+    transform: translate(0.75px, 0.75px);
+  }
+  80% {
+    transform: translate(0.75px, -0.75px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
 /* Screen transition animations */
 .container-fade-out {
   opacity: 0;
