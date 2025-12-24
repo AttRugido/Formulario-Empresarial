@@ -234,7 +234,8 @@ export const Element = (): JSX.Element => {
           <h2 
             className="font-['Inter'] font-medium text-white text-[39.278px] leading-[110%] mb-4"
             style={{ 
-              width: displayStep === 5 ? '611px' : 
+              width: displayStep === 2 ? '379px' :
+                     displayStep === 5 ? '611px' : 
                      displayStep === 6 ? '638px' : 
                      displayStep === 7 ? '490px' : 
                      displayStep === 8 ? '505px' : 
