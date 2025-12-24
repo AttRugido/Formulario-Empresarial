@@ -161,11 +161,19 @@ export const Element = (): JSX.Element => {
               <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] w-[417px] mb-6">
                 Veja abaixo algumas empresas que multiplicaram as vendas com a nossa ajuda:
               </p>
-              <div className="flex flex-wrap gap-4 opacity-60">
-                <div className="h-8 w-[77px] bg-[#333] rounded" />
-                <div className="h-4 w-[115px] bg-[#333] rounded mt-2" />
-                <div className="h-6 w-[73px] bg-[#333] rounded mt-1" />
-                <div className="h-10 w-[77px] bg-[#333] rounded" />
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-4">
+                  <img src="/attached_assets/Logo_branco_e_amarelo_1766593059522.png" alt="Arts Portas" className="h-8 w-auto" />
+                  <img src="/attached_assets/Logo_Branco_1766593059522.png" alt="Wall Travel" className="h-4 w-auto" />
+                  <img src="/attached_assets/logo_timbo_1766593059523.png" alt="Timbo" className="h-6 w-auto" />
+                  <img src="/attached_assets/Logo_rainha_1766593059523.png" alt="Rainha" className="h-10 w-auto" />
+                </div>
+                <div className="flex items-center gap-4">
+                  <img src="/attached_assets/logo_LL_1766593059523.png" alt="Luziana Lanna" className="h-5 w-auto" />
+                  <img src="/attached_assets/Logo_Hg_1766593059522.png" alt="Hidrogyn" className="h-12 w-auto" />
+                  <img src="/attached_assets/Logo_Gran_Money_Branco_1766593059522.png" alt="Gran Money" className="h-7 w-auto" />
+                  <img src="/attached_assets/Group_2_1766593059521.png" alt="Center" className="h-10 w-auto" />
+                </div>
               </div>
             </>
           )}
