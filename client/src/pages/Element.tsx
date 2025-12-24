@@ -249,7 +249,7 @@ export const Element = (): JSX.Element => {
           />
         </div>
         <div className="flex-1 flex flex-col items-center pt-[40px] sm:pt-[80px] px-4 sm:px-8 overflow-y-auto">
-          <div className="w-full max-w-[290px] sm:max-w-[320px]">
+          <div className="w-full max-w-[290px] sm:max-w-[420px]">
             {children}
           </div>
         </div>
@@ -301,7 +301,7 @@ export const Element = (): JSX.Element => {
     
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Primeiro, qual é a sua função na empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -349,7 +349,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -397,7 +397,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual é o faturamento MENSAL aproximado da sua empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -445,7 +445,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Quantas pessoas trabalham na sua empresa hoje?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -498,7 +498,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Em qual segmento sua empresa atua?
         </h2>
         <div className="flex flex-col gap-[10px] max-h-[300px] sm:max-h-[400px] overflow-y-auto">
@@ -544,7 +544,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Para quando você precisa estruturar a receita da empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -588,7 +588,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Você tem sócio(s) na empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -622,7 +622,7 @@ export const Element = (): JSX.Element => {
         <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
           Para conhecermos melhor sua empresa, nos informe:
         </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual o Instagram ou LinkedIn da empresa?
         </h2>
       </div>
@@ -651,7 +651,7 @@ export const Element = (): JSX.Element => {
         <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
           Perfeito! Agora vamos agendar sua Reunião Estratégica.
         </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Por favor, confirme seus dados de contato:
         </h2>
       </div>
