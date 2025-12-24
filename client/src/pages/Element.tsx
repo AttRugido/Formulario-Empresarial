@@ -202,7 +202,7 @@ export const Element = (): JSX.Element => {
   };
 
   const renderWelcomeScreen = () => (
-    <div className="bg-[#090909] w-full h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6">
+    <div className="bg-[#08090B] w-full h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6">
       <div 
         className={`flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[690px] transition-opacity duration-200 ease-in-out ${
           container2Visible ? 'opacity-100' : 'opacity-0'
@@ -213,7 +213,15 @@ export const Element = (): JSX.Element => {
           alt="Logo"
           src="/figmaAssets/logo.png"
         />
-        <h1 className="font-['Inter'] font-medium text-white text-[24px] sm:text-[32px] lg:text-[39.278px] text-center leading-[110%]">
+        <h1 
+          className="font-['Inter'] font-medium text-[24px] sm:text-[32px] lg:text-[39.278px] text-center leading-[110%]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Obrigado pelo interesse em estruturar a receita da sua empresa!
         </h1>
         <p className="font-['Inter'] font-normal text-[#b7b7b7] text-base sm:text-lg text-center leading-[1.3]">
@@ -241,9 +249,9 @@ export const Element = (): JSX.Element => {
   );
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
-    <div className="bg-[#0a0a0a] w-full h-screen flex flex-col lg:flex-row overflow-hidden">
+    <div className="bg-[#08090B] w-full h-screen flex flex-col lg:flex-row overflow-hidden">
       {/* Mobile Header with back button and logo */}
-      <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-[#0a0a0a]">
+      <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-[#08090B]">
         <Button
           onClick={handleBack}
           variant="ghost"
@@ -262,7 +270,11 @@ export const Element = (): JSX.Element => {
       
       {/* Container 1 - Left Sidebar (Desktop only) */}
       <div 
-        className="hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden"
+        className="hidden lg:flex w-[46.7%] flex-col relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(163deg, #1B1B20 -0.04%, #0C0D0F 90.1%)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.05)'
+        }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 897 836" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
           <path d="M2.03444 808.821C17.1929 965.5 32.4734 1043.01 -7.87744 1106.45C51.8152 1064.45 80.3883 1012.04 166.337 987.444C517.783 881.289 557.512 586.451 658.012 179.582C479.437 357.736 337.732 433.82 115.533 545.076C-1.43885 607.964 -10.4482 730.877 2.03444 808.821Z" fill="white" fillOpacity="0.01"/>
@@ -273,14 +285,18 @@ export const Element = (): JSX.Element => {
           container1Visible ? 'opacity-100' : 'opacity-0'
         }`}>
           <h2 
-            className="font-['Inter'] font-medium text-white text-[39.278px] leading-[110%] mb-4"
+            className="font-['Inter'] font-medium text-[39.278px] leading-[110%] mb-4"
             style={{ 
               width: displayStep === 1 ? '379px' :
                      displayStep === 5 ? '611px' : 
                      displayStep === 6 ? '638px' : 
                      displayStep === 7 ? '490px' : 
                      displayStep === 8 ? '505px' : 
-                     displayStep === 9 ? '573px' : '591px' 
+                     displayStep === 9 ? '573px' : '591px',
+              background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
             }}
           >
             {sidebarMessages[displayStep]}
@@ -314,7 +330,7 @@ export const Element = (): JSX.Element => {
       </div>
       {/* Container 2 - Right Content */}
       <div 
-        className={`flex-1 flex flex-col h-full lg:h-screen bg-[#0a0a0a] overflow-hidden relative transition-opacity duration-200 ease-in-out ${
+        className={`flex-1 flex flex-col h-full lg:h-screen bg-[#08090B] overflow-hidden relative transition-opacity duration-200 ease-in-out ${
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -347,17 +363,17 @@ export const Element = (): JSX.Element => {
           <div className="relative">
             {/* Mobile: quotes above the box, aligned left */}
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="34" viewBox="0 0 58 50" fill="none" className="sm:hidden block mb-2 ml-0 w-[40px] h-[34px]">
-              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#222222"/>
+              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#292830"/>
             </svg>
             {/* Desktop: quotes positioned to the left of the box */}
             <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="hidden sm:block absolute -left-[39px] top-[21px] w-[58px] h-[50px]">
-              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#222222"/>
+              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#292830"/>
             </svg>
-            <div className="bg-[#151515] border border-white/5 rounded-[12px] px-[16px] sm:px-[30px] py-[12px] sm:py-[15px] w-full sm:w-[592px]">
+            <div className="bg-[#0C0D0F] border border-white/5 rounded-[12px] px-[16px] sm:px-[30px] py-[12px] sm:py-[15px] w-full sm:w-[592px]">
               <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3] mb-2">
                 {testimonials[testimonialIndex]?.quote}
               </p>
-              <p className="font-['Inter'] italic text-[#5e5e5e] text-[12px] sm:text-[14px] leading-[1.3]">
+              <p className="font-['Inter'] italic text-[#504E5D] text-[12px] sm:text-[14px] leading-[1.3]">
                 {testimonials[testimonialIndex]?.author}
               </p>
             </div>
@@ -395,7 +411,15 @@ export const Element = (): JSX.Element => {
     
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Primeiro, qual é a sua função na empresa?
         </h2>
         <div className="flex flex-col max-w-[450px]">
@@ -413,7 +437,7 @@ export const Element = (): JSX.Element => {
                   className="mt-[4px]"
                 />
                 <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
+                  formData.role === option ? 'text-white' : 'text-[#6B717F]'
                 }`}>
                   {option}
                 </span>
@@ -448,7 +472,15 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
         <div className="flex flex-col max-w-[450px]">
@@ -466,7 +498,7 @@ export const Element = (): JSX.Element => {
                   className="mt-[4px]"
                 />
                 <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.bottleneck === option ? 'text-white' : 'text-[#b8b8b8]'
+                  formData.bottleneck === option ? 'text-white' : 'text-[#6B717F]'
                 }`}>
                   {option}
                 </span>
@@ -501,7 +533,15 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Qual é o faturamento MENSAL aproximado da sua empresa?
         </h2>
         <div className="flex flex-col max-w-[450px]">
@@ -519,7 +559,7 @@ export const Element = (): JSX.Element => {
                   className="mt-[4px]"
                 />
                 <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.revenue === option ? 'text-white' : 'text-[#b8b8b8]'
+                  formData.revenue === option ? 'text-white' : 'text-[#6B717F]'
                 }`}>
                   {option}
                 </span>
@@ -554,7 +594,15 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Quantas pessoas trabalham na sua empresa hoje?
         </h2>
         <div className="flex flex-col max-w-[450px]">
@@ -572,7 +620,7 @@ export const Element = (): JSX.Element => {
                   className="mt-[4px]"
                 />
                 <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.teamSize === option ? 'text-white' : 'text-[#b8b8b8]'
+                  formData.teamSize === option ? 'text-white' : 'text-[#6B717F]'
                 }`}>
                   {option}
                 </span>
@@ -613,7 +661,15 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Em qual segmento sua empresa atua?
         </h2>
         <div className="relative max-w-[450px]">
@@ -629,7 +685,7 @@ export const Element = (): JSX.Element => {
                 className="mt-0"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
-                formData.segment ? 'text-white' : 'text-[#b8b8b8]'
+                formData.segment ? 'text-white' : 'text-[#6B717F]'
               }`}>
                 {formData.segment || "Selecione o segmento"}
               </span>
@@ -664,7 +720,7 @@ export const Element = (): JSX.Element => {
                     className="mt-0"
                   />
                   <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
-                    formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
+                    formData.segment === option ? 'text-white' : 'text-[#6B717F]'
                   }`}>
                     {option}
                   </span>
@@ -698,7 +754,15 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Para quando você precisa estruturar a receita da empresa?
         </h2>
         <div className="flex flex-col max-w-[450px]">
@@ -716,7 +780,7 @@ export const Element = (): JSX.Element => {
                   className="mt-[4px]"
                 />
                 <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.urgency === option ? 'text-white' : 'text-[#b8b8b8]'
+                  formData.urgency === option ? 'text-white' : 'text-[#6B717F]'
                 }`}>
                   {option}
                 </span>
@@ -747,7 +811,15 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Você tem sócio(s) na empresa?
         </h2>
         <div className="flex flex-col max-w-[450px]">
@@ -765,7 +837,7 @@ export const Element = (): JSX.Element => {
                   className="mt-[4px]"
                 />
                 <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.hasPartner === option ? 'text-white' : 'text-[#b8b8b8]'
+                  formData.hasPartner === option ? 'text-white' : 'text-[#6B717F]'
                 }`}>
                   {option}
                 </span>
@@ -818,7 +890,15 @@ export const Element = (): JSX.Element => {
           <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
             Para conhecermos melhor sua empresa, nos informe:
           </p>
-          <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+          <h2 
+            className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+            style={{
+              background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}
+          >
             Qual o Instagram ou LinkedIn da empresa?
           </h2>
         </div>
@@ -891,7 +971,15 @@ export const Element = (): JSX.Element => {
         <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
           Perfeito! Agora vamos agendar sua Reunião Estratégica.
         </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
           Por favor, confirme seus dados de contato:
         </h2>
       </div>
