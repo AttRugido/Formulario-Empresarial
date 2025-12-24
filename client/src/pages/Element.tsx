@@ -13,8 +13,8 @@ import logoGranMoney from "@assets/Logo_Gran_Money_Branco_1766593059522.png";
 import logoCenter from "@assets/Group_2_1766593059521.png";
 import logoMansaoMaromba from "@assets/logotipo_MM-PA_horizontal_1766593332339.png";
 
-const CustomCheck = ({ checked, onClick }: { checked: boolean; onClick: () => void }) => (
-  <div className={`custom-check ${checked ? 'checked' : ''}`} onClick={onClick}>
+const CustomCheck = ({ checked, onClick, className }: { checked: boolean; onClick: () => void; className?: string }) => (
+  <div className={`custom-check ${checked ? 'checked' : ''} ${className || ''}`} onClick={onClick}>
     <svg viewBox="0 0 18 18" height="18px" width="18px">
       <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z" />
       <polyline points="1 9 7 14 15 4" />
@@ -316,6 +316,7 @@ export const Element = (): JSX.Element => {
               <CustomCheck 
                 checked={formData.role === option}
                 onClick={() => {}}
+                className="mt-[4px]"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
@@ -364,6 +365,7 @@ export const Element = (): JSX.Element => {
               <CustomCheck 
                 checked={formData.bottleneck === option}
                 onClick={() => {}}
+                className="mt-[4px]"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.bottleneck === option ? 'text-white' : 'text-[#b8b8b8]'
@@ -412,6 +414,7 @@ export const Element = (): JSX.Element => {
               <CustomCheck 
                 checked={formData.revenue === option}
                 onClick={() => {}}
+                className="mt-[4px]"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.revenue === option ? 'text-white' : 'text-[#b8b8b8]'
@@ -460,6 +463,7 @@ export const Element = (): JSX.Element => {
               <CustomCheck 
                 checked={formData.teamSize === option}
                 onClick={() => {}}
+                className="mt-[4px]"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.teamSize === option ? 'text-white' : 'text-[#b8b8b8]'
@@ -513,6 +517,7 @@ export const Element = (): JSX.Element => {
               <CustomCheck 
                 checked={formData.segment === option}
                 onClick={() => {}}
+                className="mt-[4px]"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
@@ -559,6 +564,7 @@ export const Element = (): JSX.Element => {
               <CustomCheck 
                 checked={formData.urgency === option}
                 onClick={() => {}}
+                className="mt-[4px]"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.urgency === option ? 'text-white' : 'text-[#b8b8b8]'
@@ -603,6 +609,7 @@ export const Element = (): JSX.Element => {
               <CustomCheck 
                 checked={formData.hasPartner === option}
                 onClick={() => {}}
+                className="mt-[4px]"
               />
               <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.hasPartner === option ? 'text-white' : 'text-[#b8b8b8]'
