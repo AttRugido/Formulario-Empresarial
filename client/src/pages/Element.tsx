@@ -137,59 +137,70 @@ export const Element = (): JSX.Element => {
   );
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
-    <div className="bg-[#090909] w-full min-h-screen flex">
-      <div className="hidden lg:flex w-[46.7%] bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] flex-col justify-center px-[121px] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full opacity-20">
-          <div className="absolute top-[60px] left-[239px] w-[400px] h-[500px] bg-gradient-to-br from-[#0b9a1b]/20 to-transparent rounded-full blur-3xl" />
+    <div className="bg-[#0a0a0a] w-full min-h-screen flex">
+      <div className="hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden">
+        <div className="absolute top-[60px] left-[-100px] w-[1184px] h-[1493px] flex items-center justify-center">
+          <img 
+            src="/figmaAssets/front-bg.png" 
+            alt="" 
+            className="rotate-[15deg] w-[875px] h-[1311px] object-contain opacity-30"
+          />
         </div>
-        <h2 className="font-['Inter'] font-bold text-white text-[39.3px] leading-[43.2px] mb-6 relative z-10">
-          {sidebarMessages[step]}
-        </h2>
-        {step === 1 && (
-          <>
-            <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg leading-[23.4px] mb-8">
-              Veja abaixo algumas empresas que multiplicaram as vendas com a nossa ajuda:
-            </p>
-            <div className="border-t border-[#333] pt-6">
-              <div className="grid grid-cols-4 gap-4 opacity-60">
-                <div className="h-8 bg-[#333] rounded" />
-                <div className="h-8 bg-[#333] rounded" />
-                <div className="h-8 bg-[#333] rounded" />
-                <div className="h-8 bg-[#333] rounded" />
+        <div className="relative z-10 px-[121px] pt-[626px]">
+          <h2 className="font-['Inter'] font-medium text-white text-[39.278px] leading-[110%] w-[379px] mb-4">
+            {sidebarMessages[step]}
+          </h2>
+          {step === 1 && (
+            <>
+              <div className="w-[418px] h-[1px] bg-white/20 mt-[17px] mb-[17px]" />
+              <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] w-[417px] mb-6">
+                Veja abaixo algumas empresas que multiplicaram as vendas com a nossa ajuda:
+              </p>
+              <div className="flex flex-wrap gap-4 opacity-60">
+                <div className="h-8 w-[77px] bg-[#333] rounded" />
+                <div className="h-4 w-[115px] bg-[#333] rounded mt-2" />
+                <div className="h-6 w-[73px] bg-[#333] rounded mt-1" />
+                <div className="h-10 w-[77px] bg-[#333] rounded" />
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
-      <div className="flex-1 flex flex-col min-h-screen bg-[#090909]">
-        <div className="flex justify-center pt-[53px] pb-8">
+      <div className="flex-1 flex flex-col min-h-screen bg-[#0a0a0a] overflow-hidden relative">
+        <div className="flex justify-center pt-[53px]">
           <img
-            className="w-[44.26px] h-16"
+            className="w-[44.263px] h-16"
             alt="Logo"
             src="/figmaAssets/logo.png"
           />
         </div>
-        <div className="flex-1 flex flex-col items-center justify-center px-8">
-          <div className="w-full max-w-[438px]">
+        <div className="flex-1 flex flex-col items-center pt-[133px] px-8">
+          <div className="w-full max-w-[290px]">
             {children}
           </div>
         </div>
-        <div className="mt-8 px-8 pb-8">
-          <div className="max-w-[631px] mx-auto bg-[#111] rounded-lg p-6 relative">
-            <span className="absolute top-4 left-4 text-[#0b9a1b] text-4xl font-serif">"</span>
-            <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg leading-[23.4px] pl-8 mb-2">
-              {testimonials[testimonialIndex]?.quote}
-            </p>
-            <p className="font-['Inter'] font-normal text-[#666] text-sm pl-8">
-              {testimonials[testimonialIndex]?.author}
-            </p>
+        <div className="absolute bottom-[129px] left-1/2 -translate-x-1/2">
+          <div className="relative">
+            <img 
+              src="/figmaAssets/quote-mark.png" 
+              alt="" 
+              className="absolute -left-[39px] top-[21px] w-[58px] h-[50px] rotate-180"
+            />
+            <div className="bg-[#151515] border border-white/5 rounded-[12px] px-[30px] py-[15px] w-[592px]">
+              <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] w-[532px] mb-2">
+                {testimonials[testimonialIndex]?.quote}
+              </p>
+              <p className="font-['Inter'] italic text-[#5e5e5e] text-[14px] leading-[1.3] w-[532px]">
+                {testimonials[testimonialIndex]?.author}
+              </p>
+            </div>
           </div>
         </div>
-        <footer className="text-center pb-8">
-          <p className="font-['Inter'] font-normal text-[#666] text-xs mb-2">
-            Ao clicar em PROSSEGUIR você automaticamente concordo com os termos de uso e politica de privacidade
+        <footer className="absolute bottom-0 left-0 right-0 text-center pb-[43px]">
+          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[11px] leading-[1.3] mb-[51px]">
+            Ao clicar em PROSSEGUIR você automaticamente concordo com os <span className="underline">termos de uso</span> e <span className="underline">politica de privacidade</span>
           </p>
-          <p className="font-['Inter'] font-normal text-[#666] text-xs">
+          <p className="font-['Inter'] font-normal text-[#565656] text-[9px] leading-[1.3]">
             © 2025 Grupo Rugido. CNPJ: 39.617.248/0001-31 Todos os direitos reservados.
           </p>
         </footer>
@@ -198,7 +209,7 @@ export const Element = (): JSX.Element => {
   );
 
   const renderRoleQuestion = () => (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-[37px]">
       <Button
         onClick={handleBack}
         variant="ghost"
@@ -207,13 +218,13 @@ export const Element = (): JSX.Element => {
         <ArrowLeftIcon className="w-4 h-4" />
         <span className="font-['Inter']">Voltar</span>
       </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
+      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
         Primeiro, qual é a sua função na empresa?
       </h2>
       <RadioGroup
         value={formData.role}
         onValueChange={(value) => setFormData({ ...formData, role: value })}
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-[10px]"
       >
         {[
           "Fundador(a) ou CEO",
@@ -223,15 +234,15 @@ export const Element = (): JSX.Element => {
           "Analista/Coordenador",
           "Outro cargo"
         ].map((option) => (
-          <div key={option} className="flex items-center gap-3">
+          <div key={option} className="flex items-center gap-[9px]">
             <RadioGroupItem
               value={option}
               id={option}
-              className="border-[#666] text-[#0b9a1b]"
+              className="border-[#666] text-[#0b9a1c] w-[21px] h-[21px]"
             />
             <Label
               htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b7b7b7] text-lg cursor-pointer"
+              className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] cursor-pointer"
             >
               {option}
             </Label>
@@ -241,12 +252,12 @@ export const Element = (): JSX.Element => {
       <Button
         onClick={handleNext}
         disabled={!formData.role}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
+        className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full disabled:opacity-50"
       >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
+        <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
           Avançar
         </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
+        <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
       </Button>
     </div>
   );
