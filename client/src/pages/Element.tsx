@@ -208,41 +208,11 @@ export const Element = (): JSX.Element => {
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <svg className="w-[150px] h-[150px]" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="logo-welcome">
-            <g id="back-welcome">
-              <path className="animate-[vibrate_3s_linear_infinite]" d="M37.9402 68.6649C40.2926 74.9479 40.4373 77.3273 39.4758 80.3838C41.47 77.9965 42.6744 76.6873 45.9414 74.7264C59.2389 66.4794 57.7686 55.5697 57.4178 37.7109C52.0314 47.0151 47.8814 49.349 39.9611 56.3803C35.8392 60.2597 36.5665 65.5938 37.9402 68.6649Z" fill="url(#paint0_welcome)"/>
-              <path className="animate-[vibrate_1s_linear_infinite]" d="M58.5501 37.711C60.0818 56.7902 58.9528 65.6103 49.2559 74.0799C61.3486 69.8195 65.2611 59.1627 67.0362 29.3865C64.5214 30.5565 63.4413 31.6647 61.9446 34.2357C60.7771 36.047 60.0091 36.7389 58.5501 37.711Z" fill="url(#paint1_welcome)"/>
-              <path className="animate-[vibrate_2s_linear_infinite]" d="M67.7631 30.2754C67.441 51.918 65.9436 60.1833 60.4893 66.806C68.1643 62.6245 71.2533 57.1773 73.0972 38.1149C71.2203 37.4055 70.6726 37.0643 70.026 34.8013C69.7027 33.0233 68.9282 31.7788 67.7631 30.2754Z" fill="url(#paint2_welcome)"/>
-            </g>
-            <g id="front-welcome">
-              <path d="M38.2818 68.5629C40.1863 74.4504 41.4273 77.2975 40.4135 80.0734C42.3509 77.9572 43.0055 75.7039 46.0977 74.0339C58.695 66.9916 57.7315 55.3364 58.1556 38.8668C52.8033 47.2142 48.005 51.3315 40.4131 57.4787C36.4529 60.8806 37.1446 65.6757 38.2818 68.5629Z" fill="white" fillOpacity="0.82"/>
-              <path d="M59.1986 38.9142C59.8115 56.5576 58.8683 65.9253 49.5793 73.3234C61.5873 69.1313 65.282 57.905 66.9872 29.6971C64.6211 30.6699 63.8554 32.9329 62.3688 35.2392C61.2173 36.8592 60.5835 38.0796 59.1986 38.9142Z" fill="white" fillOpacity="0.82"/>
-              <path d="M67.9102 31.189C66.7079 51.1168 65.5393 60.202 60.2366 66.0759C67.8101 61.8013 70.9655 58.6864 72.9549 38.6495C71.2553 37.9173 70.4718 37.4222 69.9707 35.3101C69.7473 33.6583 68.9209 32.623 67.9102 31.189Z" fill="white" fillOpacity="0.82"/>
-            </g>
-          </g>
-          <defs>
-            <linearGradient id="paint0_welcome" x1="56.4996" y1="41.267" x2="38.8809" y2="83.2125" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FE2EFD" stopOpacity="0"/>
-              <stop offset="0.404724" stopColor="#FE30FD"/>
-              <stop offset="0.586755" stopColor="#FE30FD"/>
-              <stop offset="0.860624" stopColor="#00FFD2"/>
-            </linearGradient>
-            <linearGradient id="paint1_welcome" x1="66.0369" y1="31.2454" x2="52.2167" y2="72.2211" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#00FED1"/>
-              <stop offset="0.34" stopColor="#FE30FD"/>
-              <stop offset="0.68" stopColor="#FE30FD"/>
-              <stop offset="1" stopColor="#00FED1"/>
-            </linearGradient>
-            <linearGradient id="paint2_welcome" x1="68.6226" y1="30.3562" x2="63.5309" y2="64.3006" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#00FED1"/>
-              <stop offset="0.225" stopColor="#00FED1"/>
-              <stop offset="0.55" stopColor="#7331FF"/>
-              <stop offset="0.79" stopColor="#7331FF"/>
-              <stop offset="1" stopColor="#00FED1"/>
-            </linearGradient>
-          </defs>
-        </svg>
+        <img
+          className="w-[44.26px] h-16"
+          alt="Logo"
+          src="/figmaAssets/logo.png"
+        />
         <h1 className="font-['Inter'] font-medium text-white text-[24px] sm:text-[32px] lg:text-[39.278px] text-center leading-[110%]">
           Obrigado pelo interesse em estruturar a receita da sua empresa!
         </h1>
@@ -283,41 +253,11 @@ export const Element = (): JSX.Element => {
         >
           <ArrowLeftIcon className="w-5 h-5" />
         </Button>
-        <svg className="w-[40px] h-[40px]" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="logo-mobile-header">
-            <g id="back-mobile-header">
-              <path className="animate-[vibrate_3s_linear_infinite]" d="M37.9402 68.6649C40.2926 74.9479 40.4373 77.3273 39.4758 80.3838C41.47 77.9965 42.6744 76.6873 45.9414 74.7264C59.2389 66.4794 57.7686 55.5697 57.4178 37.7109C52.0314 47.0151 47.8814 49.349 39.9611 56.3803C35.8392 60.2597 36.5665 65.5938 37.9402 68.6649Z" fill="url(#paint0_mh)"/>
-              <path className="animate-[vibrate_1s_linear_infinite]" d="M58.5501 37.711C60.0818 56.7902 58.9528 65.6103 49.2559 74.0799C61.3486 69.8195 65.2611 59.1627 67.0362 29.3865C64.5214 30.5565 63.4413 31.6647 61.9446 34.2357C60.7771 36.047 60.0091 36.7389 58.5501 37.711Z" fill="url(#paint1_mh)"/>
-              <path className="animate-[vibrate_2s_linear_infinite]" d="M67.7631 30.2754C67.441 51.918 65.9436 60.1833 60.4893 66.806C68.1643 62.6245 71.2533 57.1773 73.0972 38.1149C71.2203 37.4055 70.6726 37.0643 70.026 34.8013C69.7027 33.0233 68.9282 31.7788 67.7631 30.2754Z" fill="url(#paint2_mh)"/>
-            </g>
-            <g id="front-mobile-header">
-              <path d="M38.2818 68.5629C40.1863 74.4504 41.4273 77.2975 40.4135 80.0734C42.3509 77.9572 43.0055 75.7039 46.0977 74.0339C58.695 66.9916 57.7315 55.3364 58.1556 38.8668C52.8033 47.2142 48.005 51.3315 40.4131 57.4787C36.4529 60.8806 37.1446 65.6757 38.2818 68.5629Z" fill="white" fillOpacity="0.82"/>
-              <path d="M59.1986 38.9142C59.8115 56.5576 58.8683 65.9253 49.5793 73.3234C61.5873 69.1313 65.282 57.905 66.9872 29.6971C64.6211 30.6699 63.8554 32.9329 62.3688 35.2392C61.2173 36.8592 60.5835 38.0796 59.1986 38.9142Z" fill="white" fillOpacity="0.82"/>
-              <path d="M67.9102 31.189C66.7079 51.1168 65.5393 60.202 60.2366 66.0759C67.8101 61.8013 70.9655 58.6864 72.9549 38.6495C71.2553 37.9173 70.4718 37.4222 69.9707 35.3101C69.7473 33.6583 68.9209 32.623 67.9102 31.189Z" fill="white" fillOpacity="0.82"/>
-            </g>
-          </g>
-          <defs>
-            <linearGradient id="paint0_mh" x1="56.4996" y1="41.267" x2="38.8809" y2="83.2125" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#FE2EFD" stopOpacity="0"/>
-              <stop offset="0.404724" stopColor="#FE30FD"/>
-              <stop offset="0.586755" stopColor="#FE30FD"/>
-              <stop offset="0.860624" stopColor="#00FFD2"/>
-            </linearGradient>
-            <linearGradient id="paint1_mh" x1="66.0369" y1="31.2454" x2="52.2167" y2="72.2211" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#00FED1"/>
-              <stop offset="0.34" stopColor="#FE30FD"/>
-              <stop offset="0.68" stopColor="#FE30FD"/>
-              <stop offset="1" stopColor="#00FED1"/>
-            </linearGradient>
-            <linearGradient id="paint2_mh" x1="68.6226" y1="30.3562" x2="63.5309" y2="64.3006" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#00FED1"/>
-              <stop offset="0.225" stopColor="#00FED1"/>
-              <stop offset="0.55" stopColor="#7331FF"/>
-              <stop offset="0.79" stopColor="#7331FF"/>
-              <stop offset="1" stopColor="#00FED1"/>
-            </linearGradient>
-          </defs>
-        </svg>
+        <img
+          className="w-[20px] h-[29px]"
+          alt="Logo"
+          src="/figmaAssets/logo.png"
+        />
       </div>
       
       {/* Container 1 - Left Sidebar (Desktop only) */}
@@ -391,41 +331,11 @@ export const Element = (): JSX.Element => {
         
         {/* Desktop centered logo */}
         <div className="hidden lg:flex justify-center pt-[53px]">
-          <svg className="w-[150px] h-[150px]" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="logo-desktop">
-              <g id="back-desktop">
-                <path className="animate-[vibrate_3s_linear_infinite]" d="M37.9402 68.6649C40.2926 74.9479 40.4373 77.3273 39.4758 80.3838C41.47 77.9965 42.6744 76.6873 45.9414 74.7264C59.2389 66.4794 57.7686 55.5697 57.4178 37.7109C52.0314 47.0151 47.8814 49.349 39.9611 56.3803C35.8392 60.2597 36.5665 65.5938 37.9402 68.6649Z" fill="url(#paint0_desktop)"/>
-                <path className="animate-[vibrate_1s_linear_infinite]" d="M58.5501 37.711C60.0818 56.7902 58.9528 65.6103 49.2559 74.0799C61.3486 69.8195 65.2611 59.1627 67.0362 29.3865C64.5214 30.5565 63.4413 31.6647 61.9446 34.2357C60.7771 36.047 60.0091 36.7389 58.5501 37.711Z" fill="url(#paint1_desktop)"/>
-                <path className="animate-[vibrate_2s_linear_infinite]" d="M67.7631 30.2754C67.441 51.918 65.9436 60.1833 60.4893 66.806C68.1643 62.6245 71.2533 57.1773 73.0972 38.1149C71.2203 37.4055 70.6726 37.0643 70.026 34.8013C69.7027 33.0233 68.9282 31.7788 67.7631 30.2754Z" fill="url(#paint2_desktop)"/>
-              </g>
-              <g id="front-desktop">
-                <path d="M38.2818 68.5629C40.1863 74.4504 41.4273 77.2975 40.4135 80.0734C42.3509 77.9572 43.0055 75.7039 46.0977 74.0339C58.695 66.9916 57.7315 55.3364 58.1556 38.8668C52.8033 47.2142 48.005 51.3315 40.4131 57.4787C36.4529 60.8806 37.1446 65.6757 38.2818 68.5629Z" fill="white" fillOpacity="0.82"/>
-                <path d="M59.1986 38.9142C59.8115 56.5576 58.8683 65.9253 49.5793 73.3234C61.5873 69.1313 65.282 57.905 66.9872 29.6971C64.6211 30.6699 63.8554 32.9329 62.3688 35.2392C61.2173 36.8592 60.5835 38.0796 59.1986 38.9142Z" fill="white" fillOpacity="0.82"/>
-                <path d="M67.9102 31.189C66.7079 51.1168 65.5393 60.202 60.2366 66.0759C67.8101 61.8013 70.9655 58.6864 72.9549 38.6495C71.2553 37.9173 70.4718 37.4222 69.9707 35.3101C69.7473 33.6583 68.9209 32.623 67.9102 31.189Z" fill="white" fillOpacity="0.82"/>
-              </g>
-            </g>
-            <defs>
-              <linearGradient id="paint0_desktop" x1="56.4996" y1="41.267" x2="38.8809" y2="83.2125" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#FE2EFD" stopOpacity="0"/>
-                <stop offset="0.404724" stopColor="#FE30FD"/>
-                <stop offset="0.586755" stopColor="#FE30FD"/>
-                <stop offset="0.860624" stopColor="#00FFD2"/>
-              </linearGradient>
-              <linearGradient id="paint1_desktop" x1="66.0369" y1="31.2454" x2="52.2167" y2="72.2211" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#00FED1"/>
-                <stop offset="0.34" stopColor="#FE30FD"/>
-                <stop offset="0.68" stopColor="#FE30FD"/>
-                <stop offset="1" stopColor="#00FED1"/>
-              </linearGradient>
-              <linearGradient id="paint2_desktop" x1="68.6226" y1="30.3562" x2="63.5309" y2="64.3006" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#00FED1"/>
-                <stop offset="0.225" stopColor="#00FED1"/>
-                <stop offset="0.55" stopColor="#7331FF"/>
-                <stop offset="0.79" stopColor="#7331FF"/>
-                <stop offset="1" stopColor="#00FED1"/>
-              </linearGradient>
-            </defs>
-          </svg>
+          <img
+            className="w-[44.263px] h-16"
+            alt="Logo"
+            src="/figmaAssets/logo.png"
+          />
         </div>
         <div className="flex-1 flex flex-col items-center pt-[20px] lg:pt-[80px] px-4 sm:px-8 overflow-y-auto">
           <div className="w-full max-w-[290px] sm:max-w-[450px]">
