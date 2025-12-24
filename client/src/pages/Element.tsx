@@ -181,11 +181,9 @@ export const Element = (): JSX.Element => {
         </div>
         <div className="absolute bottom-[129px] left-1/2 -translate-x-1/2">
           <div className="relative">
-            <img 
-              src="/figmaAssets/quote-mark.png" 
-              alt="" 
-              className="absolute -left-[39px] top-[21px] w-[58px] h-[50px] rotate-180"
-            />
+            <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="absolute -left-[39px] top-[21px]">
+              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#222222"/>
+            </svg>
             <div className="bg-[#151515] border border-white/5 rounded-[12px] px-[30px] py-[15px] w-[592px]">
               <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] w-[532px] mb-2">
                 {testimonials[testimonialIndex]?.quote}
