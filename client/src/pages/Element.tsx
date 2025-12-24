@@ -233,6 +233,16 @@ export const Element = (): JSX.Element => {
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
+        {/* Back button positioned at top left */}
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          disabled={isTransitioning}
+          className="absolute top-[20px] left-[20px] text-[#b7b7b7] hover:text-white gap-2 px-0 z-10"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
         <div className="flex justify-center pt-[53px]">
           <img
             className="w-[44.263px] h-16"
@@ -292,14 +302,6 @@ export const Element = (): JSX.Element => {
     
     return (
       <div className="flex flex-col gap-[37px]">
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
-        </Button>
         <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Primeiro, qual é a sua função na empresa?
         </h2>
@@ -348,14 +350,6 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-[37px]">
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
-        </Button>
         <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
@@ -404,14 +398,6 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-[37px]">
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
-        </Button>
         <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Qual é o faturamento MENSAL aproximado da sua empresa?
         </h2>
@@ -460,14 +446,6 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-[37px]">
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
-        </Button>
         <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Quantas pessoas trabalham na sua empresa hoje?
         </h2>
@@ -521,14 +499,6 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-[37px]">
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
-        </Button>
         <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Em qual segmento sua empresa atua?
         </h2>
@@ -575,14 +545,6 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-[37px]">
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
-        </Button>
         <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Para quando você precisa estruturar a receita da empresa?
         </h2>
@@ -627,14 +589,6 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-[37px]">
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
-        </Button>
         <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Você tem sócio(s) na empresa?
         </h2>
@@ -665,14 +619,6 @@ export const Element = (): JSX.Element => {
 
   const renderSocialMediaQuestion = () => (
     <div className="flex flex-col gap-[37px]">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
       <div className="flex flex-col gap-4">
         <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3]">
           Para conhecermos melhor sua empresa, nos informe:
@@ -701,14 +647,6 @@ export const Element = (): JSX.Element => {
 
   const renderContactForm = () => (
     <div className="flex flex-col gap-[37px]">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
       <div className="flex flex-col gap-4">
         <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3]">
           Perfeito! Agora vamos agendar sua Reunião Estratégica.
