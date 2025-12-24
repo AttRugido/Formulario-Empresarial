@@ -377,7 +377,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] w-full sm:w-[510px]">
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
         <div className="flex flex-col max-w-[450px]">
