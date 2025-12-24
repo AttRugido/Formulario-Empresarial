@@ -308,7 +308,7 @@ export const Element = (): JSX.Element => {
           {options.map((option) => (
             <div 
               key={option} 
-              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.role && formData.role !== option ? 'opacity-50' : 'opacity-100'
               }`}
               onClick={() => handleOptionClick(option)}
@@ -317,7 +317,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.role === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -356,7 +356,7 @@ export const Element = (): JSX.Element => {
           {options.map((option) => (
             <div 
               key={option} 
-              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.bottleneck && formData.bottleneck !== option ? 'opacity-50' : 'opacity-100'
               }`}
               onClick={() => handleOptionClick(option)}
@@ -365,7 +365,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.bottleneck === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.bottleneck === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -404,7 +404,7 @@ export const Element = (): JSX.Element => {
           {options.map((option) => (
             <div 
               key={option} 
-              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.revenue && formData.revenue !== option ? 'opacity-50' : 'opacity-100'
               }`}
               onClick={() => handleOptionClick(option)}
@@ -413,7 +413,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.revenue === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.revenue === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -452,7 +452,7 @@ export const Element = (): JSX.Element => {
           {options.map((option) => (
             <div 
               key={option} 
-              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.teamSize && formData.teamSize !== option ? 'opacity-50' : 'opacity-100'
               }`}
               onClick={() => handleOptionClick(option)}
@@ -461,7 +461,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.teamSize === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.teamSize === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -505,7 +505,7 @@ export const Element = (): JSX.Element => {
           {options.map((option) => (
             <div 
               key={option} 
-              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.segment && formData.segment !== option ? 'opacity-50' : 'opacity-100'
               }`}
               onClick={() => handleOptionClick(option)}
@@ -514,7 +514,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.segment === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -551,7 +551,7 @@ export const Element = (): JSX.Element => {
           {options.map((option) => (
             <div 
               key={option} 
-              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.urgency && formData.urgency !== option ? 'opacity-50' : 'opacity-100'
               }`}
               onClick={() => handleOptionClick(option)}
@@ -560,7 +560,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.urgency === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.urgency === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -595,7 +595,7 @@ export const Element = (): JSX.Element => {
           {options.map((option) => (
             <div 
               key={option} 
-              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+              className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.hasPartner && formData.hasPartner !== option ? 'opacity-50' : 'opacity-100'
               }`}
               onClick={() => handleOptionClick(option)}
@@ -604,7 +604,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.hasPartner === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
                 formData.hasPartner === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
