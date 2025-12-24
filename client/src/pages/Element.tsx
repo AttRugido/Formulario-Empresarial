@@ -90,8 +90,8 @@ const sidebarMessages = [
 ];
 
 export const Element = (): JSX.Element => {
-  const [step, setStep] = useState(0);
-  const [displayStep, setDisplayStep] = useState(0);
+  const [step, setStep] = useState(1);
+  const [displayStep, setDisplayStep] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [container1Visible, setContainer1Visible] = useState(true);
   const [container2Visible, setContainer2Visible] = useState(true);
@@ -155,7 +155,7 @@ export const Element = (): JSX.Element => {
   };
 
   const handleBack = () => {
-    if (step > 0) {
+    if (step > 1) {
       transitionToStep(step - 1);
     }
   };
@@ -919,10 +919,6 @@ export const Element = (): JSX.Element => {
       </div>
     </div>
   );
-
-  if (step === 0) {
-    return renderWelcomeScreen();
-  }
 
   const stepContent = () => {
     switch (step) {
