@@ -160,7 +160,7 @@ export const Element = (): JSX.Element => {
           <path d="M683.665 186.454C602.518 628.153 527.914 855.741 256.717 988.806C577.955 950.246 731.073 691.51 927.523 0C863.423 11.244 832.038 63.2881 782.505 112.466C745.047 146.426 722.632 173.283 683.665 186.454Z" fill="white" fillOpacity="0.01"/>
           <path d="M942.308 42.1156C803.582 530.653 724.92 749.992 561.09 866.963C772.603 802.13 868.013 741.977 1026.89 255.029C988.662 227.553 971.901 210.971 970.99 155.758C974.461 113.499 959.585 83.2633 942.308 42.1156Z" fill="white" fillOpacity="0.01"/>
         </svg>
-        <div className="relative z-10 px-[121px] pt-[626px]">
+        <div className="relative z-10 p-[120px] pt-[626px]">
           <h2 className="font-['Inter'] font-medium text-white text-[39.278px] leading-[110%] w-[379px] mb-4">
             {sidebarMessages[step]}
           </h2>
