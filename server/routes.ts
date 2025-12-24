@@ -22,6 +22,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const submissions = await storage.getFormSubmissions();
       res.json(submissions);
     } catch (error) {
+      console.error("Error fetching submissions:", error);
       res.status(500).json({ error: "Failed to fetch submissions" });
     }
   });
