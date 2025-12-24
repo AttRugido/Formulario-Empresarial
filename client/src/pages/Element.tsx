@@ -1,8 +1,9 @@
 import { ArrowRightIcon, ArrowLeftIcon, ClockIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import InputMask from "react-input-mask";
+import { apiRequest } from "@/lib/queryClient";
 
 import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
 import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
@@ -89,6 +90,10 @@ const sidebarMessages = [
   "Você está a 24 horas de ter clareza total sobre sua receita"
 ];
 
+const generateSessionId = () => {
+  return 'session_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+};
+
 export const Element = (): JSX.Element => {
   const [step, setStep] = useState(1);
   const [displayStep, setDisplayStep] = useState(1);
@@ -110,6 +115,34 @@ export const Element = (): JSX.Element => {
   });
   const [isSegmentDropdownOpen, setIsSegmentDropdownOpen] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const sessionIdRef = useRef<string>("");
+  const trackedStepsRef = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    if (!sessionIdRef.current) {
+      sessionIdRef.current = generateSessionId();
+    }
+  }, []);
+
+  const trackStepEvent = async (stepNumber: number) => {
+    if (trackedStepsRef.current.has(stepNumber)) return;
+    trackedStepsRef.current.add(stepNumber);
+    try {
+      await apiRequest("POST", "/api/step-events", {
+        sessionId: sessionIdRef.current,
+        step: stepNumber
+      });
+    } catch (error) {
+      console.error("Failed to track step:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (step >= 1) {
+      trackStepEvent(step);
+    }
+  }, [step]);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -146,11 +179,19 @@ export const Element = (): JSX.Element => {
     }, 200);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < 9) {
       transitionToStep(step + 1);
     } else {
-      console.log("Form submitted:", formData);
+      setIsSubmitting(true);
+      try {
+        await apiRequest("POST", "/api/submissions", formData);
+        console.log("Form submitted successfully:", formData);
+      } catch (error) {
+        console.error("Failed to submit form:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
