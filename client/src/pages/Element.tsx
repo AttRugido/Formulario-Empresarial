@@ -331,7 +331,7 @@ export const Element = (): JSX.Element => {
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[4px]" />
+                <div className="h-[1px] bg-white/5 my-[6px]" />
               )}
             </div>
           ))}
@@ -384,7 +384,7 @@ export const Element = (): JSX.Element => {
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[4px]" />
+                <div className="h-[1px] bg-white/5 my-[6px]" />
               )}
             </div>
           ))}
@@ -437,7 +437,7 @@ export const Element = (): JSX.Element => {
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[4px]" />
+                <div className="h-[1px] bg-white/5 my-[6px]" />
               )}
             </div>
           ))}
@@ -490,7 +490,7 @@ export const Element = (): JSX.Element => {
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[4px]" />
+                <div className="h-[1px] bg-white/5 my-[6px]" />
               )}
             </div>
           ))}
@@ -548,7 +548,7 @@ export const Element = (): JSX.Element => {
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[4px]" />
+                <div className="h-[1px] bg-white/5 my-[6px]" />
               )}
             </div>
           ))}
@@ -599,7 +599,7 @@ export const Element = (): JSX.Element => {
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[4px]" />
+                <div className="h-[1px] bg-white/5 my-[6px]" />
               )}
             </div>
           ))}
@@ -648,7 +648,7 @@ export const Element = (): JSX.Element => {
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[4px]" />
+                <div className="h-[1px] bg-white/5 my-[6px]" />
               )}
             </div>
           ))}
