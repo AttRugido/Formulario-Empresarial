@@ -270,8 +270,8 @@ export const Element = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <footer className="absolute bottom-0 left-0 right-0 text-center pb-[43px]">
-          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[11px] leading-[1.3] mb-[51px]">
+        <footer className="absolute bottom-[20px] left-0 right-0 text-center">
+          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[11px] leading-[1.3] mb-[8px]">
             Ao clicar em PROSSEGUIR você automaticamente concordo com os <span className="underline">termos de uso</span> e <span className="underline">politica de privacidade</span>
           </p>
           <p className="font-['Inter'] font-normal text-[#565656] text-[9px] leading-[1.3]">
