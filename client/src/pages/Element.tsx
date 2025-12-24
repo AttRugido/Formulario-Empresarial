@@ -144,9 +144,9 @@ export const Element = (): JSX.Element => {
   };
 
   const renderWelcomeScreen = () => (
-    <div className="bg-[#090909] w-full h-screen flex items-center justify-center overflow-hidden">
+    <div className="bg-[#090909] w-full h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6">
       <div 
-        className={`flex flex-col items-center gap-6 max-w-[690px] px-4 transition-opacity duration-200 ease-in-out ${
+        className={`flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[690px] transition-opacity duration-200 ease-in-out ${
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -155,26 +155,24 @@ export const Element = (): JSX.Element => {
           alt="Logo"
           src="/figmaAssets/logo.png"
         />
-        <h1 className="font-['Inter'] font-medium text-white text-[39.278px] text-center leading-[110%] w-[690px]">
+        <h1 className="font-['Inter'] font-medium text-white text-[24px] sm:text-[32px] lg:text-[39.278px] text-center leading-[110%]">
           Obrigado pelo interesse em estruturar a receita da sua empresa!
         </h1>
-        <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg text-center leading-[23.4px]">
-          Antes de agendar sua reunião estratégica, responda algumas
-          <br />
-          perguntas para personalizarmos nossa conversa.
+        <p className="font-['Inter'] font-normal text-[#b7b7b7] text-base sm:text-lg text-center leading-[1.3]">
+          Antes de agendar sua reunião estratégica, responda algumas perguntas para personalizarmos nossa conversa.
         </p>
         <div className="flex flex-col gap-1 items-center">
-          <ClockIcon className="w-7 h-7 text-[#b7b7b7]" />
-          <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg text-center leading-[23.4px]">
+          <ClockIcon className="w-6 h-6 sm:w-7 sm:h-7 text-[#b7b7b7]" />
+          <p className="font-['Inter'] font-normal text-[#b7b7b7] text-base sm:text-lg text-center leading-[1.3]">
             Isso leva apenas 2 minutos
           </p>
         </div>
         <Button 
           onClick={handleNext}
           disabled={isTransitioning}
-          className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5"
+          className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-8 sm:px-10 py-[15px] gap-2.5 w-full sm:w-auto"
         >
-          <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
+          <span className="font-['Inter'] font-normal text-[#ffffffb2] text-base sm:text-lg leading-[1.3]">
             AVANÇAR
           </span>
           <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
@@ -238,24 +236,25 @@ export const Element = (): JSX.Element => {
           onClick={handleBack}
           variant="ghost"
           disabled={isTransitioning}
-          className="absolute top-[20px] left-[20px] text-[#b7b7b7] hover:text-white gap-2 px-0 z-10"
+          className="absolute top-[16px] left-[16px] sm:top-[20px] sm:left-[20px] text-[#b7b7b7] hover:text-white gap-2 px-0 z-10"
         >
           <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter']">Voltar</span>
+          <span className="font-['Inter'] text-sm sm:text-base">Voltar</span>
         </Button>
-        <div className="flex justify-center pt-[53px]">
+        <div className="flex justify-center pt-[40px] sm:pt-[53px]">
           <img
-            className="w-[44.263px] h-16"
+            className="w-[36px] h-[52px] sm:w-[44.263px] sm:h-16"
             alt="Logo"
             src="/figmaAssets/logo.png"
           />
         </div>
-        <div className="flex-1 flex flex-col items-center pt-[80px] px-8">
-          <div className="w-full max-w-[290px]">
+        <div className="flex-1 flex flex-col items-center pt-[40px] sm:pt-[80px] px-4 sm:px-8 overflow-y-auto">
+          <div className="w-full max-w-[290px] sm:max-w-[320px]">
             {children}
           </div>
         </div>
-        <div className="absolute bottom-[100px] left-1/2 -translate-x-1/2">
+        {/* Testimonial - Hidden on mobile */}
+        <div className="hidden md:block absolute bottom-[100px] left-1/2 -translate-x-1/2">
           <div className="relative">
             <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="absolute -left-[39px] top-[21px]">
               <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#222222"/>
@@ -270,11 +269,11 @@ export const Element = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <footer className="absolute bottom-[20px] left-0 right-0 text-center">
-          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[11px] leading-[1.3] mb-[8px]">
+        <footer className="absolute bottom-[16px] sm:bottom-[20px] left-0 right-0 text-center px-4">
+          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[10px] sm:text-[11px] leading-[1.3] mb-[8px]">
             Ao clicar em PROSSEGUIR você automaticamente concordo com os <span className="underline">termos de uso</span> e <span className="underline">politica de privacidade</span>
           </p>
-          <p className="font-['Inter'] font-normal text-[#565656] text-[9px] leading-[1.3]">
+          <p className="font-['Inter'] font-normal text-[#565656] text-[8px] sm:text-[9px] leading-[1.3]">
             © 2025 Grupo Rugido. CNPJ: 39.617.248/0001-31 Todos os direitos reservados.
           </p>
         </footer>
@@ -301,8 +300,8 @@ export const Element = (): JSX.Element => {
     };
     
     return (
-      <div className="flex flex-col gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Primeiro, qual é a sua função na empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -318,7 +317,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.role === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
                 formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -349,8 +348,8 @@ export const Element = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -366,7 +365,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.bottleneck === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
                 formData.bottleneck === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -397,8 +396,8 @@ export const Element = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Qual é o faturamento MENSAL aproximado da sua empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -414,7 +413,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.revenue === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
                 formData.revenue === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -445,8 +444,8 @@ export const Element = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Quantas pessoas trabalham na sua empresa hoje?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -462,7 +461,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.teamSize === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
                 formData.teamSize === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -498,11 +497,11 @@ export const Element = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Em qual segmento sua empresa atua?
         </h2>
-        <div className="flex flex-col gap-[10px] max-h-[400px] overflow-y-auto">
+        <div className="flex flex-col gap-[10px] max-h-[300px] sm:max-h-[400px] overflow-y-auto">
           {options.map((option) => (
             <div 
               key={option} 
@@ -515,7 +514,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.segment === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
                 formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -544,8 +543,8 @@ export const Element = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Para quando você precisa estruturar a receita da empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -561,7 +560,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.urgency === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
                 formData.urgency === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -588,8 +587,8 @@ export const Element = (): JSX.Element => {
     };
 
     return (
-      <div className="flex flex-col gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Você tem sócio(s) na empresa?
         </h2>
         <div className="flex flex-col gap-[10px]">
@@ -605,7 +604,7 @@ export const Element = (): JSX.Element => {
                 checked={formData.hasPartner === option}
                 onClick={() => {}}
               />
-              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
                 formData.hasPartner === option ? 'text-white' : 'text-[#b8b8b8]'
               }`}>
                 {option}
@@ -618,12 +617,12 @@ export const Element = (): JSX.Element => {
   };
 
   const renderSocialMediaQuestion = () => (
-    <div className="flex flex-col gap-[37px]">
-      <div className="flex flex-col gap-4">
-        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3]">
+    <div className="flex flex-col gap-6 sm:gap-[37px]">
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
           Para conhecermos melhor sua empresa, nos informe:
         </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Qual o Instagram ou LinkedIn da empresa?
         </h2>
       </div>
@@ -631,44 +630,45 @@ export const Element = (): JSX.Element => {
         value={formData.socialMedia}
         onChange={(e) => setFormData({ ...formData, socialMedia: e.target.value })}
         placeholder="@suaempresa ou URL do LinkedIn"
-        className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
+        className="h-[42px] sm:h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[16px] sm:text-[18px]"
       />
       <Button
         onClick={handleNext}
-        className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full"
+        disabled={isTransitioning}
+        className="h-11 sm:h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-6 sm:px-[40px] py-[12px] sm:py-[15px] gap-[10px] w-full"
       >
-        <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
+        <span className="font-['Inter'] font-normal text-white/70 text-[16px] sm:text-[18px] leading-[1.3] uppercase">
           Avançar
         </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
+        <ArrowRightIcon className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-white/70" />
       </Button>
     </div>
   );
 
   const renderContactForm = () => (
-    <div className="flex flex-col gap-[37px]">
-      <div className="flex flex-col gap-4">
-        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3]">
+    <div className="flex flex-col gap-6 sm:gap-[37px]">
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
           Perfeito! Agora vamos agendar sua Reunião Estratégica.
         </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%]">
           Por favor, confirme seus dados de contato:
         </h2>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3 sm:gap-4">
         <div className="flex flex-col gap-1">
-          <label className="font-['Inter'] text-[#b8b8b8] text-sm">
+          <label className="font-['Inter'] text-[#b8b8b8] text-xs sm:text-sm">
             Seu nome completo <span className="text-[#0b9a1c]">*</span>
           </label>
           <Input
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             placeholder="Digite seu nome"
-            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
+            className="h-[42px] sm:h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[16px] sm:text-[18px]"
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="font-['Inter'] text-[#b8b8b8] text-sm">
+          <label className="font-['Inter'] text-[#b8b8b8] text-xs sm:text-sm">
             Seu melhor e-mail <span className="text-[#0b9a1c]">*</span>
           </label>
           <Input
@@ -676,11 +676,11 @@ export const Element = (): JSX.Element => {
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             placeholder="Digite seu e-mail profissional"
             type="email"
-            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
+            className="h-[42px] sm:h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[16px] sm:text-[18px]"
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="font-['Inter'] text-[#b8b8b8] text-sm">
+          <label className="font-['Inter'] text-[#b8b8b8] text-xs sm:text-sm">
             WhatsApp (com DDD) <span className="text-[#0b9a1c]">*</span>
           </label>
           <Input
@@ -688,19 +688,19 @@ export const Element = (): JSX.Element => {
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             placeholder="Digite seu WhatsApp"
             type="tel"
-            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
+            className="h-[42px] sm:h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[16px] sm:text-[18px]"
           />
         </div>
       </div>
       <Button
         onClick={handleNext}
-        disabled={!formData.name || !formData.email || !formData.phone}
-        className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full disabled:opacity-50"
+        disabled={!formData.name || !formData.email || !formData.phone || isTransitioning}
+        className="h-11 sm:h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-6 sm:px-[40px] py-[12px] sm:py-[15px] gap-[10px] w-full disabled:opacity-50"
       >
-        <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
+        <span className="font-['Inter'] font-normal text-white/70 text-[16px] sm:text-[18px] leading-[1.3] uppercase">
           Avançar
         </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
+        <ArrowRightIcon className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-white/70" />
       </Button>
     </div>
   );
