@@ -201,7 +201,7 @@ export const Element = (): JSX.Element => {
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
     <div className="bg-[#0a0a0a] w-full h-screen flex flex-col lg:flex-row overflow-hidden">
-      {/* Mobile Header with Logo Carousel */}
+      {/* Mobile Header with Logo Carousel and Sidebar Content */}
       <div className="lg:hidden flex flex-col bg-[#121212]">
         {/* Logo Carousel */}
         <div className="logo-carousel py-3 bg-[#0a0a0a]">
@@ -226,6 +226,29 @@ export const Element = (): JSX.Element => {
             <img src={logoHidrogyn} alt="Hidrogyn" />
             <img src={logoCenter} alt="Center" />
           </div>
+        </div>
+        {/* Mobile Header with back button and logo */}
+        <div className="flex items-center justify-between px-4 py-3 bg-[#0a0a0a]">
+          <Button
+            onClick={handleBack}
+            variant="ghost"
+            disabled={isTransitioning}
+            className="text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            <span className="font-['Inter'] text-sm">Voltar</span>
+          </Button>
+          <img
+            className="w-[28px] h-[40px]"
+            alt="Logo"
+            src="/figmaAssets/logo.png"
+          />
+        </div>
+        {/* Mobile Sidebar Content */}
+        <div className="px-4 py-4 bg-[#121212]">
+          <h2 className="font-['Inter'] font-medium text-white text-[20px] leading-[110%]">
+            {sidebarMessages[displayStep]}
+          </h2>
         </div>
       </div>
       
@@ -286,24 +309,6 @@ export const Element = (): JSX.Element => {
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Mobile Header with back button and logo */}
-        <div className="lg:hidden flex items-center justify-between px-4 py-3">
-          <Button
-            onClick={handleBack}
-            variant="ghost"
-            disabled={isTransitioning}
-            className="text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0"
-          >
-            <ArrowLeftIcon className="w-4 h-4" />
-            <span className="font-['Inter'] text-sm">Voltar</span>
-          </Button>
-          <img
-            className="w-[28px] h-[40px]"
-            alt="Logo"
-            src="/figmaAssets/logo.png"
-          />
-        </div>
-        
         {/* Desktop Back button positioned at top left */}
         <Button
           onClick={handleBack}
