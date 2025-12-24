@@ -506,7 +506,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Em qual segmento sua empresa atua?
         </h2>
-        <div className="flex flex-col gap-[10px] max-w-[450px] max-h-[300px] sm:max-h-[400px] overflow-y-auto">
+        <div className="flex flex-col gap-[10px] max-w-[450px] pb-[30px]">
           {options.map((option) => (
             <div 
               key={option} 
