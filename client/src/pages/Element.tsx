@@ -1,9 +1,16 @@
 import { ArrowRightIcon, ArrowLeftIcon, ClockIcon } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+
+const CustomCheck = ({ checked, onClick }: { checked: boolean; onClick: () => void }) => (
+  <div className={`custom-check ${checked ? 'checked' : ''}`} onClick={onClick}>
+    <svg viewBox="0 0 18 18" height="18px" width="18px">
+      <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z" />
+      <polyline points="1 9 7 14 15 4" />
+    </svg>
+  </div>
+);
 
 interface FormData {
   role: string;
@@ -204,59 +211,63 @@ export const Element = (): JSX.Element => {
     </div>
   );
 
-  const renderRoleQuestion = () => (
-    <div className="flex flex-col gap-[37px]">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
-        Primeiro, qual é a sua função na empresa?
-      </h2>
-      <RadioGroup
-        value={formData.role}
-        onValueChange={(value) => setFormData({ ...formData, role: value })}
-        className="flex flex-col gap-[10px]"
-      >
-        {[
-          "Fundador(a) ou CEO",
-          "Sócio(a)",
-          "Diretor(a) Comercial/Vendas",
-          "Gerente Comercial",
-          "Analista/Coordenador",
-          "Outro cargo"
-        ].map((option) => (
-          <div key={option} className="flex items-center gap-[9px]">
-            <RadioGroupItem
-              value={option}
-              id={option}
-              className="border-[#666] text-[#0b9a1c] w-[21px] h-[21px]"
-            />
-            <Label
-              htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] cursor-pointer"
+  const renderRoleQuestion = () => {
+    const options = [
+      "Fundador(a) ou CEO",
+      "Sócio(a)",
+      "Diretor(a) Comercial/Vendas",
+      "Gerente Comercial",
+      "Analista/Coordenador",
+      "Outro cargo"
+    ];
+    
+    return (
+      <div className="flex flex-col gap-[37px]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+          Primeiro, qual é a sua função na empresa?
+        </h2>
+        <div className="flex flex-col gap-[10px]">
+          {options.map((option) => (
+            <div 
+              key={option} 
+              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+                formData.role && formData.role !== option ? 'opacity-50' : 'opacity-100'
+              }`}
+              onClick={() => setFormData({ ...formData, role: option })}
             >
-              {option}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-      <Button
-        onClick={handleNext}
-        disabled={!formData.role}
-        className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full disabled:opacity-50"
-      >
-        <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
-      </Button>
-    </div>
-  );
+              <CustomCheck 
+                checked={formData.role === option}
+                onClick={() => setFormData({ ...formData, role: option })}
+              />
+              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+                formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {option}
+              </span>
+            </div>
+          ))}
+        </div>
+        <Button
+          onClick={handleNext}
+          disabled={!formData.role}
+          className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full disabled:opacity-50"
+        >
+          <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
+            Avançar
+          </span>
+          <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
+        </Button>
+      </div>
+    );
+  };
 
   const renderBottleneckQuestion = () => (
     <div className="flex flex-col gap-8">
