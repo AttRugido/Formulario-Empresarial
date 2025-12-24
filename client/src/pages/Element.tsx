@@ -530,8 +530,7 @@ export const Element = (): JSX.Element => {
       />
       <Button
         onClick={handleNext}
-        disabled={!formData.socialMedia}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
+        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full"
       >
         <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
           Avançar
@@ -552,26 +551,41 @@ export const Element = (): JSX.Element => {
         </h2>
       </div>
       <div className="flex flex-col gap-4">
-        <Input
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          placeholder="Seu nome"
-          className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
-        />
-        <Input
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          placeholder="Seu e-mail"
-          type="email"
-          className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
-        />
-        <Input
-          value={formData.phone}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-          placeholder="Seu telefone (WhatsApp)"
-          type="tel"
-          className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
-        />
+        <div className="flex flex-col gap-1">
+          <Label className="font-['Inter'] text-[#b7b7b7] text-sm">
+            Seu nome completo <span className="text-[#0b9a1b]">*</span>
+          </Label>
+          <Input
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            placeholder="Digite seu nome"
+            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-['Inter'] text-[#b7b7b7] text-sm">
+            Seu melhor e-mail <span className="text-[#0b9a1b]">*</span>
+          </Label>
+          <Input
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            placeholder="Digite seu e-mail profissional"
+            type="email"
+            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <Label className="font-['Inter'] text-[#b7b7b7] text-sm">
+            WhatsApp (com DDD) <span className="text-[#0b9a1b]">*</span>
+          </Label>
+          <Input
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            placeholder="Digite seu WhatsApp"
+            type="tel"
+            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
+          />
+        </div>
       </div>
       <Button
         onClick={handleNext}
