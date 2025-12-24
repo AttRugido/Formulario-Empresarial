@@ -386,9 +386,9 @@
 
 .custom-input:focus, .custom-input:hover {
   outline: none;
-  border-color: #0b9a1c;
+  border-color: #A646E6;
   background-color: #1a1a1a;
-  box-shadow: 0 0 0 4px rgba(11, 154, 28, 0.2);
+  box-shadow: 0 0 0 4px rgba(166, 70, 230, 0.2);
 }
 
 .custom-input-icon {
@@ -403,7 +403,7 @@
 
 .custom-input-group:focus-within .custom-input-icon,
 .custom-input-group:hover .custom-input-icon {
-  stroke: #0b9a1c;
+  stroke: #A646E6;
 }
 
 .custom-input.input-error {

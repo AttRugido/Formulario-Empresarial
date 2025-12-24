@@ -675,7 +675,7 @@ export const Element = (): JSX.Element => {
         <div className="relative max-w-[450px]">
           {/* Dropdown trigger */}
           <div 
-            className="flex items-center justify-between gap-[9px] cursor-pointer py-[12px] px-[16px] border border-white/10 rounded-[8px] transition-all duration-200 hover:border-white/20"
+            className="flex items-center justify-between gap-[9px] cursor-pointer py-[12px] px-[16px] border border-white/10 rounded-[8px] transition-all duration-200 hover:border-[#A646E6]"
             onClick={() => setIsSegmentDropdownOpen(!isSegmentDropdownOpen)}
           >
             <div className="flex items-center gap-[9px]">
@@ -702,15 +702,15 @@ export const Element = (): JSX.Element => {
 
           {/* Dropdown options */}
           <div 
-            className={`absolute top-full left-0 right-0 mt-2 bg-[#151515] border border-white/10 rounded-[8px] overflow-hidden z-20 transition-all duration-200 ${
+            className={`absolute top-full left-0 right-0 mt-2 bg-[#0C0D0F] border border-white/10 rounded-[8px] overflow-hidden z-20 transition-all duration-200 ${
               isSegmentDropdownOpen ? 'opacity-100 max-h-[300px] overflow-y-auto' : 'opacity-0 max-h-0 pointer-events-none'
             }`}
           >
             {options.map((option, index) => (
               <div key={option}>
                 <div 
-                  className={`flex items-center gap-[9px] cursor-pointer py-[10px] px-[16px] transition-all duration-200 hover:bg-white/5 ${
-                    formData.segment === option ? 'bg-white/5' : ''
+                  className={`flex items-center gap-[9px] cursor-pointer py-[10px] px-[16px] transition-all duration-200 hover:bg-[#A646E6]/10 ${
+                    formData.segment === option ? 'bg-[#A646E6]/10' : ''
                   }`}
                   onClick={() => handleOptionClick(option)}
                 >
