@@ -220,6 +220,13 @@ export const Element = (): JSX.Element => {
       "Analista/Coordenador",
       "Outro cargo"
     ];
+
+    const handleOptionClick = (option: string) => {
+      setFormData({ ...formData, role: option });
+      setTimeout(() => {
+        handleNext();
+      }, 500);
+    };
     
     return (
       <div className="flex flex-col gap-[37px]">
@@ -241,11 +248,11 @@ export const Element = (): JSX.Element => {
               className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
                 formData.role && formData.role !== option ? 'opacity-50' : 'opacity-100'
               }`}
-              onClick={() => setFormData({ ...formData, role: option })}
+              onClick={() => handleOptionClick(option)}
             >
               <CustomCheck 
                 checked={formData.role === option}
-                onClick={() => setFormData({ ...formData, role: option })}
+                onClick={() => {}}
               />
               <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
                 formData.role === option ? 'text-white' : 'text-[#b8b8b8]'
@@ -255,16 +262,6 @@ export const Element = (): JSX.Element => {
             </div>
           ))}
         </div>
-        <Button
-          onClick={handleNext}
-          disabled={!formData.role}
-          className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full disabled:opacity-50"
-        >
-          <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
-            Avançar
-          </span>
-          <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
-        </Button>
       </div>
     );
   };
