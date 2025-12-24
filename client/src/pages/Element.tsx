@@ -266,331 +266,337 @@ export const Element = (): JSX.Element => {
     );
   };
 
-  const renderBottleneckQuestion = () => (
-    <div className="flex flex-col gap-8">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
-        Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
-      </h2>
-      <RadioGroup
-        value={formData.bottleneck}
-        onValueChange={(value) => setFormData({ ...formData, bottleneck: value })}
-        className="flex flex-col gap-3"
-      >
-        {[
-          "Não tenho volume suficiente de oportunidades",
-          "Tenho leads, mas a conversão é baixa",
-          "Vendas dependem 100% de mim (fundador)",
-          "Time comercial não performa consistentemente",
-          "Não sei meus números reais de vendas",
-          "Tenho todos esses problemas"
-        ].map((option) => (
-          <div key={option} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={option}
-              id={option}
-              className="border-[#666] text-[#0b9a1b]"
-            />
-            <Label
-              htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b7b7b7] text-lg cursor-pointer"
-            >
-              {option}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-      <Button
-        onClick={handleNext}
-        disabled={!formData.bottleneck}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
-      >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
-      </Button>
-    </div>
-  );
+  const renderBottleneckQuestion = () => {
+    const options = [
+      "Não tenho volume suficiente de oportunidades",
+      "Tenho leads, mas a conversão é baixa",
+      "Vendas dependem 100% de mim (fundador)",
+      "Time comercial não performa consistentemente",
+      "Não sei meus números reais de vendas",
+      "Tenho todos esses problemas"
+    ];
 
-  const renderRevenueQuestion = () => (
-    <div className="flex flex-col gap-8">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
-        Qual é o faturamento MENSAL aproximado da sua empresa?
-      </h2>
-      <RadioGroup
-        value={formData.revenue}
-        onValueChange={(value) => setFormData({ ...formData, revenue: value })}
-        className="flex flex-col gap-3"
-      >
-        {[
-          "Até R$30 mil",
-          "Entre R$30 mil e R$70 mil",
-          "Entre R$70 mil e R$150 mil",
-          "Entre R$150 mil e R$300 mil",
-          "Entre R$300 mil e R$1 milhão",
-          "Acima de R$1 milhão"
-        ].map((option) => (
-          <div key={option} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={option}
-              id={option}
-              className="border-[#666] text-[#0b9a1b]"
-            />
-            <Label
-              htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b7b7b7] text-lg cursor-pointer"
-            >
-              {option}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-      <Button
-        onClick={handleNext}
-        disabled={!formData.revenue}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
-      >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
-      </Button>
-    </div>
-  );
+    const handleOptionClick = (option: string) => {
+      setFormData({ ...formData, bottleneck: option });
+      setTimeout(() => {
+        handleNext();
+      }, 500);
+    };
 
-  const renderTeamSizeQuestion = () => (
-    <div className="flex flex-col gap-8">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
-        Quantas pessoas trabalham na sua empresa hoje?
-      </h2>
-      <RadioGroup
-        value={formData.teamSize}
-        onValueChange={(value) => setFormData({ ...formData, teamSize: value })}
-        className="flex flex-col gap-3"
-      >
-        {[
-          "Só eu (solopreneur)",
-          "2 a 5 pessoas",
-          "6 a 15 pessoas",
-          "16 a 30 pessoas",
-          "31 a 50 pessoas",
-          "Mais de 50 pessoas"
-        ].map((option) => (
-          <div key={option} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={option}
-              id={option}
-              className="border-[#666] text-[#0b9a1b]"
-            />
-            <Label
-              htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b7b7b7] text-lg cursor-pointer"
+    return (
+      <div className="flex flex-col gap-[37px]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+          Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
+        </h2>
+        <div className="flex flex-col gap-[10px]">
+          {options.map((option) => (
+            <div 
+              key={option} 
+              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+                formData.bottleneck && formData.bottleneck !== option ? 'opacity-50' : 'opacity-100'
+              }`}
+              onClick={() => handleOptionClick(option)}
             >
-              {option}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-      <Button
-        onClick={handleNext}
-        disabled={!formData.teamSize}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
-      >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
-      </Button>
-    </div>
-  );
+              <CustomCheck 
+                checked={formData.bottleneck === option}
+                onClick={() => {}}
+              />
+              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+                formData.bottleneck === option ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {option}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
-  const renderSegmentQuestion = () => (
-    <div className="flex flex-col gap-8">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
-        Em qual segmento sua empresa atua?
-      </h2>
-      <RadioGroup
-        value={formData.segment}
-        onValueChange={(value) => setFormData({ ...formData, segment: value })}
-        className="flex flex-col gap-3 max-h-[400px] overflow-y-auto"
-      >
-        {[
-          "Serviços B2B",
-          "Serviços B2C",
-          "E-commerce",
-          "Indústria",
-          "Saúde e Bem-estar",
-          "Educação e Treinamentos",
-          "SaaS / Tecnologia",
-          "Construção / Imobiliário",
-          "Agência / Marketing",
-          "Varejo Físico",
-          "Outro"
-        ].map((option) => (
-          <div key={option} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={option}
-              id={option}
-              className="border-[#666] text-[#0b9a1b]"
-            />
-            <Label
-              htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b7b7b7] text-lg cursor-pointer"
-            >
-              {option}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-      <Button
-        onClick={handleNext}
-        disabled={!formData.segment}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
-      >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
-      </Button>
-    </div>
-  );
+  const renderRevenueQuestion = () => {
+    const options = [
+      "Até R$30 mil",
+      "Entre R$30 mil e R$70 mil",
+      "Entre R$70 mil e R$150 mil",
+      "Entre R$150 mil e R$300 mil",
+      "Entre R$300 mil e R$1 milhão",
+      "Acima de R$1 milhão"
+    ];
 
-  const renderUrgencyQuestion = () => (
-    <div className="flex flex-col gap-8">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
-        Para quando você precisa estruturar a receita da empresa?
-      </h2>
-      <RadioGroup
-        value={formData.urgency}
-        onValueChange={(value) => setFormData({ ...formData, urgency: value })}
-        className="flex flex-col gap-3"
-      >
-        {[
-          "É urgente - preciso começar AGORA",
-          "Próximos 30 dias",
-          "Em até 3 meses",
-          "Ainda estou pesquisando"
-        ].map((option) => (
-          <div key={option} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={option}
-              id={option}
-              className="border-[#666] text-[#0b9a1b]"
-            />
-            <Label
-              htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b7b7b7] text-lg cursor-pointer"
-            >
-              {option}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-      <Button
-        onClick={handleNext}
-        disabled={!formData.urgency}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
-      >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
-      </Button>
-    </div>
-  );
+    const handleOptionClick = (option: string) => {
+      setFormData({ ...formData, revenue: option });
+      setTimeout(() => {
+        handleNext();
+      }, 500);
+    };
 
-  const renderPartnerQuestion = () => (
-    <div className="flex flex-col gap-8">
-      <Button
-        onClick={handleBack}
-        variant="ghost"
-        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
-      >
-        <ArrowLeftIcon className="w-4 h-4" />
-        <span className="font-['Inter']">Voltar</span>
-      </Button>
-      <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
-        Você tem sócio(s) na empresa?
-      </h2>
-      <RadioGroup
-        value={formData.hasPartner}
-        onValueChange={(value) => setFormData({ ...formData, hasPartner: value })}
-        className="flex flex-col gap-3"
-      >
-        {[
-          "Sim",
-          "Não"
-        ].map((option) => (
-          <div key={option} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={option}
-              id={option}
-              className="border-[#666] text-[#0b9a1b]"
-            />
-            <Label
-              htmlFor={option}
-              className="font-['Inter'] font-normal text-[#b7b7b7] text-lg cursor-pointer"
+    return (
+      <div className="flex flex-col gap-[37px]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+          Qual é o faturamento MENSAL aproximado da sua empresa?
+        </h2>
+        <div className="flex flex-col gap-[10px]">
+          {options.map((option) => (
+            <div 
+              key={option} 
+              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+                formData.revenue && formData.revenue !== option ? 'opacity-50' : 'opacity-100'
+              }`}
+              onClick={() => handleOptionClick(option)}
             >
-              {option}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-      <Button
-        onClick={handleNext}
-        disabled={!formData.hasPartner}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
-      >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
-      </Button>
-    </div>
-  );
+              <CustomCheck 
+                checked={formData.revenue === option}
+                onClick={() => {}}
+              />
+              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+                formData.revenue === option ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {option}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderTeamSizeQuestion = () => {
+    const options = [
+      "Só eu (solopreneur)",
+      "2 a 5 pessoas",
+      "6 a 15 pessoas",
+      "16 a 30 pessoas",
+      "31 a 50 pessoas",
+      "Mais de 50 pessoas"
+    ];
+
+    const handleOptionClick = (option: string) => {
+      setFormData({ ...formData, teamSize: option });
+      setTimeout(() => {
+        handleNext();
+      }, 500);
+    };
+
+    return (
+      <div className="flex flex-col gap-[37px]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+          Quantas pessoas trabalham na sua empresa hoje?
+        </h2>
+        <div className="flex flex-col gap-[10px]">
+          {options.map((option) => (
+            <div 
+              key={option} 
+              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+                formData.teamSize && formData.teamSize !== option ? 'opacity-50' : 'opacity-100'
+              }`}
+              onClick={() => handleOptionClick(option)}
+            >
+              <CustomCheck 
+                checked={formData.teamSize === option}
+                onClick={() => {}}
+              />
+              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+                formData.teamSize === option ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {option}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderSegmentQuestion = () => {
+    const options = [
+      "Serviços B2B",
+      "Serviços B2C",
+      "E-commerce",
+      "Indústria",
+      "Saúde e Bem-estar",
+      "Educação e Treinamentos",
+      "SaaS / Tecnologia",
+      "Construção / Imobiliário",
+      "Agência / Marketing",
+      "Varejo Físico",
+      "Outro"
+    ];
+
+    const handleOptionClick = (option: string) => {
+      setFormData({ ...formData, segment: option });
+      setTimeout(() => {
+        handleNext();
+      }, 500);
+    };
+
+    return (
+      <div className="flex flex-col gap-[37px]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+          Em qual segmento sua empresa atua?
+        </h2>
+        <div className="flex flex-col gap-[10px] max-h-[400px] overflow-y-auto">
+          {options.map((option) => (
+            <div 
+              key={option} 
+              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+                formData.segment && formData.segment !== option ? 'opacity-50' : 'opacity-100'
+              }`}
+              onClick={() => handleOptionClick(option)}
+            >
+              <CustomCheck 
+                checked={formData.segment === option}
+                onClick={() => {}}
+              />
+              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+                formData.segment === option ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {option}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderUrgencyQuestion = () => {
+    const options = [
+      "É urgente - preciso começar AGORA",
+      "Próximos 30 dias",
+      "Em até 3 meses",
+      "Ainda estou pesquisando"
+    ];
+
+    const handleOptionClick = (option: string) => {
+      setFormData({ ...formData, urgency: option });
+      setTimeout(() => {
+        handleNext();
+      }, 500);
+    };
+
+    return (
+      <div className="flex flex-col gap-[37px]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+          Para quando você precisa estruturar a receita da empresa?
+        </h2>
+        <div className="flex flex-col gap-[10px]">
+          {options.map((option) => (
+            <div 
+              key={option} 
+              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+                formData.urgency && formData.urgency !== option ? 'opacity-50' : 'opacity-100'
+              }`}
+              onClick={() => handleOptionClick(option)}
+            >
+              <CustomCheck 
+                checked={formData.urgency === option}
+                onClick={() => {}}
+              />
+              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+                formData.urgency === option ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {option}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderPartnerQuestion = () => {
+    const options = [
+      "Sim",
+      "Não"
+    ];
+
+    const handleOptionClick = (option: string) => {
+      setFormData({ ...formData, hasPartner: option });
+      setTimeout(() => {
+        handleNext();
+      }, 500);
+    };
+
+    return (
+      <div className="flex flex-col gap-[37px]">
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter']">Voltar</span>
+        </Button>
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
+          Você tem sócio(s) na empresa?
+        </h2>
+        <div className="flex flex-col gap-[10px]">
+          {options.map((option) => (
+            <div 
+              key={option} 
+              className={`flex items-center gap-[9px] cursor-pointer transition-opacity duration-200 ${
+                formData.hasPartner && formData.hasPartner !== option ? 'opacity-50' : 'opacity-100'
+              }`}
+              onClick={() => handleOptionClick(option)}
+            >
+              <CustomCheck 
+                checked={formData.hasPartner === option}
+                onClick={() => {}}
+              />
+              <span className={`font-['Inter'] font-normal text-[18px] leading-[1.3] ${
+                formData.hasPartner === option ? 'text-white' : 'text-[#b8b8b8]'
+              }`}>
+                {option}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   const renderSocialMediaQuestion = () => (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-[37px]">
       <Button
         onClick={handleBack}
         variant="ghost"
@@ -600,10 +606,10 @@ export const Element = (): JSX.Element => {
         <span className="font-['Inter']">Voltar</span>
       </Button>
       <div className="flex flex-col gap-4">
-        <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg leading-[22px]">
+        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3]">
           Para conhecermos melhor sua empresa, nos informe:
         </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Qual o Instagram ou LinkedIn da empresa?
         </h2>
       </div>
@@ -611,22 +617,22 @@ export const Element = (): JSX.Element => {
         value={formData.socialMedia}
         onChange={(e) => setFormData({ ...formData, socialMedia: e.target.value })}
         placeholder="@suaempresa ou URL do LinkedIn"
-        className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
+        className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
       />
       <Button
         onClick={handleNext}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full"
+        className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full"
       >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
+        <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
           Avançar
         </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
+        <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
       </Button>
     </div>
   );
 
   const renderContactForm = () => (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-[37px]">
       <Button
         onClick={handleBack}
         variant="ghost"
@@ -636,59 +642,59 @@ export const Element = (): JSX.Element => {
         <span className="font-['Inter']">Voltar</span>
       </Button>
       <div className="flex flex-col gap-4">
-        <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg leading-[22px]">
+        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3]">
           Perfeito! Agora vamos agendar sua Reunião Estratégica.
         </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[110%]">
           Por favor, confirme seus dados de contato:
         </h2>
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <Label className="font-['Inter'] text-[#b7b7b7] text-sm">
-            Seu nome completo <span className="text-[#0b9a1b]">*</span>
-          </Label>
+          <label className="font-['Inter'] text-[#b8b8b8] text-sm">
+            Seu nome completo <span className="text-[#0b9a1c]">*</span>
+          </label>
           <Input
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             placeholder="Digite seu nome"
-            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
+            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
           />
         </div>
         <div className="flex flex-col gap-1">
-          <Label className="font-['Inter'] text-[#b7b7b7] text-sm">
-            Seu melhor e-mail <span className="text-[#0b9a1b]">*</span>
-          </Label>
+          <label className="font-['Inter'] text-[#b8b8b8] text-sm">
+            Seu melhor e-mail <span className="text-[#0b9a1c]">*</span>
+          </label>
           <Input
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             placeholder="Digite seu e-mail profissional"
             type="email"
-            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
+            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
           />
         </div>
         <div className="flex flex-col gap-1">
-          <Label className="font-['Inter'] text-[#b7b7b7] text-sm">
-            WhatsApp (com DDD) <span className="text-[#0b9a1b]">*</span>
-          </Label>
+          <label className="font-['Inter'] text-[#b8b8b8] text-sm">
+            WhatsApp (com DDD) <span className="text-[#0b9a1c]">*</span>
+          </label>
           <Input
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             placeholder="Digite seu WhatsApp"
             type="tel"
-            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter']"
+            className="h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[18px]"
           />
         </div>
       </div>
       <Button
         onClick={handleNext}
         disabled={!formData.name || !formData.email || !formData.phone}
-        className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-10 py-[15px] gap-2.5 w-full disabled:opacity-50"
+        className="h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-[40px] py-[15px] gap-[10px] w-full disabled:opacity-50"
       >
-        <span className="font-['Inter'] font-normal text-[#ffffffb2] text-lg leading-[23.4px]">
+        <span className="font-['Inter'] font-normal text-white/70 text-[18px] leading-[1.3] uppercase">
           Avançar
         </span>
-        <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
+        <ArrowRightIcon className="w-[18px] h-[18px] text-white/70" />
       </Button>
     </div>
   );
