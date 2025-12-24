@@ -1,4 +1,4 @@
-import { ArrowRightIcon, ClockIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowLeftIcon, ClockIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -92,6 +92,12 @@ export const Element = (): JSX.Element => {
       setStep(step + 1);
     } else {
       console.log("Form submitted:", formData);
+    }
+  };
+
+  const handleBack = () => {
+    if (step > 0) {
+      setStep(step - 1);
     }
   };
 
@@ -193,6 +199,14 @@ export const Element = (): JSX.Element => {
 
   const renderRoleQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
         Primeiro, qual é a sua função na empresa?
       </h2>
@@ -239,6 +253,14 @@ export const Element = (): JSX.Element => {
 
   const renderBottleneckQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
         Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
       </h2>
@@ -285,6 +307,14 @@ export const Element = (): JSX.Element => {
 
   const renderRevenueQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
         Qual é o faturamento MENSAL aproximado da sua empresa?
       </h2>
@@ -331,6 +361,14 @@ export const Element = (): JSX.Element => {
 
   const renderTeamSizeQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
         Quantas pessoas trabalham na sua empresa hoje?
       </h2>
@@ -377,6 +415,14 @@ export const Element = (): JSX.Element => {
 
   const renderSegmentQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
         Em qual segmento sua empresa atua?
       </h2>
@@ -428,6 +474,14 @@ export const Element = (): JSX.Element => {
 
   const renderUrgencyQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
         Para quando você precisa estruturar a receita da empresa?
       </h2>
@@ -472,6 +526,14 @@ export const Element = (): JSX.Element => {
 
   const renderPartnerQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <h2 className="font-['Inter'] font-medium text-white text-[28px] leading-[31px]">
         Você tem sócio(s) na empresa?
       </h2>
@@ -514,6 +576,14 @@ export const Element = (): JSX.Element => {
 
   const renderSocialMediaQuestion = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <div className="flex flex-col gap-4">
         <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg leading-[22px]">
           Para conhecermos melhor sua empresa, nos informe:
@@ -542,6 +612,14 @@ export const Element = (): JSX.Element => {
 
   const renderContactForm = () => (
     <div className="flex flex-col gap-8">
+      <Button
+        onClick={handleBack}
+        variant="ghost"
+        className="self-start text-[#b7b7b7] hover:text-white gap-2 px-0"
+      >
+        <ArrowLeftIcon className="w-4 h-4" />
+        <span className="font-['Inter']">Voltar</span>
+      </Button>
       <div className="flex flex-col gap-4">
         <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg leading-[22px]">
           Perfeito! Agora vamos agendar sua Reunião Estratégica.
