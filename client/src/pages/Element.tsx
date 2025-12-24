@@ -304,7 +304,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Primeiro, qual é a sua função na empresa?
         </h2>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[10px] max-w-[420px]">
           {options.map((option) => (
             <div 
               key={option} 
@@ -353,7 +353,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[10px] max-w-[420px]">
           {options.map((option) => (
             <div 
               key={option} 
@@ -402,7 +402,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual é o faturamento MENSAL aproximado da sua empresa?
         </h2>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[10px] max-w-[420px]">
           {options.map((option) => (
             <div 
               key={option} 
@@ -451,7 +451,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Quantas pessoas trabalham na sua empresa hoje?
         </h2>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[10px] max-w-[420px]">
           {options.map((option) => (
             <div 
               key={option} 
@@ -505,7 +505,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Em qual segmento sua empresa atua?
         </h2>
-        <div className="flex flex-col gap-[10px] max-h-[300px] sm:max-h-[400px] overflow-y-auto">
+        <div className="flex flex-col gap-[10px] max-w-[420px] max-h-[300px] sm:max-h-[400px] overflow-y-auto">
           {options.map((option) => (
             <div 
               key={option} 
@@ -552,7 +552,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Para quando você precisa estruturar a receita da empresa?
         </h2>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[10px] max-w-[420px]">
           {options.map((option) => (
             <div 
               key={option} 
@@ -597,7 +597,7 @@ export const Element = (): JSX.Element => {
         <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Você tem sócio(s) na empresa?
         </h2>
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[10px] max-w-[420px]">
           {options.map((option) => (
             <div 
               key={option} 
