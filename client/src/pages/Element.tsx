@@ -109,8 +109,8 @@ export const Element = (): JSX.Element => {
           alt="Logo"
           src="/figmaAssets/logo.png"
         />
-        <h1 className="font-['Inter'] font-medium text-white text-[39.278px] text-center leading-[110%] max-w-[690px]">
-          Obrigado pelo interesse em estruturar<br />a receita da sua empresa!
+        <h1 className="font-['Inter'] font-medium text-white text-[39.278px] text-center leading-[110%] max-w-[690px] whitespace-nowrap">
+          Obrigado pelo interesse em estruturar a receita da sua empresa!
         </h1>
         <p className="font-['Inter'] font-normal text-[#b7b7b7] text-lg text-center leading-[23.4px]">
           Antes de agendar sua reunião estratégica, responda algumas
