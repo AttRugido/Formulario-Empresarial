@@ -709,34 +709,109 @@ export const Element = (): JSX.Element => {
     );
   };
 
-  const renderSocialMediaQuestion = () => (
-    <div className="flex flex-col gap-6 sm:gap-[37px]">
-      <div className="flex flex-col gap-3 sm:gap-4">
-        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
-          Para conhecermos melhor sua empresa, nos informe:
-        </p>
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
-          Qual o Instagram ou LinkedIn da empresa?
-        </h2>
+  const getSocialMediaType = (url: string): 'instagram' | 'linkedin' | null => {
+    if (!url) return null;
+    const lowerUrl = url.toLowerCase();
+    if (lowerUrl.includes('instagram.com') || lowerUrl.startsWith('@')) {
+      return 'instagram';
+    }
+    if (lowerUrl.includes('linkedin.com')) {
+      return 'linkedin';
+    }
+    return null;
+  };
+
+  const getSocialMediaUsername = (url: string): string => {
+    if (!url) return '';
+    if (url.startsWith('@')) {
+      return url.substring(1);
+    }
+    if (url.includes('instagram.com/')) {
+      const match = url.match(/instagram\.com\/([^/?]+)/);
+      return match ? match[1] : '';
+    }
+    if (url.includes('linkedin.com/')) {
+      const match = url.match(/linkedin\.com\/(?:company|in)\/([^/?]+)/);
+      return match ? match[1] : '';
+    }
+    return url;
+  };
+
+  const renderSocialMediaQuestion = () => {
+    const socialType = getSocialMediaType(formData.socialMedia);
+    const username = getSocialMediaUsername(formData.socialMedia);
+
+    return (
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <div className="flex flex-col gap-3 sm:gap-4">
+          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
+            Para conhecermos melhor sua empresa, nos informe:
+          </p>
+          <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
+            Qual o Instagram ou LinkedIn da empresa?
+          </h2>
+        </div>
+        <div className="flex flex-col gap-[8px]">
+          <div className="custom-input-group">
+            <svg stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="custom-input-icon">
+              <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" strokeLinejoin="round" strokeLinecap="round"></path>
+            </svg>
+            <input
+              value={formData.socialMedia}
+              onChange={(e) => setFormData({ ...formData, socialMedia: e.target.value })}
+              placeholder="@suaempresa ou URL do LinkedIn"
+              className="custom-input"
+              data-testid="input-social"
+            />
+          </div>
+          
+          {socialType && username && (
+            <div className="mt-2 p-4 bg-[#1a1a1a] rounded-[10px] border border-white/10 transition-all duration-300">
+              <div className="flex items-center gap-3">
+                {socialType === 'instagram' ? (
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FFDC80] via-[#F56040] to-[#833AB4] flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-[#0A66C2] flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </div>
+                )}
+                <div className="flex flex-col">
+                  <span className="text-white font-['Inter'] font-medium text-sm">
+                    {socialType === 'instagram' ? 'Instagram' : 'LinkedIn'}
+                  </span>
+                  <span className="text-[#b8b8b8] font-['Inter'] text-xs">
+                    @{username}
+                  </span>
+                </div>
+                <div className="ml-auto">
+                  <svg className="w-4 h-4 text-[#0b9a1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <Button
+            onClick={handleNext}
+            disabled={isTransitioning}
+            className="h-11 sm:h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[10px] px-6 sm:px-[40px] py-[12px] sm:py-[15px] gap-[10px] w-full"
+          >
+            <span className="font-['Inter'] font-normal text-white/70 text-[16px] sm:text-[18px] leading-[1.3] uppercase">
+              Avançar
+            </span>
+            <ArrowRightIcon className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-white/70" />
+          </Button>
+        </div>
       </div>
-      <Input
-        value={formData.socialMedia}
-        onChange={(e) => setFormData({ ...formData, socialMedia: e.target.value })}
-        placeholder="@suaempresa ou URL do LinkedIn"
-        className="h-[42px] sm:h-[45px] bg-transparent border-[#333] text-white placeholder:text-[#666] font-['Inter'] text-[16px] sm:text-[18px]"
-      />
-      <Button
-        onClick={handleNext}
-        disabled={isTransitioning}
-        className="h-11 sm:h-12 bg-[#0b9a1c] hover:bg-[#0b9a1c]/90 rounded-[8px] px-6 sm:px-[40px] py-[12px] sm:py-[15px] gap-[10px] w-full"
-      >
-        <span className="font-['Inter'] font-normal text-white/70 text-[16px] sm:text-[18px] leading-[1.3] uppercase">
-          Avançar
-        </span>
-        <ArrowRightIcon className="w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] text-white/70" />
-      </Button>
-    </div>
-  );
+    );
+  };
 
   const renderContactForm = () => (
     <div className="flex flex-col gap-6 sm:gap-[37px]">
