@@ -82,23 +82,53 @@ export default function Dashboard() {
 
   const maxStepCount = Math.max(...stepBreakdown.map(s => s.count), 1);
 
+  const generateChartPath = () => {
+    if (stepBreakdown.every(s => s.count === 0)) return "";
+    
+    const width = 400;
+    const height = 150;
+    const padding = 20;
+    const chartWidth = width - padding * 2;
+    const chartHeight = height - padding * 2;
+    
+    const points = stepBreakdown.map((item, index) => {
+      const x = padding + (index / 8) * chartWidth;
+      const y = height - padding - (item.count / maxStepCount) * chartHeight;
+      return { x, y, count: item.count };
+    });
+    
+    let path = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1];
+      const curr = points[i];
+      const cpx1 = prev.x + (curr.x - prev.x) / 3;
+      const cpx2 = prev.x + 2 * (curr.x - prev.x) / 3;
+      path += ` C ${cpx1} ${prev.y}, ${cpx2} ${curr.y}, ${curr.x} ${curr.y}`;
+    }
+    
+    return { path, points };
+  };
+
+  const chartData = generateChartPath();
+
   return (
     <div className="min-h-screen bg-[#0c0c0c]">
       <div className="flex">
         {/* Sidebar */}
         <aside className="hidden lg:flex flex-col w-[240px] min-h-screen bg-[#111111] border-r border-[#1e1e1e] p-4">
           <div className="flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 bg-[#0b9a1b] rounded-lg flex items-center justify-center">
-              <BarChart3 className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-semibold text-white text-lg">Rugido</span>
+            <img 
+              src="/figmaAssets/logo.png" 
+              alt="Grupo Rugido" 
+              className="h-10 w-auto"
+            />
           </div>
           
           <nav className="flex-1">
             <div className="text-xs text-[#666] uppercase tracking-wider mb-3">Menu Principal</div>
             <div className="space-y-1">
               <div className="flex items-center gap-3 px-3 py-2.5 bg-[#1a1a1a] rounded-lg text-white">
-                <BarChart3 className="w-4 h-4" />
+                <BarChart3 className="w-4 h-4 text-[#8b5cf6]" />
                 <span className="text-sm">Dashboard</span>
               </div>
             </div>
@@ -117,9 +147,11 @@ export default function Dashboard() {
           {/* Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="lg:hidden w-8 h-8 bg-[#0b9a1b] rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-white" />
-              </div>
+              <img 
+                src="/figmaAssets/logo.png" 
+                alt="Grupo Rugido" 
+                className="lg:hidden h-8 w-auto"
+              />
               <h1 className="text-xl lg:text-2xl font-semibold text-white">Dashboard</h1>
             </div>
             
@@ -160,7 +192,7 @@ export default function Dashboard() {
                 <p className="text-2xl font-bold text-white" data-testid="text-total-submissions">
                   {loadingSubmissions ? "..." : submissions.length}
                 </p>
-                <p className="text-xs text-[#0b9a1b] mt-1">
+                <p className="text-xs text-[#8b5cf6] mt-1">
                   +{todaySubmissions} hoje
                 </p>
               </CardContent>
@@ -214,43 +246,133 @@ export default function Dashboard() {
 
           {/* Charts Row */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-            {/* Funnel Chart */}
+            {/* Funnel Line Chart */}
             <Card className="bg-[#141414] border-[#1e1e1e] lg:col-span-2">
               <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-[#0b9a1b]" />
-                    <span className="text-sm font-medium text-white">Funil de Conversão</span>
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp className="w-4 h-4 text-[#8b5cf6]" />
+                      <span className="text-sm text-[#888]">Fluxo de Visitantes</span>
+                    </div>
+                    <p className="text-3xl font-bold text-white" data-testid="text-total-visitors-chart">
+                      {totalVisitors.toLocaleString('pt-BR')}
+                    </p>
+                    <p className="text-xs text-[#888]">Total de Acessos</p>
+                    <p className="text-xs text-[#8b5cf6] mt-1">
+                      +{completionRate}% taxa de conversão
+                    </p>
                   </div>
+                  <Button variant="ghost" size="icon" className="text-[#666]">
+                    <span className="text-lg">...</span>
+                  </Button>
+                </div>
+
+                {/* Info Card */}
+                <div className="bg-[#1a1a1a] rounded-lg p-3 mb-4 mt-4">
+                  <p className="text-sm font-semibold text-white mb-1">Funil de Conversão</p>
+                  <p className="text-xs text-[#888]">
+                    Acompanhe quantas pessoas passaram por cada etapa do formulário.
+                  </p>
                 </div>
                 
                 {loadingFunnel ? (
-                  <div className="h-[200px] flex items-center justify-center">
+                  <div className="h-[180px] flex items-center justify-center">
                     <p className="text-[#666]">Carregando...</p>
                   </div>
                 ) : funnelData.length === 0 ? (
-                  <div className="h-[200px] flex items-center justify-center">
+                  <div className="h-[180px] flex items-center justify-center">
                     <p className="text-[#666]">Nenhum dado disponível ainda</p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
-                    {stepBreakdown.map((item) => {
-                      const percentage = (item.count / maxStepCount) * 100;
-                      return (
-                        <div key={item.step} className="flex items-center gap-3">
-                          <span className="text-xs text-[#666] w-6">{item.step}</span>
-                          <div className="flex-1 h-6 bg-[#1a1a1a] rounded overflow-hidden">
-                            <div 
-                              className="h-full bg-gradient-to-r from-[#0b9a1b] to-[#0d7a18] rounded transition-all duration-500"
-                              style={{ width: `${percentage}%` }}
+                  <div className="relative">
+                    {/* Y-axis labels */}
+                    <div className="absolute left-0 top-0 h-[150px] flex flex-col justify-between text-xs text-[#666] pr-2">
+                      <span>{maxStepCount}</span>
+                      <span>{Math.round(maxStepCount * 0.75)}</span>
+                      <span>{Math.round(maxStepCount * 0.5)}</span>
+                      <span>{Math.round(maxStepCount * 0.25)}</span>
+                      <span>0</span>
+                    </div>
+                    
+                    {/* Chart */}
+                    <div className="ml-8">
+                      <svg viewBox="0 0 400 170" className="w-full h-[170px]">
+                        {/* Grid lines */}
+                        {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => (
+                          <line
+                            key={i}
+                            x1="20"
+                            y1={150 - ratio * 130}
+                            x2="380"
+                            y2={150 - ratio * 130}
+                            stroke="#1e1e1e"
+                            strokeWidth="1"
+                          />
+                        ))}
+                        
+                        {/* Area fill */}
+                        {chartData && typeof chartData === 'object' && chartData.path && (
+                          <>
+                            <defs>
+                              <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3" />
+                                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+                              </linearGradient>
+                            </defs>
+                            <path
+                              d={`${chartData.path} L ${chartData.points[chartData.points.length - 1].x} 150 L ${chartData.points[0].x} 150 Z`}
+                              fill="url(#areaGradient)"
                             />
-                          </div>
-                          <span className="text-xs text-white font-medium w-12 text-right">
-                            {item.count}
-                          </span>
-                        </div>
-                      );
-                    })}
+                            <path
+                              d={chartData.path}
+                              fill="none"
+                              stroke="#8b5cf6"
+                              strokeWidth="2"
+                            />
+                            {/* Data points */}
+                            {chartData.points.map((point, i) => (
+                              <g key={i}>
+                                <circle
+                                  cx={point.x}
+                                  cy={point.y}
+                                  r="4"
+                                  fill="#8b5cf6"
+                                />
+                                {i === chartData.points.length - 1 && point.count > 0 && (
+                                  <g>
+                                    <rect
+                                      x={point.x - 40}
+                                      y={point.y - 35}
+                                      width="80"
+                                      height="28"
+                                      rx="4"
+                                      fill="#1a1a1a"
+                                      stroke="#2a2a2a"
+                                    />
+                                    <text
+                                      x={point.x}
+                                      y={point.y - 17}
+                                      textAnchor="middle"
+                                      className="text-xs fill-white font-medium"
+                                    >
+                                      {point.count} leads
+                                    </text>
+                                  </g>
+                                )}
+                              </g>
+                            ))}
+                          </>
+                        )}
+                      </svg>
+                      
+                      {/* X-axis labels */}
+                      <div className="flex justify-between text-xs text-[#666] mt-1 px-4">
+                        <span>Etapa 1</span>
+                        <span>Etapa 5</span>
+                        <span>Etapa 9</span>
+                      </div>
+                    </div>
                   </div>
                 )}
               </CardContent>
@@ -261,7 +383,7 @@ export default function Dashboard() {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <BarChart3 className="w-4 h-4 text-[#0b9a1b]" />
+                    <BarChart3 className="w-4 h-4 text-[#8b5cf6]" />
                     <span className="text-sm font-medium text-white">Detalhes por Etapa</span>
                   </div>
                 </div>
@@ -271,7 +393,7 @@ export default function Dashboard() {
                     <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                       <circle cx="50" cy="50" r="40" fill="none" stroke="#1a1a1a" strokeWidth="12" />
                       <circle 
-                        cx="50" cy="50" r="40" fill="none" stroke="#0b9a1b" strokeWidth="12"
+                        cx="50" cy="50" r="40" fill="none" stroke="#8b5cf6" strokeWidth="12"
                         strokeDasharray={`${completionRate * 2.51} 251`}
                         strokeLinecap="round"
                       />
@@ -284,10 +406,13 @@ export default function Dashboard() {
                 </div>
 
                 <div className="space-y-2">
-                  {stepBreakdown.slice(0, 4).map((item) => (
+                  {stepBreakdown.slice(0, 4).map((item, index) => (
                     <div key={item.step} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#0b9a1b]" />
+                        <div 
+                          className="w-2 h-2 rounded-full" 
+                          style={{ backgroundColor: `hsl(${263 - index * 10}, 84%, ${60 + index * 5}%)` }}
+                        />
                         <span className="text-xs text-[#888] truncate max-w-[120px]">{item.label}</span>
                       </div>
                       <span className="text-xs text-white font-medium">{item.count}</span>
@@ -297,7 +422,7 @@ export default function Dashboard() {
 
                 <Button 
                   variant="ghost" 
-                  className="w-full mt-4 text-xs text-[#0b9a1b] hover:text-[#0d7a18] hover:bg-[#1a1a1a]"
+                  className="w-full mt-4 text-xs text-[#8b5cf6] hover:text-[#a78bfa] hover:bg-[#1a1a1a]"
                   data-testid="button-more-details"
                 >
                   Mais detalhes <ArrowRight className="w-3 h-3 ml-1" />
@@ -371,7 +496,7 @@ export default function Dashboard() {
                           <td className="py-3 px-2 text-[#666] text-xs">{String(index + 1).padStart(3, '0')}</td>
                           <td className="py-3 px-2">
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-full bg-[#0b9a1b]/20 flex items-center justify-center text-[#0b9a1b] text-xs font-medium">
+                              <div className="w-7 h-7 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center text-[#8b5cf6] text-xs font-medium">
                                 {(sub.name || "?")[0].toUpperCase()}
                               </div>
                               <span className="text-white text-sm">{sub.name || "-"}</span>
@@ -379,12 +504,12 @@ export default function Dashboard() {
                           </td>
                           <td className="py-3 px-2 text-[#888] text-sm">{sub.email || "-"}</td>
                           <td className="py-3 px-2">
-                            <Badge className="bg-[#0b9a1b]/20 text-[#0b9a1b] border-0 text-xs">
+                            <Badge className="bg-[#8b5cf6]/20 text-[#8b5cf6] border-0 text-xs">
                               Cadastrado
                             </Badge>
                           </td>
                           <td className="py-3 px-2 text-[#888] text-sm">{formatDate(sub.createdAt)}</td>
-                          <td className="py-3 px-2 text-[#0b9a1b] text-sm">{sub.role || "-"}</td>
+                          <td className="py-3 px-2 text-[#8b5cf6] text-sm">{sub.role || "-"}</td>
                         </tr>
                       ))}
                     </tbody>
