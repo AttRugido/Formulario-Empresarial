@@ -170,11 +170,13 @@ export const Element = (): JSX.Element => {
         <button 
           onClick={handleNext}
           disabled={isTransitioning}
-          className="green-3d-button w-full sm:w-auto"
+          className="green-animated-button"
           data-testid="button-avancar"
         >
-          <span className="uppercase">AVANÇAR</span>
-          <ArrowRightIcon className="w-[18px] h-[18px]" />
+          <span>
+            AVANÇAR
+            <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
+          </span>
         </button>
       </div>
     </div>
