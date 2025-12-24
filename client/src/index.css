@@ -397,3 +397,33 @@
 .custom-input-group.has-error .custom-input-icon {
   stroke: #ef4444;
 }
+
+/* Continuous Logo Carousel */
+@keyframes scroll-logos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.logo-carousel {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.logo-carousel-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  animation: scroll-logos 20s linear infinite;
+}
+
+.logo-carousel-track img {
+  flex-shrink: 0;
+  height: 20px;
+  width: auto;
+  opacity: 0.7;
+}

@@ -200,8 +200,36 @@ export const Element = (): JSX.Element => {
   );
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
-    <div className="bg-[#0a0a0a] w-full h-screen flex overflow-hidden">
-      {/* Container 1 - Left Sidebar */}
+    <div className="bg-[#0a0a0a] w-full h-screen flex flex-col lg:flex-row overflow-hidden">
+      {/* Mobile Header with Logo Carousel */}
+      <div className="lg:hidden flex flex-col bg-[#121212]">
+        {/* Logo Carousel */}
+        <div className="logo-carousel py-3 bg-[#0a0a0a]">
+          <div className="logo-carousel-track">
+            <img src={logoArtsPortas} alt="Arts Portas" />
+            <img src={logoWallTravel} alt="Wall Travel" />
+            <img src={logoTimbo} alt="Timbo" />
+            <img src={logoRainha} alt="Rainha" />
+            <img src={logoMansaoMaromba} alt="Mansão Maromba" />
+            <img src={logoLuzianaLanna} alt="Luziana Lanna" />
+            <img src={logoGranMoney} alt="Gran Money" />
+            <img src={logoHidrogyn} alt="Hidrogyn" />
+            <img src={logoCenter} alt="Center" />
+            {/* Duplicate for seamless loop */}
+            <img src={logoArtsPortas} alt="Arts Portas" />
+            <img src={logoWallTravel} alt="Wall Travel" />
+            <img src={logoTimbo} alt="Timbo" />
+            <img src={logoRainha} alt="Rainha" />
+            <img src={logoMansaoMaromba} alt="Mansão Maromba" />
+            <img src={logoLuzianaLanna} alt="Luziana Lanna" />
+            <img src={logoGranMoney} alt="Gran Money" />
+            <img src={logoHidrogyn} alt="Hidrogyn" />
+            <img src={logoCenter} alt="Center" />
+          </div>
+        </div>
+      </div>
+      
+      {/* Container 1 - Left Sidebar (Desktop only) */}
       <div 
         className={`hidden lg:flex w-[46.7%] bg-[#121212] flex-col relative overflow-hidden transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
@@ -254,28 +282,48 @@ export const Element = (): JSX.Element => {
       </div>
       {/* Container 2 - Right Content */}
       <div 
-        className={`flex-1 flex flex-col h-screen bg-[#0a0a0a] overflow-hidden relative transition-opacity duration-200 ease-in-out ${
+        className={`flex-1 flex flex-col h-full lg:h-screen bg-[#0a0a0a] overflow-hidden relative transition-opacity duration-200 ease-in-out ${
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Back button positioned at top left */}
-        <Button
-          onClick={handleBack}
-          variant="ghost"
-          disabled={isTransitioning}
-          className="absolute top-[16px] left-[16px] sm:top-[20px] sm:left-[20px] text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0 z-10"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          <span className="font-['Inter'] text-sm sm:text-base">Voltar</span>
-        </Button>
-        <div className="flex justify-center pt-[40px] sm:pt-[53px]">
+        {/* Mobile Header with back button and logo */}
+        <div className="lg:hidden flex items-center justify-between px-4 py-3">
+          <Button
+            onClick={handleBack}
+            variant="ghost"
+            disabled={isTransitioning}
+            className="text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            <span className="font-['Inter'] text-sm">Voltar</span>
+          </Button>
           <img
-            className="w-[36px] h-[52px] sm:w-[44.263px] sm:h-16"
+            className="w-[28px] h-[40px]"
             alt="Logo"
             src="/figmaAssets/logo.png"
           />
         </div>
-        <div className="flex-1 flex flex-col items-center pt-[40px] sm:pt-[80px] px-4 sm:px-8 overflow-y-auto">
+        
+        {/* Desktop Back button positioned at top left */}
+        <Button
+          onClick={handleBack}
+          variant="ghost"
+          disabled={isTransitioning}
+          className="hidden lg:flex absolute top-[20px] left-[20px] text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0 z-10"
+        >
+          <ArrowLeftIcon className="w-4 h-4" />
+          <span className="font-['Inter'] text-base">Voltar</span>
+        </Button>
+        
+        {/* Desktop centered logo */}
+        <div className="hidden lg:flex justify-center pt-[53px]">
+          <img
+            className="w-[44.263px] h-16"
+            alt="Logo"
+            src="/figmaAssets/logo.png"
+          />
+        </div>
+        <div className="flex-1 flex flex-col items-center pt-[20px] lg:pt-[80px] px-4 sm:px-8 overflow-y-auto">
           <div className="w-full max-w-[290px] sm:max-w-[450px]">
             {children}
           </div>
