@@ -213,7 +213,7 @@ export const Element = (): JSX.Element => {
           <path d="M942.308 42.1156C803.582 530.653 724.92 749.992 561.09 866.963C772.603 802.13 868.013 741.977 1026.89 255.029C988.662 227.553 971.901 210.971 970.99 155.758C974.461 113.499 959.585 83.2633 942.308 42.1156Z" fill="white" fillOpacity="0.01"/>
         </svg>
         <div className="relative z-10 p-[120px] flex-1 flex flex-col justify-end">
-          <h2 className="font-['Inter'] font-medium text-white text-[39.278px] leading-[110%] w-[510px] mb-4">
+          <h2 className="font-['Inter'] font-medium text-white text-[39.278px] leading-[110%] w-[520px] mb-4">
             {sidebarMessages[displayStep]}
           </h2>
           {displayStep === 1 && (
@@ -324,7 +324,7 @@ export const Element = (): JSX.Element => {
     
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] w-full sm:w-[510px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Primeiro, qual é a sua função na empresa?
         </h2>
         <div className="flex flex-col max-w-[450px]">
@@ -377,7 +377,7 @@ export const Element = (): JSX.Element => {
 
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
-        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] w-full sm:w-[510px]">
+        <h2 className="font-['Inter'] font-medium text-white text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]">
           Qual é o PRINCIPAL gargalo que está limitando a receita da sua empresa hoje?
         </h2>
         <div className="flex flex-col max-w-[450px]">
