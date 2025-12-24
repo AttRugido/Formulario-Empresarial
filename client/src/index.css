@@ -284,3 +284,42 @@
   transition: all 0.2s linear;
   transition-delay: 0.15s;
 }
+
+/* Green 3D Button */
+.green-3d-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  outline: none;
+  cursor: pointer;
+  min-width: 150px;
+  height: 50px;
+  background-image: linear-gradient(to top, #0a8a18 0%, #0eb825 50%, #12d42b 100%);
+  border-radius: 30px;
+  border: 1px solid #086612;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+  padding: 0 32px;
+}
+
+.green-3d-button:hover {
+  box-shadow: 0 4px 3px 1px rgba(10, 138, 24, 0.3), 0 6px 8px rgba(10, 138, 24, 0.2), 0 -4px 4px rgba(8, 102, 18, 0.2), 0 -6px 4px rgba(18, 212, 43, 0.1), inset 0 0 3px 3px rgba(8, 102, 18, 0.3);
+}
+
+.green-3d-button:active {
+  box-shadow: 0 4px 3px 1px rgba(10, 138, 24, 0.3), 0 6px 8px rgba(10, 138, 24, 0.2), 0 -4px 4px rgba(8, 102, 18, 0.2), 0 -6px 4px rgba(18, 212, 43, 0.1), inset 0 0 5px 3px rgba(6, 80, 14, 0.5), inset 0 0 30px rgba(6, 80, 14, 0.3);
+}
+
+.green-3d-button:focus {
+  box-shadow: 0 4px 3px 1px rgba(10, 138, 24, 0.3), 0 6px 8px rgba(10, 138, 24, 0.2), 0 -4px 4px rgba(8, 102, 18, 0.2), 0 -6px 4px rgba(18, 212, 43, 0.1), inset 0 0 5px 3px rgba(6, 80, 14, 0.5), inset 0 0 30px rgba(6, 80, 14, 0.3);
+}
+
+.green-3d-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

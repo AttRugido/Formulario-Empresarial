@@ -167,16 +167,15 @@ export const Element = (): JSX.Element => {
             Isso leva apenas 2 minutos
           </p>
         </div>
-        <Button 
+        <button 
           onClick={handleNext}
           disabled={isTransitioning}
-          className="h-12 bg-[#0b9a1b] hover:bg-[#0b9a1b]/90 rounded-lg px-8 sm:px-10 py-[15px] gap-2.5 w-full sm:w-auto"
+          className="green-3d-button w-full sm:w-auto"
+          data-testid="button-avancar"
         >
-          <span className="font-['Inter'] font-normal text-[#ffffffb2] text-base sm:text-lg leading-[1.3]">
-            AVANÇAR
-          </span>
-          <ArrowRightIcon className="w-[18px] h-[18px] text-[#ffffffb2]" />
-        </Button>
+          <span className="uppercase">AVANÇAR</span>
+          <ArrowRightIcon className="w-[18px] h-[18px]" />
+        </button>
       </div>
     </div>
   );
