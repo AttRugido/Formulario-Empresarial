@@ -412,18 +412,21 @@
   display: flex;
   overflow: hidden;
   width: 100%;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
 .logo-carousel-track {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   animation: scroll-logos 20s linear infinite;
 }
 
 .logo-carousel-track img {
   flex-shrink: 0;
-  height: 20px;
+  height: 14px;
   width: auto;
   opacity: 0.7;
 }
