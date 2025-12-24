@@ -11,6 +11,7 @@ import logoLuzianaLanna from "@assets/logo_LL_1766593059523.png";
 import logoHidrogyn from "@assets/Logo_Hg_1766593059522.png";
 import logoGranMoney from "@assets/Logo_Gran_Money_Branco_1766593059522.png";
 import logoCenter from "@assets/Group_2_1766593059521.png";
+import logoMansaoMaromba from "@assets/logotipo_MM-PA_horizontal_1766593332339.png";
 
 const CustomCheck = ({ checked, onClick }: { checked: boolean; onClick: () => void }) => (
   <div className={`custom-check ${checked ? 'checked' : ''}`} onClick={onClick}>
@@ -178,9 +179,12 @@ export const Element = (): JSX.Element => {
                   <img src={logoRainha} alt="Rainha" className="h-10 w-auto" />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src={logoLuzianaLanna} alt="Luziana Lanna" className="h-5 w-auto" />
-                  <img src={logoHidrogyn} alt="Hidrogyn" className="h-12 w-auto" />
+                  <img src={logoMansaoMaromba} alt="Mansão Maromba" className="h-5 w-auto" />
+                  <img src={logoLuzianaLanna} alt="Luziana Lanna" className="h-6 w-auto" />
+                </div>
+                <div className="flex items-center gap-4">
                   <img src={logoGranMoney} alt="Gran Money" className="h-7 w-auto" />
+                  <img src={logoHidrogyn} alt="Hidrogyn" className="h-12 w-auto" />
                   <img src={logoCenter} alt="Center" className="h-10 w-auto" />
                 </div>
               </div>
