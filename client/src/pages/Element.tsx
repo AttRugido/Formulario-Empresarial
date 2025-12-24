@@ -263,7 +263,7 @@ export const Element = (): JSX.Element => {
           onClick={handleBack}
           variant="ghost"
           disabled={isTransitioning}
-          className="absolute top-[16px] left-[16px] sm:top-[20px] sm:left-[20px] text-[#b7b7b7] hover:text-white gap-2 px-0 z-10"
+          className="absolute top-[16px] left-[16px] sm:top-[20px] sm:left-[20px] text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 gap-2 px-0 z-10"
         >
           <ArrowLeftIcon className="w-4 h-4" />
           <span className="font-['Inter'] text-sm sm:text-base">Voltar</span>
