@@ -208,7 +208,7 @@ export const Element = (): JSX.Element => {
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <svg className="w-[44px] h-16" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="w-[150px] h-[150px]" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="logo-welcome">
             <g id="back-welcome">
               <path className="animate-[vibrate_3s_linear_infinite]" d="M37.9402 68.6649C40.2926 74.9479 40.4373 77.3273 39.4758 80.3838C41.47 77.9965 42.6744 76.6873 45.9414 74.7264C59.2389 66.4794 57.7686 55.5697 57.4178 37.7109C52.0314 47.0151 47.8814 49.349 39.9611 56.3803C35.8392 60.2597 36.5665 65.5938 37.9402 68.6649Z" fill="url(#paint0_welcome)"/>
@@ -283,7 +283,7 @@ export const Element = (): JSX.Element => {
         >
           <ArrowLeftIcon className="w-5 h-5" />
         </Button>
-        <svg className="w-[20px] h-[29px]" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="w-[40px] h-[40px]" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="logo-mobile-header">
             <g id="back-mobile-header">
               <path className="animate-[vibrate_3s_linear_infinite]" d="M37.9402 68.6649C40.2926 74.9479 40.4373 77.3273 39.4758 80.3838C41.47 77.9965 42.6744 76.6873 45.9414 74.7264C59.2389 66.4794 57.7686 55.5697 57.4178 37.7109C52.0314 47.0151 47.8814 49.349 39.9611 56.3803C35.8392 60.2597 36.5665 65.5938 37.9402 68.6649Z" fill="url(#paint0_mh)"/>
@@ -391,7 +391,7 @@ export const Element = (): JSX.Element => {
         
         {/* Desktop centered logo */}
         <div className="hidden lg:flex justify-center pt-[53px]">
-          <svg className="w-[44px] h-16" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-[150px] h-[150px]" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="logo-desktop">
               <g id="back-desktop">
                 <path className="animate-[vibrate_3s_linear_infinite]" d="M37.9402 68.6649C40.2926 74.9479 40.4373 77.3273 39.4758 80.3838C41.47 77.9965 42.6744 76.6873 45.9414 74.7264C59.2389 66.4794 57.7686 55.5697 57.4178 37.7109C52.0314 47.0151 47.8814 49.349 39.9611 56.3803C35.8392 60.2597 36.5665 65.5938 37.9402 68.6649Z" fill="url(#paint0_desktop)"/>
