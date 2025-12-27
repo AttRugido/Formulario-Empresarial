@@ -98,29 +98,65 @@ export default function Dashboard() {
     if (!urgency) return null;
     if (urgency.toLowerCase().includes("urgente") || urgency.toLowerCase().includes("agora")) {
       return (
-        <Badge className="bg-red-500/20 text-red-400 border-0 text-[10px] whitespace-nowrap">
+        <span 
+          className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+          style={{ 
+            fontSize: '16px', 
+            color: '#D91E35', 
+            background: '#27080C', 
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            fontFamily: 'Inter, sans-serif'
+          }}
+        >
           É urgente - preciso começar AGORA
-        </Badge>
+        </span>
       );
     }
     if (urgency.includes("30")) {
       return (
-        <Badge className="bg-orange-500/20 text-orange-400 border-0 text-[10px] whitespace-nowrap">
+        <span 
+          className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+          style={{ 
+            fontSize: '16px', 
+            color: '#F2D11A', 
+            background: '#1A1606', 
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            fontFamily: 'Inter, sans-serif'
+          }}
+        >
           Nos próximos 30 dias
-        </Badge>
+        </span>
       );
     }
-    if (urgency.includes("90")) {
+    if (urgency.includes("3 meses") || urgency.includes("90")) {
       return (
-        <Badge className="bg-yellow-500/20 text-yellow-400 border-0 text-[10px] whitespace-nowrap">
-          Nos próximos 90 dias
-        </Badge>
+        <span 
+          className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+          style={{ 
+            fontSize: '16px', 
+            color: '#6CEB7B', 
+            background: '#122214', 
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            fontFamily: 'Inter, sans-serif'
+          }}
+        >
+          Em até 3 meses
+        </span>
       );
     }
     return (
-      <Badge className="bg-[#1a1a1a] text-[#888] border-0 text-[10px]">
-        {urgency}
-      </Badge>
+      <span 
+        className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+        style={{ 
+          fontSize: '16px', 
+          color: '#B9B9B9', 
+          background: '#171717', 
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          fontFamily: 'Inter, sans-serif'
+        }}
+      >
+        Ainda estou pesquisando
+      </span>
     );
   };
 
