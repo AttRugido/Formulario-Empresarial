@@ -327,7 +327,7 @@ export default function Dashboard() {
       <main className="flex-1 overflow-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 p-4" style={{ background: '#08090B' }}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-end gap-2" style={{ gap: '8px' }}>
             <Button 
               variant="ghost" 
               size="icon" 
