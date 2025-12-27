@@ -62,6 +62,28 @@ export default function Dashboard() {
     return phone;
   };
 
+  const getTimeSinceLastSubmission = () => {
+    if (submissions.length === 0) return "Sem cadastros";
+    const lastSubmission = submissions.reduce((latest, current) => {
+      if (!current.createdAt) return latest;
+      if (!latest.createdAt) return current;
+      return new Date(current.createdAt) > new Date(latest.createdAt) ? current : latest;
+    });
+    if (!lastSubmission.createdAt) return "Sem cadastros";
+    
+    const now = new Date();
+    const lastDate = new Date(lastSubmission.createdAt);
+    const diffMs = now.getTime() - lastDate.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return "agora";
+    if (diffMins < 60) return `${diffMins} minuto${diffMins > 1 ? 's' : ''}`;
+    if (diffHours < 24) return `${diffHours} hora${diffHours > 1 ? 's' : ''}`;
+    return `${diffDays} dia${diffDays > 1 ? 's' : ''}`;
+  };
+
   const filteredSubmissions = submissions.filter(sub => {
     if (!searchTerm) return true;
     const term = searchTerm.toLowerCase();
@@ -304,7 +326,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <header className="sticky top-0 z-10 border-b border-white/5 p-4" style={{ background: '#08090B' }}>
+        <header className="sticky top-0 z-10 p-4" style={{ background: '#08090B' }}>
           <div className="flex items-center gap-2">
             <Button 
               variant="ghost" 
@@ -330,7 +352,7 @@ export default function Dashboard() {
               <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
               <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
             </svg>
-            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Último Update: <span style={{ color: '#FFF' }}>2 minutos</span></span>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Último Update: <span style={{ color: '#FFF' }}>{getTimeSinceLastSubmission()}</span></span>
           </div>
 
           {/* Leads Section */}
