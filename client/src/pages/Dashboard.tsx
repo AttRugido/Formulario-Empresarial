@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, TrendingDown, Search, Filter, ChevronRight, LayoutDashboard, PanelLeft, Settings } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings } from "lucide-react";
 import type { FormSubmission } from "@shared/schema";
 import { useState } from "react";
 
@@ -359,30 +359,50 @@ export default function Dashboard() {
           <div className="mb-6">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
-                <span className="text-3xl font-bold text-white" data-testid="text-total-submissions">
+                <span 
+                  style={{ fontFamily: 'Inter', fontSize: '77px', fontWeight: 500 }}
+                  className="text-white" 
+                  data-testid="text-total-submissions"
+                >
                   {loadingSubmissions ? "..." : submissions.length}
                 </span>
-                <div>
-                  <span className="text-lg font-semibold text-white">Leads</span>
-                  <p className="text-lg font-semibold text-white">Cadastrados</p>
-                </div>
+                <span 
+                  style={{ 
+                    fontFamily: 'Inter', 
+                    fontSize: '38px', 
+                    fontWeight: 500, 
+                    lineHeight: '37.625px',
+                    background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
+                  Leads Cadastrados
+                </span>
               </div>
               
               <div className="flex flex-wrap items-center gap-2">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#7A7F85' }} />
                   <Input
                     placeholder="Buscar lead..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-9 w-[180px] bg-[#111] border-[#1a1a1a] text-white placeholder:text-[#666] text-sm"
+                    style={{
+                      width: '356px',
+                      height: '40px',
+                      borderRadius: '6px',
+                      border: '1px solid rgba(255, 255, 255, 0.10)',
+                      background: '#0E0F12',
+                      fontFamily: 'Inter',
+                      fontSize: '14px',
+                      color: '#7A7F85'
+                    }}
+                    className="pl-9 placeholder:text-[#7A7F85]"
                     data-testid="input-search"
                   />
                 </div>
-                <Button variant="outline" size="sm" className="border-[#1a1a1a] bg-[#111] text-[#888]">
-                  <Filter className="w-4 h-4 mr-1" />
-                  Filtrar
-                </Button>
                 <Button 
                   onClick={handleExportCSV}
                   variant="outline" 
