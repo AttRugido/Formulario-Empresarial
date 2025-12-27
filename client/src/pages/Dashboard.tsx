@@ -227,8 +227,16 @@ export default function Dashboard() {
         {/* User Greeting */}
         {!sidebarCollapsed && (
           <div className="py-6 border-b border-white/5 relative z-10">
-            <p className="text-white text-[28px] font-medium leading-[30.8px]">
-              Bem vindo, <span className="font-medium">User</span>
+            <p 
+              className="text-[28px] font-medium leading-[30.8px]"
+              style={{
+                background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              Bem vindo de volta, User.
             </p>
             <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px] mt-1">
               Último Login: {new Date().getDate()} de {new Date().toLocaleDateString('pt-BR', { month: 'long' })}, {new Date().getFullYear()}
