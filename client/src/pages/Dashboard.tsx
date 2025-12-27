@@ -99,7 +99,7 @@ export default function Dashboard() {
     if (urgency.toLowerCase().includes("urgente") || urgency.toLowerCase().includes("agora")) {
       return (
         <span 
-          className="whitespace-nowrap px-[10px] py-[10px]"
+          className="whitespace-nowrap px-[20px] py-[10px]"
           style={{ 
             fontSize: '16px', 
             color: '#D91E35', 
@@ -116,7 +116,7 @@ export default function Dashboard() {
     if (urgency.includes("30")) {
       return (
         <span 
-          className="whitespace-nowrap px-[10px] py-[10px]"
+          className="whitespace-nowrap px-[20px] py-[10px]"
           style={{ 
             fontSize: '16px', 
             color: '#F2D11A', 
@@ -133,7 +133,7 @@ export default function Dashboard() {
     if (urgency.includes("3 meses") || urgency.includes("90")) {
       return (
         <span 
-          className="whitespace-nowrap px-[10px] py-[10px]"
+          className="whitespace-nowrap px-[20px] py-[10px]"
           style={{ 
             fontSize: '16px', 
             color: '#6CEB7B', 
@@ -149,7 +149,7 @@ export default function Dashboard() {
     }
     return (
       <span 
-        className="whitespace-nowrap px-[10px] py-[10px]"
+        className="whitespace-nowrap px-[20px] py-[10px]"
         style={{ 
           fontSize: '16px', 
           color: '#B9B9B9', 
@@ -603,7 +603,7 @@ export default function Dashboard() {
                     </tr>
                   ) : (
                     filteredSubmissions.map((sub, index) => (
-                      <tr key={sub.id || index} className="hover:bg-[#111]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
+                      <tr key={sub.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(sub.createdAt)}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.name || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.email || "-"}</td>
