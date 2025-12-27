@@ -260,7 +260,27 @@ export default function Dashboard() {
               border: '1px solid rgba(255, 255, 255, 0.05)'
             }}
           >
-            <div className="absolute inset-0 flex items-center gap-3 px-4 text-white">
+            <svg 
+              className="absolute inset-0 w-full h-full rounded-lg"
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 269 44" 
+              fill="none"
+              preserveAspectRatio="none"
+            >
+              <path d="M0 8C0 3.58172 3.58172 0 8 0H261C265.418 0 269 3.58172 269 8V36C269 40.4183 265.418 44 261 44H8.00001C3.58173 44 0 40.4183 0 36V8Z" fill="url(#paint0_radial_nav)"/>
+              <path d="M8 0.5H261C265.142 0.5 268.5 3.85786 268.5 8V36C268.5 40.1421 265.142 43.5 261 43.5H8C3.85787 43.5 0.5 40.1421 0.5 36V8C0.5 3.85786 3.85786 0.5 8 0.5Z" stroke="url(#paint1_radial_nav)" strokeOpacity="0.25"/>
+              <defs>
+                <radialGradient id="paint0_radial_nav" cx="0" cy="0" r="1" gradientTransform="matrix(15.0239 29.9444 -54.8494 20.0794 221.067 -1.71381e-06)" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#40404C"/>
+                  <stop offset="1" stopColor="#1E1E26" stopOpacity="0"/>
+                </radialGradient>
+                <radialGradient id="paint1_radial_nav" cx="0" cy="0" r="1" gradientTransform="matrix(12.1622 22 -89.4282 36.0725 223.928 -1.619e-07)" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="white"/>
+                  <stop offset="1" stopColor="white" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex items-center gap-3 px-4 text-white z-10">
               <svg className="flex-shrink-0" width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0.5" y="0.5" width="6" height="6" rx="1" fill="white" fillOpacity="0.8"/>
                 <rect x="9.5" y="0.5" width="6" height="6" rx="1" fill="white" fillOpacity="0.8"/>
