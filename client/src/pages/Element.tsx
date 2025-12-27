@@ -116,6 +116,7 @@ export const Element = (): JSX.Element => {
   const [isSegmentDropdownOpen, setIsSegmentDropdownOpen] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const sessionIdRef = useRef<string>("");
   const trackedStepsRef = useRef<Set<number>>(new Set());
 
@@ -183,9 +184,14 @@ export const Element = (): JSX.Element => {
     if (step < 9) {
       transitionToStep(step + 1);
     } else {
+      if (hasSubmitted) {
+        console.log("Form already submitted, skipping duplicate submission");
+        return;
+      }
       setIsSubmitting(true);
       try {
         await apiRequest("POST", "/api/submissions", formData);
+        setHasSubmitted(true);
         console.log("Form submitted successfully:", formData);
       } catch (error) {
         console.error("Failed to submit form:", error);
