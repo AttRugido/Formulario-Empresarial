@@ -151,7 +151,8 @@ export default function Dashboard() {
         style={{ 
           background: '#0C0D0F',
           borderRight: '1px solid rgba(255, 255, 255, 0.03)',
-          padding: '20px 20px 25px 20px'
+          padding: '20px 20px 25px 20px',
+          fontFamily: 'Inter, sans-serif'
         }}
       >
         {/* Background SVG */}
