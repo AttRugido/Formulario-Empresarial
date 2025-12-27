@@ -173,20 +173,52 @@ export default function Dashboard() {
         
         {/* Logo */}
         <div className="pb-4 border-b border-white/5 relative z-10">
-          <div className="flex items-center gap-2">
-            <svg className="w-8 h-8 flex-shrink-0" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g id="logo">
-                <g id="front">
-                  <path d="M38.2818 68.5629C40.1863 74.4504 41.4273 77.2975 40.4135 80.0734C42.3509 77.9572 43.0055 75.7039 46.0977 74.0339C58.695 66.9916 57.7315 55.3364 58.1556 38.8668C52.8033 47.2142 48.005 51.3315 40.4131 57.4787C36.4529 60.8806 37.1446 65.6757 38.2818 68.5629Z" fill="white" fillOpacity="0.82"/>
-                  <path d="M59.1986 38.9142C59.8115 56.5576 58.8683 65.9253 49.5793 73.3234C61.5873 69.1313 65.282 57.905 66.9872 29.6971C64.6211 30.6699 63.8554 32.9329 62.3688 35.2392C61.2173 36.8592 60.5835 38.0796 59.1986 38.9142Z" fill="white" fillOpacity="0.82"/>
-                  <path d="M67.9102 31.189C66.7079 51.1168 65.5393 60.202 60.2366 66.0759C67.8101 61.8013 70.9655 58.6864 72.9549 38.6495C71.2553 37.9173 70.4718 37.4222 69.9707 35.3101C69.7473 33.6583 68.9209 32.623 67.9102 31.189Z" fill="white" fillOpacity="0.82"/>
-                </g>
-              </g>
+          <div className="flex items-center gap-3">
+            <svg className="flex-shrink-0" width="24" height="35" viewBox="0 0 24 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.715211 26.9572C2.27321 31.2693 2.36903 32.9023 1.73224 35C3.05303 33.3616 3.85068 32.463 6.01446 31.1173C14.8215 25.4572 13.8477 17.9698 13.6154 5.71315C10.0479 12.0987 7.29932 13.7005 2.05363 18.5261C-0.676304 21.1886 -0.194604 24.8494 0.715211 26.9572Z" fill="url(#paint0_linear_34_442)"/>
+              <path d="M14.3651 5.71315C15.3795 18.8074 14.6317 24.8607 8.20937 30.6735C16.2185 27.7496 18.8098 20.4357 19.9855 0C18.3199 0.802974 17.6045 1.56356 16.6132 3.32805C15.84 4.57114 15.3313 5.04601 14.3651 5.71315Z" fill="url(#paint1_linear_34_442)"/>
+              <path d="M20.4672 0.610144C20.2539 15.4637 19.2621 21.1362 15.6497 25.6815C20.7329 22.8117 22.7788 19.0732 24 5.99049C22.7569 5.5036 22.3942 5.26942 21.9659 3.71633C21.7518 2.49604 21.2389 1.64194 20.4672 0.610144Z" fill="url(#paint2_linear_34_442)"/>
+              <path d="M0.941215 26.8871C2.20261 30.9278 3.02453 32.8817 2.35309 34.7869C3.63621 33.3346 4.06978 31.7881 6.11779 30.642C14.4611 25.8088 13.823 17.8096 14.1038 6.50642C10.559 12.2353 7.38097 15.061 2.3528 19.2799C-0.270034 21.6147 0.188036 24.9056 0.941215 26.8871Z" fill="white" fillOpacity="0.82"/>
+              <path d="M14.7946 6.53893C15.2005 18.6478 14.5758 25.0769 8.42364 30.1543C16.3766 27.2772 18.8237 19.5725 19.9531 0.213138C18.386 0.880766 17.8789 2.43395 16.8943 4.01674C16.1316 5.12859 15.7118 5.96613 14.7946 6.53893Z" fill="white" fillOpacity="0.82"/>
+              <path d="M20.5645 1.23717C19.7681 14.9138 18.9941 21.1491 15.4821 25.1804C20.4981 22.2467 22.588 20.1089 23.9056 6.35741C22.7799 5.85488 22.261 5.51506 21.9291 4.06549C21.7811 2.93185 21.2338 2.22132 20.5645 1.23717Z" fill="white" fillOpacity="0.82"/>
+              <defs>
+                <linearGradient id="paint0_linear_34_442" x1="22.678" y1="2.91667" x2="11.5899" y2="40.0818" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#FE2EFD" stopOpacity="0"/>
+                  <stop offset="0.404724" stopColor="#FE30FD"/>
+                  <stop offset="0.586755" stopColor="#FE30FD"/>
+                  <stop offset="0.860624" stopColor="#00FFD2"/>
+                </linearGradient>
+                <linearGradient id="paint1_linear_34_442" x1="22.6511" y1="1.4557" x2="15.9156" y2="35.8766" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#00FED1"/>
+                  <stop offset="0.34" stopColor="#FE30FD"/>
+                  <stop offset="0.68" stopColor="#FE30FD"/>
+                  <stop offset="1" stopColor="#00FED1"/>
+                </linearGradient>
+                <linearGradient id="paint2_linear_34_442" x1="15.4823" y1="0.0774335" x2="12.9859" y2="33.1428" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#00FED1"/>
+                  <stop offset="0.225" stopColor="#00FED1"/>
+                  <stop offset="0.55" stopColor="#7331FF"/>
+                  <stop offset="0.79" stopColor="#7331FF"/>
+                  <stop offset="1" stopColor="#00FED1"/>
+                </linearGradient>
+              </defs>
             </svg>
             {!sidebarCollapsed && (
-              <div>
-                <span className="font-semibold text-white text-sm">Grupo Rugido</span>
-                <p className="text-[10px] text-[#666]">Estruturação de empresas</p>
+              <div className="flex flex-col">
+                <span 
+                  className="font-medium text-[18px] leading-[20.409px]"
+                  style={{
+                    background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
+                  Grupo Rugido
+                </span>
+                <span className="text-[#6E707C] text-[13px] font-normal leading-[23.4px]">
+                  Estruturação de empresas
+                </span>
               </div>
             )}
           </div>
@@ -194,10 +226,13 @@ export default function Dashboard() {
 
         {/* User Greeting */}
         {!sidebarCollapsed && (
-          <div className="py-4 border-b border-white/5 relative z-10">
-            <p className="text-white text-sm font-medium">Bem vindo de volta,</p>
-            <p className="text-white text-lg font-semibold">User</p>
-            <p className="text-[10px] text-[#666] mt-1">Último Login: XX de Mês, Ano</p>
+          <div className="py-6 border-b border-white/5 relative z-10">
+            <p className="text-white text-[28px] font-medium leading-[30.8px]">
+              Bem vindo, <span className="font-medium">User</span>
+            </p>
+            <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px] mt-1">
+              Último Login: {new Date().getDate()} de {new Date().toLocaleDateString('pt-BR', { month: 'long' })}, {new Date().getFullYear()}
+            </p>
           </div>
         )}
 
