@@ -99,12 +99,13 @@ export default function Dashboard() {
     if (urgency.toLowerCase().includes("urgente") || urgency.toLowerCase().includes("agora")) {
       return (
         <span 
-          className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+          className="whitespace-nowrap px-[10px] py-[10px]"
           style={{ 
             fontSize: '16px', 
             color: '#D91E35', 
             background: '#27080C', 
             border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: '60px',
             fontFamily: 'Inter, sans-serif'
           }}
         >
@@ -115,12 +116,13 @@ export default function Dashboard() {
     if (urgency.includes("30")) {
       return (
         <span 
-          className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+          className="whitespace-nowrap px-[10px] py-[10px]"
           style={{ 
             fontSize: '16px', 
             color: '#F2D11A', 
             background: '#1A1606', 
             border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: '60px',
             fontFamily: 'Inter, sans-serif'
           }}
         >
@@ -131,12 +133,13 @@ export default function Dashboard() {
     if (urgency.includes("3 meses") || urgency.includes("90")) {
       return (
         <span 
-          className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+          className="whitespace-nowrap px-[10px] py-[10px]"
           style={{ 
             fontSize: '16px', 
             color: '#6CEB7B', 
             background: '#122214', 
             border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: '60px',
             fontFamily: 'Inter, sans-serif'
           }}
         >
@@ -146,12 +149,13 @@ export default function Dashboard() {
     }
     return (
       <span 
-        className="whitespace-nowrap px-[10px] py-[10px] rounded-md"
+        className="whitespace-nowrap px-[10px] py-[10px]"
         style={{ 
           fontSize: '16px', 
           color: '#B9B9B9', 
           background: '#171717', 
           border: '1px solid rgba(255, 255, 255, 0.05)',
+          borderRadius: '60px',
           fontFamily: 'Inter, sans-serif'
         }}
       >
