@@ -144,11 +144,18 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex">
+    <div className="min-h-screen flex" style={{ background: '#08090B' }}>
       {/* Sidebar */}
-      <aside className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[220px]'} min-h-screen bg-[#0f0f0f] border-r border-[#1a1a1a] transition-all duration-300`}>
+      <aside 
+        className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[220px]'} min-h-screen transition-all duration-300`}
+        style={{ 
+          background: 'radial-gradient(86.83% 104.27% at -8.97% -1.02%, #3B3951 0%, #0C0D0F 100%)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.03)',
+          padding: '20px 20px 25px 20px'
+        }}
+      >
         {/* Logo */}
-        <div className="p-4 border-b border-[#1a1a1a]">
+        <div className="pb-4 border-b border-white/5">
           <div className="flex items-center gap-2">
             <svg className="w-8 h-8 flex-shrink-0" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="logo">
@@ -170,7 +177,7 @@ export default function Dashboard() {
 
         {/* User Greeting */}
         {!sidebarCollapsed && (
-          <div className="p-4 border-b border-[#1a1a1a]">
+          <div className="py-4 border-b border-white/5">
             <p className="text-white text-sm font-medium">Bem vindo de volta,</p>
             <p className="text-white text-lg font-semibold">User</p>
             <p className="text-[10px] text-[#666] mt-1">Último Login: XX de Mês, Ano</p>
@@ -178,7 +185,7 @@ export default function Dashboard() {
         )}
 
         {/* Navigation */}
-        <nav className="flex-1 p-3">
+        <nav className="flex-1 py-4">
           {!sidebarCollapsed && (
             <p className="text-[10px] text-[#666] uppercase tracking-wider mb-3 px-2">Overview</p>
           )}
@@ -202,7 +209,7 @@ export default function Dashboard() {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-[#1a1a1a]">
+        <div className="pt-4 mt-auto border-t border-white/5">
           {!sidebarCollapsed && (
             <p className="text-[10px] text-[#666]">Painel Administrativo</p>
           )}
@@ -212,7 +219,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <header className="sticky top-0 z-10 bg-[#0a0a0a] border-b border-[#1a1a1a] p-4">
+        <header className="sticky top-0 z-10 border-b border-white/5 p-4" style={{ background: '#08090B' }}>
           <div className="flex items-center gap-2 text-sm">
             <Button 
               variant="ghost" 
