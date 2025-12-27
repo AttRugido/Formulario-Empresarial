@@ -140,30 +140,71 @@ export default function Dashboard() {
     window.open(`https://wa.me/${whatsappNumber}`, "_blank");
   };
 
-  const MiniChart = ({ trend }: { trend: "up" | "down" }) => (
-    <svg viewBox="0 0 120 40" className="w-full h-10 mt-2">
-      <defs>
-        <linearGradient id={`gradient-${trend}`} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor={trend === "up" ? "#22c55e" : "#ef4444"} stopOpacity="0.3" />
-          <stop offset="100%" stopColor={trend === "up" ? "#22c55e" : "#ef4444"} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path
-        d={trend === "up" 
-          ? "M0,35 Q20,30 40,25 T80,15 T120,10" 
-          : "M0,10 Q20,15 40,20 T80,30 T120,35"}
-        fill="none"
-        stroke={trend === "up" ? "#22c55e" : "#ef4444"}
-        strokeWidth="2"
-      />
-      <path
-        d={trend === "up" 
-          ? "M0,35 Q20,30 40,25 T80,15 T120,10 L120,40 L0,40 Z" 
-          : "M0,10 Q20,15 40,20 T80,30 T120,35 L120,40 L0,40 Z"}
-        fill={`url(#gradient-${trend})`}
-      />
-    </svg>
-  );
+  const MiniChart = ({ trend }: { trend: "up" | "down" }) => {
+    const primaryColor = trend === "up" ? "#A646E6" : "#6366f1";
+    const secondaryColor = trend === "up" ? "#60a5fa" : "#818cf8";
+    const uniqueId = `chart-${trend}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    return (
+      <svg viewBox="0 0 140 50" className="w-full h-12 mt-2">
+        <defs>
+          <linearGradient id={`gradient-fill-${uniqueId}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor={primaryColor} stopOpacity="0.25" />
+            <stop offset="100%" stopColor={primaryColor} stopOpacity="0" />
+          </linearGradient>
+          <filter id={`glow-${uniqueId}`} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        
+        {/* Primary line with glow */}
+        <path
+          d={trend === "up" 
+            ? "M0,38 C15,36 25,32 40,28 C55,24 65,22 80,18 C95,14 110,12 125,10 L140,8" 
+            : "M0,12 C15,14 25,18 40,22 C55,26 65,30 80,34 C95,36 110,38 125,40 L140,42"}
+          fill="none"
+          stroke={primaryColor}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          filter={`url(#glow-${uniqueId})`}
+        />
+        
+        {/* Secondary line (overlay effect) */}
+        <path
+          d={trend === "up" 
+            ? "M0,42 C20,40 35,36 50,32 C70,28 85,24 100,20 C115,16 130,14 140,12" 
+            : "M0,8 C20,10 35,14 50,18 C70,24 85,28 100,32 C115,36 130,38 140,40"}
+          fill="none"
+          stroke={secondaryColor}
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.7"
+          filter={`url(#glow-${uniqueId})`}
+        />
+        
+        {/* Gradient fill under primary line */}
+        <path
+          d={trend === "up" 
+            ? "M0,38 C15,36 25,32 40,28 C55,24 65,22 80,18 C95,14 110,12 125,10 L140,8 L140,50 L0,50 Z" 
+            : "M0,12 C15,14 25,18 40,22 C55,26 65,30 80,34 C95,36 110,38 125,40 L140,42 L140,50 L0,50 Z"}
+          fill={`url(#gradient-fill-${uniqueId})`}
+        />
+        
+        {/* Highlight dot at peak */}
+        <circle 
+          cx={trend === "up" ? "130" : "130"} 
+          cy={trend === "up" ? "9" : "41"} 
+          r="3" 
+          fill={primaryColor}
+          filter={`url(#glow-${uniqueId})`}
+        />
+      </svg>
+    );
+  };
 
   return (
     <div className="min-h-screen flex" style={{ background: '#08090B' }}>

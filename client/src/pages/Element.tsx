@@ -190,7 +190,25 @@ export const Element = (): JSX.Element => {
       }
       setIsSubmitting(true);
       try {
-        await apiRequest("POST", "/api/submissions", formData);
+        // Send directly to Google Sheets webhook (works on Vercel and Replit)
+        const googleSheetsWebhook = "https://script.google.com/macros/s/AKfycbz5-Eeil0hsVpTes5FE7CaCJaBRVxzex_PutQZ5WiBU8J3TE1y2-o9TiBvrVjrvBDUH/exec";
+        
+        await fetch(googleSheetsWebhook, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        
+        // Also try to save to local API (will work on Replit, fail silently on Vercel)
+        try {
+          await apiRequest("POST", "/api/submissions", formData);
+        } catch {
+          // Silently ignore - this is expected on Vercel
+        }
+        
         setHasSubmitted(true);
         console.log("Form submitted successfully:", formData);
       } catch (error) {
