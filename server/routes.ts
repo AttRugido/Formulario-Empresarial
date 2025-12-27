@@ -3,6 +3,8 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertFormSubmissionSchema, insertStepEventSchema } from "@shared/schema";
 
+const GOOGLE_SHEETS_WEBHOOK_URL = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/submissions", async (req, res) => {
     try {
@@ -10,17 +12,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!parsed.success) {
         return res.status(400).json({ error: parsed.error.errors });
       }
-      const submission = await storage.createFormSubmission(parsed.data);
-      res.json(submission);
+      
+      if (GOOGLE_SHEETS_WEBHOOK_URL) {
+        const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(parsed.data),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to send to Google Sheets');
+        }
+        
+        const result = await response.json();
+        res.json({ success: true, message: 'Dados salvos na planilha' });
+      } else {
+        const submission = await storage.createFormSubmission(parsed.data);
+        res.json(submission);
+      }
     } catch (error) {
+      console.error("Error creating submission:", error);
       res.status(500).json({ error: "Failed to create submission" });
     }
   });
 
   app.get("/api/submissions", async (req, res) => {
     try {
-      const submissions = await storage.getFormSubmissions();
-      res.json(submissions);
+      if (GOOGLE_SHEETS_WEBHOOK_URL) {
+        const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: 'GET',
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch from Google Sheets');
+        }
+        
+        const data = await response.json();
+        res.json(data);
+      } else {
+        const submissions = await storage.getFormSubmissions();
+        res.json(submissions);
+      }
     } catch (error) {
       console.error("Error fetching submissions:", error);
       res.status(500).json({ error: "Failed to fetch submissions" });
@@ -29,14 +63,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/submissions/export", async (req, res) => {
     try {
-      const submissions = await storage.getFormSubmissions();
+      let submissions: any[] = [];
+      
+      if (GOOGLE_SHEETS_WEBHOOK_URL) {
+        const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: 'GET',
+        });
+        
+        if (response.ok) {
+          submissions = await response.json();
+        }
+      } else {
+        submissions = await storage.getFormSubmissions();
+      }
       
       const headers = ["ID", "Nome", "Email", "Telefone", "Cargo", "Gargalo", "Faturamento", "Tamanho Equipe", "Segmento", "Urgência", "Tem Sócio", "Redes Sociais", "Data"];
       const csvRows = [headers.join(",")];
       
       for (const sub of submissions) {
         const row = [
-          sub.id,
+          sub.id || "",
           `"${(sub.name || "").replace(/"/g, '""')}"`,
           `"${(sub.email || "").replace(/"/g, '""')}"`,
           `"${(sub.phone || "").replace(/"/g, '""')}"`,
@@ -48,7 +94,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           `"${(sub.urgency || "").replace(/"/g, '""')}"`,
           `"${(sub.hasPartner || "").replace(/"/g, '""')}"`,
           `"${(sub.socialMedia || "").replace(/"/g, '""')}"`,
-          sub.createdAt ? new Date(sub.createdAt).toISOString() : ""
+          sub.createdAt || ""
         ];
         csvRows.push(row.join(","));
       }
@@ -63,11 +109,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/submissions/:id", async (req, res) => {
     try {
-      const submission = await storage.getFormSubmission(req.params.id);
-      if (!submission) {
+      if (GOOGLE_SHEETS_WEBHOOK_URL) {
+        const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: 'GET',
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          const submission = data.find((s: any) => s.id === req.params.id);
+          if (submission) {
+            return res.json(submission);
+          }
+        }
         return res.status(404).json({ error: "Submission not found" });
+      } else {
+        const submission = await storage.getFormSubmission(req.params.id);
+        if (!submission) {
+          return res.status(404).json({ error: "Submission not found" });
+        }
+        res.json(submission);
       }
-      res.json(submission);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch submission" });
     }

@@ -37,3 +37,8 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[userenv]
+
+[userenv.shared]
+GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbz5-Eeil0hsVpTes5FE7CaCJaBRVxzex_PutQZ5WiBU8J3TE1y2-o9TiBvrVjrvBDUH/exec"
