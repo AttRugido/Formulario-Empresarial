@@ -684,7 +684,7 @@
   justify-content: flex-start;
   width: fit-content;
   height: 40px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.10);
   padding: 0px 15px;
   border-radius: 5px;
   background-color: #0E0F12;
