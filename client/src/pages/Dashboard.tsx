@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, Users, TrendingUp, CalendarDays, Percent, Search, Filter, ArrowRight, BarChart3 } from "lucide-react";
+import { Download, Users, TrendingUp, CalendarDays, Percent, Search, Filter, ArrowRight, BarChart3, MessageCircle } from "lucide-react";
 import type { FormSubmission } from "@shared/schema";
 import { useState } from "react";
 
@@ -544,37 +544,75 @@ export default function Dashboard() {
                         <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">ID</th>
                         <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">Nome</th>
                         <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">Email</th>
-                        <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">Status</th>
+                        <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">Urgência</th>
                         <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">Data</th>
-                        <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">Cargo</th>
+                        <th className="text-left py-3 px-2 text-[#666] font-medium text-xs">Contato</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredSubmissions.map((sub, index) => (
-                        <tr 
-                          key={sub.id} 
-                          className="border-b border-[#1e1e1e] hover:bg-[#1a1a1a] transition-colors"
-                          data-testid={`row-submission-${sub.id}`}
-                        >
-                          <td className="py-3 px-2 text-[#666] text-xs">{String(index + 1).padStart(3, '0')}</td>
-                          <td className="py-3 px-2">
-                            <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center text-[#8b5cf6] text-xs font-medium">
-                                {(sub.name || "?")[0].toUpperCase()}
+                      {filteredSubmissions.map((sub, index) => {
+                        const formatPhoneForWhatsApp = (phone: string | null) => {
+                          if (!phone) return "";
+                          return phone.replace(/\D/g, "");
+                        };
+                        
+                        const getUrgencyBadge = (urgency: string | null) => {
+                          if (!urgency) return { color: "bg-[#666]/20 text-[#666]", label: "-" };
+                          if (urgency.toLowerCase().includes("imediato") || urgency.toLowerCase().includes("urgente")) {
+                            return { color: "bg-red-500/20 text-red-400", label: urgency };
+                          }
+                          if (urgency.toLowerCase().includes("30 dias") || urgency.toLowerCase().includes("1 mês")) {
+                            return { color: "bg-orange-500/20 text-orange-400", label: urgency };
+                          }
+                          if (urgency.toLowerCase().includes("90 dias") || urgency.toLowerCase().includes("3 meses")) {
+                            return { color: "bg-yellow-500/20 text-yellow-400", label: urgency };
+                          }
+                          return { color: "bg-[#8b5cf6]/20 text-[#8b5cf6]", label: urgency };
+                        };
+                        
+                        const urgencyInfo = getUrgencyBadge(sub.urgency);
+                        
+                        return (
+                          <tr 
+                            key={sub.id} 
+                            className="border-b border-[#1e1e1e] hover:bg-[#1a1a1a] transition-colors"
+                            data-testid={`row-submission-${sub.id}`}
+                          >
+                            <td className="py-3 px-2 text-[#666] text-xs">{String(index + 1).padStart(3, '0')}</td>
+                            <td className="py-3 px-2">
+                              <div className="flex items-center gap-2">
+                                <div className="w-7 h-7 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center text-[#8b5cf6] text-xs font-medium">
+                                  {(sub.name || "?")[0].toUpperCase()}
+                                </div>
+                                <span className="text-white text-sm">{sub.name || "-"}</span>
                               </div>
-                              <span className="text-white text-sm">{sub.name || "-"}</span>
-                            </div>
-                          </td>
-                          <td className="py-3 px-2 text-[#888] text-sm">{sub.email || "-"}</td>
-                          <td className="py-3 px-2">
-                            <Badge className="bg-[#8b5cf6]/20 text-[#8b5cf6] border-0 text-xs">
-                              Cadastrado
-                            </Badge>
-                          </td>
-                          <td className="py-3 px-2 text-[#888] text-sm">{formatDate(sub.createdAt)}</td>
-                          <td className="py-3 px-2 text-[#8b5cf6] text-sm">{sub.role || "-"}</td>
-                        </tr>
-                      ))}
+                            </td>
+                            <td className="py-3 px-2 text-[#888] text-sm">{sub.email || "-"}</td>
+                            <td className="py-3 px-2">
+                              <Badge className={`${urgencyInfo.color} border-0 text-xs`}>
+                                {urgencyInfo.label}
+                              </Badge>
+                            </td>
+                            <td className="py-3 px-2 text-[#888] text-sm">{formatDate(sub.createdAt)}</td>
+                            <td className="py-3 px-2">
+                              {sub.phone ? (
+                                <a
+                                  href={`https://wa.me/55${formatPhoneForWhatsApp(sub.phone)}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-md transition-colors"
+                                  data-testid={`button-whatsapp-${sub.id}`}
+                                >
+                                  <MessageCircle className="w-3.5 h-3.5" />
+                                  Falar agora
+                                </a>
+                              ) : (
+                                <span className="text-[#666] text-sm">-</span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
