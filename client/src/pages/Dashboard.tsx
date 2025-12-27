@@ -147,15 +147,32 @@ export default function Dashboard() {
     <div className="min-h-screen flex" style={{ background: '#08090B' }}>
       {/* Sidebar */}
       <aside 
-        className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[220px]'} min-h-screen transition-all duration-300`}
+        className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[309px]'} min-h-screen transition-all duration-300 relative`}
         style={{ 
-          background: 'radial-gradient(86.83% 104.27% at -8.97% -1.02%, #3B3951 0%, #0C0D0F 100%)',
+          background: '#0C0D0F',
           borderRight: '1px solid rgba(255, 255, 255, 0.03)',
           padding: '20px 20px 25px 20px'
         }}
       >
+        {/* Background SVG */}
+        <svg 
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 309 1080" 
+          fill="none"
+          preserveAspectRatio="none"
+        >
+          <path d="M0 0H309V1080H0V0Z" fill="url(#paint0_radial_sidebar)"/>
+          <defs>
+            <radialGradient id="paint0_radial_sidebar" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(-27.7035 -11) rotate(56.2312) scale(532.909 316.999)">
+              <stop stopColor="#3B3951"/>
+              <stop offset="1" stopColor="#3B3951" stopOpacity="0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+        
         {/* Logo */}
-        <div className="pb-4 border-b border-white/5">
+        <div className="pb-4 border-b border-white/5 relative z-10">
           <div className="flex items-center gap-2">
             <svg className="w-8 h-8 flex-shrink-0" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="logo">
@@ -177,7 +194,7 @@ export default function Dashboard() {
 
         {/* User Greeting */}
         {!sidebarCollapsed && (
-          <div className="py-4 border-b border-white/5">
+          <div className="py-4 border-b border-white/5 relative z-10">
             <p className="text-white text-sm font-medium">Bem vindo de volta,</p>
             <p className="text-white text-lg font-semibold">User</p>
             <p className="text-[10px] text-[#666] mt-1">Último Login: XX de Mês, Ano</p>
@@ -185,7 +202,7 @@ export default function Dashboard() {
         )}
 
         {/* Navigation */}
-        <nav className="flex-1 py-4">
+        <nav className="flex-1 py-4 relative z-10">
           {!sidebarCollapsed && (
             <p className="text-[10px] text-[#666] uppercase tracking-wider mb-3 px-2">Overview</p>
           )}
@@ -209,7 +226,7 @@ export default function Dashboard() {
         </nav>
 
         {/* Footer */}
-        <div className="pt-4 mt-auto border-t border-white/5">
+        <div className="pt-4 mt-auto border-t border-white/5 relative z-10">
           {!sidebarCollapsed && (
             <p className="text-[10px] text-[#666]">Painel Administrativo</p>
           )}
