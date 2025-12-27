@@ -237,7 +237,7 @@ export default function Dashboard() {
                 WebkitTextFillColor: 'transparent'
               }}
             >
-              Bem vindo de volta, User.
+              Bem vindo<br />de volta, User.
             </p>
             <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px] mt-1">
               Último Login: {new Date().getDate()} de {new Date().toLocaleDateString('pt-BR', { month: 'long' })}, {new Date().getFullYear()}
