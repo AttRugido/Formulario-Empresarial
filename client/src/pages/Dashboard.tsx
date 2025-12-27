@@ -230,6 +230,7 @@ export default function Dashboard() {
             <p 
               className="text-[28px] font-medium leading-[30.8px]"
               style={{
+                width: '208px',
                 background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
