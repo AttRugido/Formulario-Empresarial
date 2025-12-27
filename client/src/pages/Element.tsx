@@ -193,13 +193,19 @@ export const Element = (): JSX.Element => {
         // Send directly to Google Sheets webhook (works on Vercel and Replit)
         const googleSheetsWebhook = "https://script.google.com/macros/s/AKfycbz5-Eeil0hsVpTes5FE7CaCJaBRVxzex_PutQZ5WiBU8J3TE1y2-o9TiBvrVjrvBDUH/exec";
         
+        // Use URLSearchParams for form-encoded data (works with no-cors)
+        const formBody = new URLSearchParams();
+        Object.entries(formData).forEach(([key, value]) => {
+          formBody.append(key, String(value || ''));
+        });
+        
         await fetch(googleSheetsWebhook, {
           method: "POST",
           mode: "no-cors",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: JSON.stringify(formData),
+          body: formBody.toString(),
         });
         
         // Also try to save to local API (will work on Replit, fail silently on Vercel)
