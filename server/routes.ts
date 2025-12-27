@@ -43,21 +43,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (GOOGLE_SHEETS_WEBHOOK_URL) {
         const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
           method: 'GET',
+          redirect: 'follow',
         });
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch from Google Sheets');
-        }
+        const text = await response.text();
         
-        const data = await response.json();
-        res.json(data);
+        try {
+          const data = JSON.parse(text);
+          res.json(Array.isArray(data) ? data : []);
+        } catch (parseError) {
+          console.error("Error parsing Google Sheets response:", text);
+          res.json([]);
+        }
       } else {
         const submissions = await storage.getFormSubmissions();
         res.json(submissions);
       }
     } catch (error) {
       console.error("Error fetching submissions:", error);
-      res.status(500).json({ error: "Failed to fetch submissions" });
+      res.json([]);
     }
   });
 
