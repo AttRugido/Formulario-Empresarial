@@ -296,7 +296,7 @@ export default function Dashboard() {
         {/* Footer */}
         <div className="pt-4 mt-auto border-t border-white/5 relative z-10">
           {!sidebarCollapsed && (
-            <p className="text-[10px] text-[#666]">Painel Administrativo</p>
+            <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px]">Painel Administrativo</p>
           )}
         </div>
       </aside>
