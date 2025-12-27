@@ -447,7 +447,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <BarChart3 className="w-4 h-4 text-[#8b5cf6]" />
-                    <span className="text-sm font-medium text-white">Detalhes por Etapa</span>
+                    <span className="text-sm font-medium text-white">Taxa de Conversão</span>
                   </div>
                 </div>
 
@@ -462,37 +462,83 @@ export default function Dashboard() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-2xl font-bold text-white">{submissions.length}</span>
-                      <span className="text-[10px] text-[#666]">Total Leads</span>
+                      <span className="text-2xl font-bold text-white">{completionRate}%</span>
+                      <span className="text-[10px] text-[#666]">Conversão</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  {stepBreakdown.slice(0, 4).map((item, index) => (
-                    <div key={item.step} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-2 h-2 rounded-full" 
-                          style={{ backgroundColor: `hsl(${263 - index * 10}, 84%, ${60 + index * 5}%)` }}
-                        />
-                        <span className="text-xs text-[#888] truncate max-w-[120px]">{item.label}</span>
-                      </div>
-                      <span className="text-xs text-white font-medium">{item.count}</span>
-                    </div>
-                  ))}
+                <div className="text-center text-xs text-[#888] mb-2">
+                  {totalVisitors} visitantes → {submissions.length} leads
                 </div>
-
-                <Button 
-                  variant="ghost" 
-                  className="w-full mt-4 text-xs text-[#8b5cf6] hover:text-[#a78bfa] hover:bg-[#1a1a1a]"
-                  data-testid="button-more-details"
-                >
-                  Mais detalhes <ArrowRight className="w-3 h-3 ml-1" />
-                </Button>
               </CardContent>
             </Card>
           </div>
+
+          {/* Full Funnel Breakdown */}
+          <Card className="bg-[#141414] border-[#1e1e1e] mb-6">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-4 h-4 text-[#8b5cf6]" />
+                <span className="text-sm font-medium text-white">Funil Completo - Todas as Etapas</span>
+              </div>
+
+              <div className="space-y-3">
+                {stepBreakdown.map((item, index) => {
+                  const step1Count = stepBreakdown[0]?.count || 1;
+                  const percentageFromStart = step1Count > 0 ? Math.round((item.count / step1Count) * 100) : 0;
+                  const prevCount = index > 0 ? stepBreakdown[index - 1].count : item.count;
+                  const dropOff = prevCount > 0 ? Math.round(((prevCount - item.count) / prevCount) * 100) : 0;
+                  
+                  return (
+                    <div key={item.step} className="relative">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-[#8b5cf6]/20 flex items-center justify-center text-[#8b5cf6] text-xs font-medium">
+                            {item.step}
+                          </div>
+                          <span className="text-sm text-white">{item.label}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm font-semibold text-white">{item.count}</span>
+                          <Badge className={`text-xs border-0 ${
+                            percentageFromStart >= 80 ? 'bg-green-500/20 text-green-400' :
+                            percentageFromStart >= 50 ? 'bg-yellow-500/20 text-yellow-400' :
+                            percentageFromStart >= 30 ? 'bg-orange-500/20 text-orange-400' :
+                            'bg-red-500/20 text-red-400'
+                          }`}>
+                            {percentageFromStart}%
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      {/* Progress bar */}
+                      <div className="ml-8 h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-[#8b5cf6] to-[#a78bfa] rounded-full transition-all duration-500"
+                          style={{ width: `${percentageFromStart}%` }}
+                        />
+                      </div>
+                      
+                      {/* Drop-off indicator */}
+                      {index > 0 && dropOff > 0 && (
+                        <div className="ml-8 mt-1 text-xs text-red-400">
+                          -{dropOff}% saíram nesta etapa
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-[#1e1e1e]">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-[#888]">Taxa de conversão total:</span>
+                  <span className="text-[#8b5cf6] font-semibold">{completionRate}%</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Submissions Table */}
           <Card className="bg-[#141414] border-[#1e1e1e]">
