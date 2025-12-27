@@ -305,7 +305,7 @@ export default function Dashboard() {
       <main className="flex-1 overflow-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 border-b border-white/5 p-4" style={{ background: '#08090B' }}>
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-2">
             <Button 
               variant="ghost" 
               size="icon" 
@@ -314,17 +314,23 @@ export default function Dashboard() {
             >
               <PanelLeft className="w-5 h-5" />
             </Button>
-            <span className="text-[#666]">Overview</span>
-            <ChevronRight className="w-4 h-4 text-[#666]" />
-            <span className="text-white font-medium">Dashboard</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
+              <path d="M20.487 9.26216L11.737 0.512158C11.4089 0.184217 10.9639 0 10.5 0C10.0361 0 9.59114 0.184217 9.26298 0.512158L0.51298 9.26216C0.349688 9.42424 0.220247 9.61716 0.132184 9.82972C0.0441203 10.0423 -0.000807906 10.2702 1.0996e-05 10.5003V21.0003C1.0996e-05 21.2323 0.0921984 21.4549 0.256293 21.619C0.420387 21.7831 0.642947 21.8753 0.875011 21.8753H20.125C20.3571 21.8753 20.5796 21.7831 20.7437 21.619C20.9078 21.4549 21 21.2323 21 21.0003V10.5003C21.0008 10.2702 20.9559 10.0423 20.8678 9.82972C20.7798 9.61716 20.6503 9.42424 20.487 9.26216ZM19.25 20.1253H1.75001V10.5003L10.5 1.75028L19.25 10.5003V20.1253Z" fill="#6E707C"/>
+            </svg>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400, lineHeight: '23.4px' }}>Overview</span>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400 }}>/</span>
+            <span style={{ color: '#FFF', fontFamily: 'Inter', fontSize: '18px', fontWeight: 400, lineHeight: '30.8px' }}>Dashboard</span>
           </div>
         </header>
 
         <div className="p-4 lg:p-6">
           {/* Update Time */}
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-xs text-[#666]">Último Update: <span className="text-white">2 minutos</span></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
+              <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
+            </svg>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Último Update: <span style={{ color: '#FFF' }}>2 minutos</span></span>
           </div>
 
           {/* Leads Section */}
