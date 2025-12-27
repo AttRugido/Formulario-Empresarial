@@ -384,50 +384,26 @@ export default function Dashboard() {
               </div>
               
               <div className="flex flex-wrap items-center gap-2">
-                <div id="poda" className="flex items-center justify-center relative">
-                  <div className="glow-search"></div>
-                  <div className="darkBorderBg-search"></div>
-                  <div className="darkBorderBg-search"></div>
-                  <div className="darkBorderBg-search"></div>
-                  <div className="white-search"></div>
-                  <div className="border-search"></div>
-                  <div id="main-search" className="relative">
-                    <input
-                      placeholder="Buscar lead..."
-                      type="text"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="input-search"
-                      data-testid="input-search"
-                    />
-                    <div id="input-mask-search"></div>
-                    <div id="pink-mask-search"></div>
-                    <div id="search-icon-custom">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        strokeLinejoin="round"
-                        strokeLinecap="round"
-                        height="24"
-                        fill="none"
-                      >
-                        <circle stroke="url(#search-gradient)" r="8" cy="11" cx="11"></circle>
-                        <line stroke="url(#searchl-gradient)" y2="16.65" y1="22" x2="16.65" x1="22"></line>
-                        <defs>
-                          <linearGradient gradientTransform="rotate(50)" id="search-gradient">
-                            <stop stopColor="#3B3951" offset="0%"></stop>
-                            <stop stopColor="transparent" offset="100%"></stop>
-                          </linearGradient>
-                          <linearGradient id="searchl-gradient">
-                            <stop stopColor="#3B3951" offset="0%"></stop>
-                            <stop stopColor="transparent" offset="100%"></stop>
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                    </div>
-                  </div>
+                <div className="relative group">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A7F85] group-hover:text-white transition-colors" />
+                  <input
+                    placeholder="Buscar lead..."
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 text-[#7A7F85] placeholder:text-[#7A7F85] hover:text-white hover:placeholder:text-white focus:text-white focus:placeholder:text-white transition-colors"
+                    style={{
+                      width: '356px',
+                      height: '40px',
+                      borderRadius: '6px',
+                      border: '1px solid rgba(255, 255, 255, 0.10)',
+                      background: '#0E0F12',
+                      fontFamily: 'Inter',
+                      fontSize: '14px',
+                      outline: 'none'
+                    }}
+                    data-testid="input-search"
+                  />
                 </div>
                 <Button 
                   onClick={handleExportCSV}
