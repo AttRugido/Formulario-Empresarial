@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, Users, TrendingUp, CalendarDays, Percent, Search, Filter, MessageCircle, BarChart3 } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings } from "lucide-react";
 import type { FormSubmission } from "@shared/schema";
 import { useState } from "react";
 
@@ -12,21 +12,10 @@ interface FunnelData {
   count: number;
 }
 
-const stepLabels: Record<number, string> = {
-  1: "Cargo/Função",
-  2: "Gargalo",
-  3: "Faturamento",
-  4: "Tamanho Equipe",
-  5: "Segmento",
-  6: "Urgência",
-  7: "Sócio",
-  8: "Redes Sociais",
-  9: "Dados de Contato"
-};
-
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  
   const { data: submissions = [], isLoading: loadingSubmissions } = useQuery<FormSubmission[]>({
     queryKey: ["/api/submissions"]
   });
@@ -56,12 +45,43 @@ export default function Dashboard() {
   const totalVisitors = funnelData.find(f => f.step === 1)?.count || 0;
 
   const formatDate = (date: Date | string | null) => {
-    if (!date) return "-";
+    if (!date) return "00/00/0000";
     return new Date(date).toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric"
     });
+  };
+
+  const formatPhone = (phone: string | null) => {
+    if (!phone) return "-";
+    const cleaned = phone.replace(/\D/g, "");
+    if (cleaned.length === 11) {
+      return `(${cleaned.slice(0,2)}) ${cleaned.slice(2,3)}.${cleaned.slice(3,7)}-${cleaned.slice(7)}`;
+    }
+    return phone;
+  };
+
+  const getTimeSinceLastSubmission = () => {
+    if (submissions.length === 0) return "Sem cadastros";
+    const lastSubmission = submissions.reduce((latest, current) => {
+      if (!current.createdAt) return latest;
+      if (!latest.createdAt) return current;
+      return new Date(current.createdAt) > new Date(latest.createdAt) ? current : latest;
+    });
+    if (!lastSubmission.createdAt) return "Sem cadastros";
+    
+    const now = new Date();
+    const lastDate = new Date(lastSubmission.createdAt);
+    const diffMs = now.getTime() - lastDate.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return "agora";
+    if (diffMins < 60) return `${diffMins} minuto${diffMins > 1 ? 's' : ''}`;
+    if (diffHours < 24) return `${diffHours} hora${diffHours > 1 ? 's' : ''}`;
+    return `${diffDays} dia${diffDays > 1 ? 's' : ''}`;
   };
 
   const filteredSubmissions = submissions.filter(sub => {
@@ -74,78 +94,130 @@ export default function Dashboard() {
     );
   });
 
-  const stepBreakdown = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(step => ({
-    step,
-    label: stepLabels[step],
-    count: funnelData.find(f => f.step === step)?.count || 0
-  }));
-
-  const maxStepCount = Math.max(...stepBreakdown.map(s => s.count), 1);
-
-  const generateChartPath = () => {
-    if (stepBreakdown.every(s => s.count === 0)) return "";
-
-    const width = 400;
-    const height = 150;
-    const padding = 20;
-    const chartWidth = width - padding * 2;
-    const chartHeight = height - padding * 2;
-
-    const points = stepBreakdown.map((item, index) => {
-      const x = padding + (index / 8) * chartWidth;
-      const y = height - padding - (item.count / maxStepCount) * chartHeight;
-      return { x, y, count: item.count };
-    });
-
-    let path = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-      const prev = points[i - 1];
-      const curr = points[i];
-      const cpx1 = prev.x + (curr.x - prev.x) / 3;
-      const cpx2 = prev.x + 2 * (curr.x - prev.x) / 3;
-      path += ` C ${cpx1} ${prev.y}, ${cpx2} ${curr.y}, ${curr.x} ${curr.y}`;
+  const getUrgencyBadge = (urgency: string | null) => {
+    if (!urgency) return null;
+    if (urgency.toLowerCase().includes("urgente") || urgency.toLowerCase().includes("agora")) {
+      return (
+        <Badge className="bg-red-500/20 text-red-400 border-0 text-[10px] whitespace-nowrap">
+          É urgente - preciso começar AGORA
+        </Badge>
+      );
     }
-
-    return { path, points };
+    if (urgency.includes("30")) {
+      return (
+        <Badge className="bg-orange-500/20 text-orange-400 border-0 text-[10px] whitespace-nowrap">
+          Nos próximos 30 dias
+        </Badge>
+      );
+    }
+    if (urgency.includes("90")) {
+      return (
+        <Badge className="bg-yellow-500/20 text-yellow-400 border-0 text-[10px] whitespace-nowrap">
+          Nos próximos 90 dias
+        </Badge>
+      );
+    }
+    return (
+      <Badge className="bg-[#1a1a1a] text-[#888] border-0 text-[10px]">
+        {urgency}
+      </Badge>
+    );
   };
 
-  const chartData = generateChartPath();
+  const getFaturamentoBadge = (revenue: string | null) => {
+    if (!revenue) return "-";
+    return (
+      <Badge className="bg-green-500/20 text-green-400 border-0 text-[10px] whitespace-nowrap">
+        {revenue}
+      </Badge>
+    );
+  };
+
+  const openWhatsApp = (phone: string | null) => {
+    if (!phone) return;
+    const cleaned = phone.replace(/\D/g, "");
+    const whatsappNumber = cleaned.startsWith("55") ? cleaned : `55${cleaned}`;
+    window.open(`https://wa.me/${whatsappNumber}`, "_blank");
+  };
+
+  const MiniChart = ({ trend }: { trend: "up" | "down" }) => (
+    <svg viewBox="0 0 120 40" className="w-full h-10 mt-2">
+      <defs>
+        <linearGradient id={`gradient-${trend}`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor={trend === "up" ? "#22c55e" : "#ef4444"} stopOpacity="0.3" />
+          <stop offset="100%" stopColor={trend === "up" ? "#22c55e" : "#ef4444"} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path
+        d={trend === "up" 
+          ? "M0,35 Q20,30 40,25 T80,15 T120,10" 
+          : "M0,10 Q20,15 40,20 T80,30 T120,35"}
+        fill="none"
+        stroke={trend === "up" ? "#22c55e" : "#ef4444"}
+        strokeWidth="2"
+      />
+      <path
+        d={trend === "up" 
+          ? "M0,35 Q20,30 40,25 T80,15 T120,10 L120,40 L0,40 Z" 
+          : "M0,10 Q20,15 40,20 T80,30 T120,35 L120,40 L0,40 Z"}
+        fill={`url(#gradient-${trend})`}
+      />
+    </svg>
+  );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="hidden lg:flex flex-col w-[280px] min-h-screen bg-[#0a0a0a] border-r border-[#1a1a1a] p-6">
-          <div className="flex items-center gap-3 mb-12">
-            <svg className="w-10 h-10" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g id="logo">
-                <g id="logo-centro">
-                  <g id="back">
-                    <path className="animate-[vibrate_3s_linear_infinite]" d="M37.9402 68.6649C40.2926 74.9479 40.4373 77.3273 39.4758 80.3838C41.47 77.9965 42.6744 76.6873 45.9414 74.7264C59.2389 66.4794 57.7686 55.5697 57.4178 37.7109C52.0314 47.0151 47.8814 49.349 39.9611 56.3803C35.8392 60.2597 36.5665 65.5938 37.9402 68.6649Z" fill="url(#paint0_linear_167_280)"/>
-                    <path className="animate-[vibrate_1s_linear_infinite]" d="M58.5501 37.711C60.0818 56.7902 58.9528 65.6103 49.2559 74.0799C61.3486 69.8195 65.2611 59.1627 67.0362 29.3865C64.5214 30.5565 63.4413 31.6647 61.9446 34.2357C60.7771 36.047 60.0091 36.7389 58.5501 37.711Z" fill="url(#paint1_linear_167_280)"/>
-                    <path className="animate-[vibrate_2s_linear_infinite]" d="M67.7631 30.2754C67.441 51.918 65.9436 60.1833 60.4893 66.806C68.1643 62.6245 71.2533 57.1773 73.0972 38.1149C71.2203 37.4055 70.6726 37.0643 70.026 34.8013C69.7027 33.0233 68.9282 31.7788 67.7631 30.2754Z" fill="url(#paint2_linear_167_280)"/>
-                  </g>
-                  <g id="front">
-                    <path d="M38.2818 68.5629C40.1863 74.4504 41.4273 77.2975 40.4135 80.0734C42.3509 77.9572 43.0055 75.7039 46.0977 74.0339C58.695 66.9916 57.7315 55.3364 58.1556 38.8668C52.8033 47.2142 48.005 51.3315 40.4131 57.4787C36.4529 60.8806 37.1446 65.6757 38.2818 68.5629Z" fill="white" fillOpacity="0.82"/>
-                    <path d="M59.1986 38.9142C59.8115 56.5576 58.8683 65.9253 49.5793 73.3234C61.5873 69.1313 65.282 57.905 66.9872 29.6971C64.6211 30.6699 63.8554 32.9329 62.3688 35.2392C61.2173 36.8592 60.5835 38.0796 59.1986 38.9142Z" fill="white" fillOpacity="0.82"/>
-                    <path d="M67.9102 31.189C66.7079 51.1168 65.5393 60.202 60.2366 66.0759C67.8101 61.8013 70.9655 58.6864 72.9549 38.6495C71.2553 37.9173 70.4718 37.4222 69.9707 35.3101C69.7473 33.6583 68.9209 32.623 67.9102 31.189Z" fill="white" fillOpacity="0.82"/>
-                  </g>
-                </g>
-              </g>
+    <div className="min-h-screen flex" style={{ background: '#08090B' }}>
+      {/* Sidebar */}
+      <aside 
+        className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[309px]'} min-h-screen transition-all duration-300 relative`}
+        style={{ 
+          background: '#0C0D0F',
+          borderRight: '1px solid rgba(255, 255, 255, 0.03)',
+          padding: '20px 20px 25px 20px',
+          fontFamily: 'Inter, sans-serif'
+        }}
+      >
+        {/* Background SVG */}
+        <svg 
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 309 1080" 
+          fill="none"
+          preserveAspectRatio="none"
+        >
+          <path d="M0 0H309V1080H0V0Z" fill="url(#paint0_radial_sidebar)"/>
+          <defs>
+            <radialGradient id="paint0_radial_sidebar" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(-27.7035 -11) rotate(56.2312) scale(532.909 316.999)">
+              <stop stopColor="#3B3951"/>
+              <stop offset="1" stopColor="#3B3951" stopOpacity="0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+        
+        {/* Logo */}
+        <div className="pb-4 border-b border-white/5 relative z-10">
+          <div className="flex items-center gap-3">
+            <svg className="flex-shrink-0" width="24" height="35" viewBox="0 0 24 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.715211 26.9572C2.27321 31.2693 2.36903 32.9023 1.73224 35C3.05303 33.3616 3.85068 32.463 6.01446 31.1173C14.8215 25.4572 13.8477 17.9698 13.6154 5.71315C10.0479 12.0987 7.29932 13.7005 2.05363 18.5261C-0.676304 21.1886 -0.194604 24.8494 0.715211 26.9572Z" fill="url(#paint0_linear_34_442)"/>
+              <path d="M14.3651 5.71315C15.3795 18.8074 14.6317 24.8607 8.20937 30.6735C16.2185 27.7496 18.8098 20.4357 19.9855 0C18.3199 0.802974 17.6045 1.56356 16.6132 3.32805C15.84 4.57114 15.3313 5.04601 14.3651 5.71315Z" fill="url(#paint1_linear_34_442)"/>
+              <path d="M20.4672 0.610144C20.2539 15.4637 19.2621 21.1362 15.6497 25.6815C20.7329 22.8117 22.7788 19.0732 24 5.99049C22.7569 5.5036 22.3942 5.26942 21.9659 3.71633C21.7518 2.49604 21.2389 1.64194 20.4672 0.610144Z" fill="url(#paint2_linear_34_442)"/>
+              <path d="M0.941215 26.8871C2.20261 30.9278 3.02453 32.8817 2.35309 34.7869C3.63621 33.3346 4.06978 31.7881 6.11779 30.642C14.4611 25.8088 13.823 17.8096 14.1038 6.50642C10.559 12.2353 7.38097 15.061 2.3528 19.2799C-0.270034 21.6147 0.188036 24.9056 0.941215 26.8871Z" fill="white" fillOpacity="0.82"/>
+              <path d="M14.7946 6.53893C15.2005 18.6478 14.5758 25.0769 8.42364 30.1543C16.3766 27.2772 18.8237 19.5725 19.9531 0.213138C18.386 0.880766 17.8789 2.43395 16.8943 4.01674C16.1316 5.12859 15.7118 5.96613 14.7946 6.53893Z" fill="white" fillOpacity="0.82"/>
+              <path d="M20.5645 1.23717C19.7681 14.9138 18.9941 21.1491 15.4821 25.1804C20.4981 22.2467 22.588 20.1089 23.9056 6.35741C22.7799 5.85488 22.261 5.51506 21.9291 4.06549C21.7811 2.93185 21.2338 2.22132 20.5645 1.23717Z" fill="white" fillOpacity="0.82"/>
               <defs>
-                <linearGradient id="paint0_linear_167_280" x1="56.4996" y1="41.267" x2="38.8809" y2="83.2125" gradientUnits="userSpaceOnUse">
+                <linearGradient id="paint0_linear_34_442" x1="22.678" y1="2.91667" x2="11.5899" y2="40.0818" gradientUnits="userSpaceOnUse">
                   <stop stopColor="#FE2EFD" stopOpacity="0"/>
                   <stop offset="0.404724" stopColor="#FE30FD"/>
                   <stop offset="0.586755" stopColor="#FE30FD"/>
                   <stop offset="0.860624" stopColor="#00FFD2"/>
                 </linearGradient>
-                <linearGradient id="paint1_linear_167_280" x1="66.0369" y1="31.2454" x2="52.2167" y2="72.2211" gradientUnits="userSpaceOnUse">
+                <linearGradient id="paint1_linear_34_442" x1="22.6511" y1="1.4557" x2="15.9156" y2="35.8766" gradientUnits="userSpaceOnUse">
                   <stop stopColor="#00FED1"/>
                   <stop offset="0.34" stopColor="#FE30FD"/>
                   <stop offset="0.68" stopColor="#FE30FD"/>
                   <stop offset="1" stopColor="#00FED1"/>
                 </linearGradient>
-                <linearGradient id="paint2_linear_167_280" x1="68.6226" y1="30.3562" x2="63.5309" y2="64.3006" gradientUnits="userSpaceOnUse">
+                <linearGradient id="paint2_linear_34_442" x1="15.4823" y1="0.0774335" x2="12.9859" y2="33.1428" gradientUnits="userSpaceOnUse">
                   <stop stopColor="#00FED1"/>
                   <stop offset="0.225" stopColor="#00FED1"/>
                   <stop offset="0.55" stopColor="#7331FF"/>
@@ -154,412 +226,403 @@ export default function Dashboard() {
                 </linearGradient>
               </defs>
             </svg>
-            <span className="font-semibold text-white text-xl">Rugido</span>
+            {!sidebarCollapsed && (
+              <div className="flex flex-col">
+                <span 
+                  className="font-medium text-[18px] leading-[20.409px]"
+                  style={{
+                    background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
+                  Grupo Rugido
+                </span>
+                <span className="text-[#6E707C] text-[13px] font-normal leading-[23.4px]">
+                  Estruturação de empresas
+                </span>
+              </div>
+            )}
           </div>
+        </div>
 
-          <nav className="flex-1 space-y-1">
-            <div className="flex items-center gap-3 px-4 py-3 bg-[#141414] rounded-xl text-white border border-[#1a1a1a]">
-              <BarChart3 className="w-5 h-5 text-[#8b5cf6]" />
-              <span className="text-sm font-medium">Dashboard</span>
-            </div>
-          </nav>
-
-          <div className="mt-auto pt-6 border-t border-[#1a1a1a]">
-            <div className="px-4 py-3 bg-[#0f0f0f] rounded-xl border border-[#1a1a1a]">
-              <p className="text-sm text-white font-medium mb-1">Grupo Rugido</p>
-              <p className="text-xs text-[#666]">Admin Dashboard</p>
-            </div>
-          </div>
-        </aside>
-
-        {/* Main Content */}
-        <main className="flex-1 p-6 lg:p-8">
-          {/* Header */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-1">Dashboard</h1>
-              <p className="text-sm text-[#888]">Acompanhe suas métricas e leads</p>
-            </div>
-
-            <Button 
-              onClick={handleExportCSV} 
-              className="bg-[#8b5cf6] hover:bg-[#7c3aed] text-white border-0"
-              data-testid="button-export-csv"
+        {/* User Greeting */}
+        {!sidebarCollapsed && (
+          <div className="py-6 border-b border-white/5 relative z-10">
+            <p 
+              className="text-[28px] font-medium leading-[30.8px]"
+              style={{
+                width: '208px',
+                background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
             >
-              <Download className="w-4 h-4 mr-2" />
-              Exportar CSV
+              Bem vindo<br />de volta, User.
+            </p>
+            <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px] mt-1">
+              Último Login: {new Date().getDate()} de {new Date().toLocaleDateString('pt-BR', { month: 'long' })}, {new Date().getFullYear()}
+            </p>
+          </div>
+        )}
+
+        {/* Navigation */}
+        <nav className="flex-1 py-4 relative z-10">
+          {!sidebarCollapsed && (
+            <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px] mb-3">Overview</p>
+          )}
+          <div 
+            className="relative rounded-lg" 
+            style={{ 
+              width: '269px', 
+              height: '44px',
+              background: '#1E1E26',
+              border: '1px solid rgba(255, 255, 255, 0.05)'
+            }}
+          >
+            <svg 
+              className="absolute inset-0 w-full h-full rounded-lg"
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 269 44" 
+              fill="none"
+              preserveAspectRatio="none"
+            >
+              <path d="M0 8C0 3.58172 3.58172 0 8 0H261C265.418 0 269 3.58172 269 8V36C269 40.4183 265.418 44 261 44H8.00001C3.58173 44 0 40.4183 0 36V8Z" fill="url(#paint0_radial_nav)"/>
+              <path d="M8 0.5H261C265.142 0.5 268.5 3.85786 268.5 8V36C268.5 40.1421 265.142 43.5 261 43.5H8C3.85787 43.5 0.5 40.1421 0.5 36V8C0.5 3.85786 3.85786 0.5 8 0.5Z" stroke="url(#paint1_radial_nav)" strokeOpacity="0.25"/>
+              <defs>
+                <radialGradient id="paint0_radial_nav" cx="0" cy="0" r="1" gradientTransform="matrix(15.0239 29.9444 -54.8494 20.0794 221.067 -1.71381e-06)" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#40404C"/>
+                  <stop offset="1" stopColor="#1E1E26" stopOpacity="0"/>
+                </radialGradient>
+                <radialGradient id="paint1_radial_nav" cx="0" cy="0" r="1" gradientTransform="matrix(12.1622 22 -89.4282 36.0725 223.928 -1.619e-07)" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="white"/>
+                  <stop offset="1" stopColor="white" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex items-center gap-3 px-4 text-white z-10">
+              <svg className="flex-shrink-0" width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5" y="0.5" width="6" height="6" rx="1" fill="white" fillOpacity="0.8"/>
+                <rect x="9.5" y="0.5" width="6" height="6" rx="1" fill="white" fillOpacity="0.8"/>
+                <rect x="0.5" y="9.5" width="6" height="6" rx="1" fill="white" fillOpacity="0.8"/>
+                <rect x="9.5" y="9.5" width="6" height="6" rx="1" fill="white" fillOpacity="0.8"/>
+              </svg>
+              {!sidebarCollapsed && <span className="text-[14px] font-medium">Dashboard</span>}
+              {!sidebarCollapsed && <div className="ml-auto w-[1px] h-[13px] bg-white" />}
+            </div>
+          </div>
+        </nav>
+
+        {/* Footer */}
+        <div className="pt-4 mt-auto border-t border-white/5 relative z-10">
+          {!sidebarCollapsed && (
+            <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px]">Painel Administrativo</p>
+          )}
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto">
+        {/* Header */}
+        <header className="sticky top-0 z-10 p-4" style={{ background: '#08090B' }}>
+          <div className="flex items-center" style={{ gap: '8px' }}>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="lg:hidden text-[#666]"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            >
+              <PanelLeft className="w-5 h-5" />
             </Button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
+              <path d="M20.487 9.26216L11.737 0.512158C11.4089 0.184217 10.9639 0 10.5 0C10.0361 0 9.59114 0.184217 9.26298 0.512158L0.51298 9.26216C0.349688 9.42424 0.220247 9.61716 0.132184 9.82972C0.0441203 10.0423 -0.000807906 10.2702 1.0996e-05 10.5003V21.0003C1.0996e-05 21.2323 0.0921984 21.4549 0.256293 21.619C0.420387 21.7831 0.642947 21.8753 0.875011 21.8753H20.125C20.3571 21.8753 20.5796 21.7831 20.7437 21.619C20.9078 21.4549 21 21.2323 21 21.0003V10.5003C21.0008 10.2702 20.9559 10.0423 20.8678 9.82972C20.7798 9.61716 20.6503 9.42424 20.487 9.26216ZM19.25 20.1253H1.75001V10.5003L10.5 1.75028L19.25 10.5003V20.1253Z" fill="#6E707C"/>
+            </svg>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400, lineHeight: '23.4px' }}>Overview</span>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400 }}>/</span>
+            <span style={{ color: '#FFF', fontFamily: 'Inter', fontSize: '18px', fontWeight: 400, lineHeight: '30.8px' }}>Dashboard</span>
+          </div>
+        </header>
+
+        <div className="p-4 lg:p-6">
+          {/* Update Time */}
+          <div className="flex items-center gap-2 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
+              <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
+            </svg>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Último Update: <span style={{ color: '#FFF' }}>{getTimeSinceLastSubmission()}</span></span>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <Card className="bg-[#0f0f0f] border-[#1a1a1a] overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#8b5cf6]/10 to-transparent rounded-full blur-3xl" />
-              <CardContent className="p-6 relative">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-[#8b5cf6]/10 rounded-xl">
-                    <Users className="w-5 h-5 text-[#8b5cf6]" />
-                  </div>
-                </div>
-                <p className="text-sm text-[#888] mb-1">Total de Leads</p>
-                <p className="text-3xl font-bold text-white" data-testid="text-total-submissions">
+          {/* Leads Section */}
+          <div className="mb-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+              <div className="flex items-center gap-3">
+                <span 
+                  style={{ fontFamily: 'Inter', fontSize: '77px', fontWeight: 500 }}
+                  className="text-white" 
+                  data-testid="text-total-submissions"
+                >
                   {loadingSubmissions ? "..." : submissions.length}
-                </p>
-                <p className="text-xs text-[#8b5cf6] mt-2">
-                  +{todaySubmissions} hoje
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#0f0f0f] border-[#1a1a1a] overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-3xl" />
-              <CardContent className="p-6 relative">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-blue-500/10 rounded-xl">
-                    <TrendingUp className="w-5 h-5 text-blue-400" />
-                  </div>
+                </span>
+                <span 
+                  style={{ 
+                    fontFamily: 'Inter', 
+                    fontSize: '38px', 
+                    fontWeight: 500, 
+                    lineHeight: '37.625px',
+                    width: '233px',
+                    background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
+                  Leads Cadastrados
+                </span>
+              </div>
+              
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="relative group">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A7F85] group-hover:text-white transition-colors" />
+                  <input
+                    placeholder="Buscar lead..."
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 text-[#7A7F85] placeholder:text-[#7A7F85] hover:text-white hover:placeholder:text-white focus:text-white focus:placeholder:text-white transition-colors"
+                    style={{
+                      width: '356px',
+                      height: '40px',
+                      borderRadius: '6px',
+                      border: '1px solid rgba(255, 255, 255, 0.10)',
+                      background: '#0E0F12',
+                      fontFamily: 'Inter',
+                      fontSize: '14px',
+                      outline: 'none'
+                    }}
+                    data-testid="input-search"
+                  />
                 </div>
-                <p className="text-sm text-[#888] mb-1">Visitantes</p>
-                <p className="text-3xl font-bold text-white" data-testid="text-visitors">
-                  {loadingFunnel ? "..." : totalVisitors}
-                </p>
-                <p className="text-xs text-[#888] mt-2">
-                  Iniciaram formulário
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#0f0f0f] border-[#1a1a1a] overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/10 to-transparent rounded-full blur-3xl" />
-              <CardContent className="p-6 relative">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-green-500/10 rounded-xl">
-                    <CalendarDays className="w-5 h-5 text-green-400" />
-                  </div>
-                </div>
-                <p className="text-sm text-[#888] mb-1">Leads Novos</p>
-                <p className="text-3xl font-bold text-white" data-testid="text-new-leads">
-                  {loadingSubmissions ? "..." : todaySubmissions}
-                </p>
-                <p className="text-xs text-[#888] mt-2">
-                  Últimas 24 horas
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#0f0f0f] border-[#1a1a1a] overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-500/10 to-transparent rounded-full blur-3xl" />
-              <CardContent className="p-6 relative">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-orange-500/10 rounded-xl">
-                    <Percent className="w-5 h-5 text-orange-400" />
-                  </div>
-                </div>
-                <p className="text-sm text-[#888] mb-1">Taxa de Conversão</p>
-                <p className="text-3xl font-bold text-white" data-testid="text-completion-rate">
-                  {loadingFunnel ? "..." : `${completionRate}%`}
-                </p>
-                <p className="text-xs text-[#888] mt-2">
-                  Visitantes → Leads
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Charts Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            {/* Funnel Chart */}
-            <Card className="bg-[#0f0f0f] border-[#1a1a1a] lg:col-span-2">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Funil de Conversão</h3>
-                    <p className="text-sm text-[#888]">Jornada dos visitantes</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-2xl font-bold text-white" data-testid="text-total-visitors-chart">
-                      {totalVisitors.toLocaleString('pt-BR')}
-                    </p>
-                    <p className="text-xs text-[#888]">Total de acessos</p>
-                  </div>
-                </div>
-
-                {loadingFunnel ? (
-                  <div className="h-[200px] flex items-center justify-center">
-                    <p className="text-[#666]">Carregando...</p>
-                  </div>
-                ) : funnelData.length === 0 ? (
-                  <div className="h-[200px] flex items-center justify-center">
-                    <p className="text-[#666]">Nenhum dado disponível</p>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    <div className="ml-8">
-                      <svg viewBox="0 0 400 200" className="w-full h-[200px]">
-                        <defs>
-                          <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3" />
-                            <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
-                          </linearGradient>
-                        </defs>
-
-                        {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => (
-                          <line
-                            key={i}
-                            x1="20"
-                            y1={180 - ratio * 160}
-                            x2="380"
-                            y2={180 - ratio * 160}
-                            stroke="#1a1a1a"
-                            strokeWidth="1"
-                          />
-                        ))}
-
-                        {chartData && typeof chartData === 'object' && chartData.path && (
-                          <>
-                            <path
-                              d={`${chartData.path} L ${chartData.points[chartData.points.length - 1].x} 180 L ${chartData.points[0].x} 180 Z`}
-                              fill="url(#chartGradient)"
-                            />
-                            <path
-                              d={chartData.path}
-                              fill="none"
-                              stroke="#8b5cf6"
-                              strokeWidth="3"
-                            />
-                            {chartData.points.map((point, i) => (
-                              <circle
-                                key={i}
-                                cx={point.x}
-                                cy={point.y}
-                                r="5"
-                                fill="#8b5cf6"
-                              />
-                            ))}
-                          </>
-                        )}
-                      </svg>
-
-                      <div className="flex justify-between text-xs text-[#666] mt-2 px-4">
-                        <span>Etapa 1</span>
-                        <span>Etapa 5</span>
-                        <span>Etapa 9</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Conversion Rate Card */}
-            <Card className="bg-[#0f0f0f] border-[#1a1a1a]">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-white mb-6">Taxa de Conversão</h3>
-
-                <div className="flex items-center justify-center mb-6">
-                  <div className="relative w-32 h-32">
-                    <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                      <circle cx="50" cy="50" r="40" fill="none" stroke="#1a1a1a" strokeWidth="8" />
-                      <circle 
-                        cx="50" cy="50" r="40" fill="none" stroke="url(#circleGradient)" strokeWidth="8"
-                        strokeDasharray={`${completionRate * 2.51} 251`}
-                        strokeLinecap="round"
-                      />
+                <button 
+                  onClick={handleExportCSV}
+                  className="Documents-btn"
+                  data-testid="button-export-csv"
+                >
+                  <span className="folderContainer">
+                    <svg
+                      className="fileBack"
+                      width="146"
+                      height="113"
+                      viewBox="0 0 146 113"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 4C0 1.79086 1.79086 0 4 0H50.3802C51.8285 0 53.2056 0.627965 54.1553 1.72142L64.3303 13.4371C65.2799 14.5306 66.657 15.1585 68.1053 15.1585H141.509C143.718 15.1585 145.509 16.9494 145.509 19.1585V109C145.509 111.209 143.718 113 141.509 113H3.99999C1.79085 113 0 111.209 0 109V4Z"
+                        fill="url(#paint0_linear_117_4)"
+                      ></path>
                       <defs>
-                        <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#8b5cf6" />
-                          <stop offset="100%" stopColor="#7c3aed" />
+                        <linearGradient
+                          id="paint0_linear_117_4"
+                          x1="0"
+                          y1="0"
+                          x2="72.93"
+                          y2="95.4804"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stopColor="#8F88C2"></stop>
+                          <stop offset="1" stopColor="#5C52A2"></stop>
                         </linearGradient>
                       </defs>
                     </svg>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-3xl font-bold text-white">{completionRate}%</span>
-                    </div>
-                  </div>
-                </div>
+                    <svg
+                      className="filePage"
+                      width="88"
+                      height="99"
+                      viewBox="0 0 88 99"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="88" height="99" fill="url(#paint0_linear_117_6)"></rect>
+                      <defs>
+                        <linearGradient
+                          id="paint0_linear_117_6"
+                          x1="0"
+                          y1="0"
+                          x2="81"
+                          y2="160.5"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stopColor="white"></stop>
+                          <stop offset="1" stopColor="#686868"></stop>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <svg
+                      className="fileFront"
+                      width="160"
+                      height="79"
+                      viewBox="0 0 160 79"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.29306 12.2478C0.133905 9.38186 2.41499 6.97059 5.28537 6.97059H30.419H58.1902C59.5751 6.97059 60.9288 6.55982 62.0802 5.79025L68.977 1.18034C70.1283 0.410771 71.482 0 72.8669 0H77H155.462C157.87 0 159.733 2.1129 159.43 4.50232L150.443 75.5023C150.19 77.5013 148.489 79 146.474 79H7.78403C5.66106 79 3.9079 77.3415 3.79019 75.2218L0.29306 12.2478Z"
+                        fill="url(#paint0_linear_117_5)"
+                      ></path>
+                      <defs>
+                        <linearGradient
+                          id="paint0_linear_117_5"
+                          x1="38.7619"
+                          y1="8.71323"
+                          x2="66.9106"
+                          y2="82.8317"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stopColor="#C3BBFF"></stop>
+                          <stop offset="1" stopColor="#51469A"></stop>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </span>
+                  <p className="text">Exportar</p>
+                </button>
+              </div>
+            </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[#888]">Visitantes</span>
-                    <span className="text-white font-medium">{totalVisitors}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[#888]">Leads gerados</span>
-                    <span className="text-white font-medium">{submissions.length}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Leads Table */}
+            <div className="overflow-x-auto rounded-lg border border-[#1a1a1a]">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-[#0f0f0f] border-b border-[#1a1a1a]">
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Data</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Nome</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">E-mail</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Urgência</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Whatsapp</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Rede Social</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Cargo</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Gargalo</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Faturamento</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Tamanho do Time</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Segmento</th>
+                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Tem Sócio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingSubmissions ? (
+                    <tr>
+                      <td colSpan={12} className="text-center p-8 text-[#666]">Carregando...</td>
+                    </tr>
+                  ) : filteredSubmissions.length === 0 ? (
+                    <tr>
+                      <td colSpan={12} className="text-center p-8 text-[#666]">Nenhum lead encontrado</td>
+                    </tr>
+                  ) : (
+                    filteredSubmissions.map((sub, index) => (
+                      <tr key={sub.id || index} className="border-b border-[#1a1a1a] hover:bg-[#111]">
+                        <td className="p-3 text-[#888] whitespace-nowrap">{formatDate(sub.createdAt)}</td>
+                        <td className="p-3 text-white whitespace-nowrap">{sub.name || "-"}</td>
+                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.email || "-"}</td>
+                        <td className="p-3">{getUrgencyBadge(sub.urgency)}</td>
+                        <td className="p-3">
+                          {sub.phone ? (
+                            <button
+                              onClick={() => openWhatsApp(sub.phone)}
+                              className="text-green-400 hover:text-green-300 whitespace-nowrap"
+                              data-testid={`button-whatsapp-${sub.id}`}
+                            >
+                              {formatPhone(sub.phone)}
+                            </button>
+                          ) : (
+                            <span className="text-[#666]">-</span>
+                          )}
+                        </td>
+                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.socialMedia || "-"}</td>
+                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.role || "-"}</td>
+                        <td className="p-3 text-[#888] max-w-[200px] truncate" title={sub.bottleneck || ""}>
+                          {sub.bottleneck || "-"}
+                        </td>
+                        <td className="p-3">{getFaturamentoBadge(sub.revenue)}</td>
+                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.teamSize || "-"}</td>
+                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.segment || "-"}</td>
+                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.hasPartner || "-"}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          {/* Funnel Breakdown */}
-          <Card className="bg-[#0f0f0f] border-[#1a1a1a] mb-8">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-white mb-6">Análise por Etapa</h3>
+          {/* Fluxo de Visitantes Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp className="w-5 h-5 text-[#8b5cf6]" />
+              <div>
+                <p className="text-xs text-[#666]">Taxa de progresso</p>
+                <p className="text-lg font-semibold text-white">Fluxo de visitantes</p>
+              </div>
+            </div>
 
-              <div className="space-y-4">
-                {stepBreakdown.map((item, index) => {
-                  const step1Count = stepBreakdown[0]?.count || 1;
-                  const percentageFromStart = step1Count > 0 ? Math.round((item.count / step1Count) * 100) : 0;
-
-                  return (
-                    <div key={item.step}>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-[#8b5cf6]/10 flex items-center justify-center">
-                            <span className="text-sm font-semibold text-[#8b5cf6]">{item.step}</span>
-                          </div>
-                          <span className="text-sm text-white font-medium">{item.label}</span>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <span className="text-sm font-semibold text-white">{item.count}</span>
-                          <Badge className={`text-xs ${
-                            percentageFromStart >= 70 ? 'bg-green-500/20 text-green-400 border-green-500/30' :
-                            percentageFromStart >= 40 ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
-                            'bg-red-500/20 text-red-400 border-red-500/30'
-                          }`}>
-                            {percentageFromStart}%
-                          </Badge>
-                        </div>
-                      </div>
-
-                      <div className="ml-11 h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-gradient-to-r from-[#8b5cf6] to-[#a78bfa] rounded-full transition-all duration-500"
-                          style={{ width: `${percentageFromStart}%` }}
-                        />
-                      </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Visitantes Card */}
+              <Card className="bg-[#111] border-[#1a1a1a]">
+                <CardContent className="p-4">
+                  <p className="text-xs text-[#666] mb-2">Visitantes</p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-bold text-white" data-testid="text-visitors">
+                      {loadingFunnel ? "..." : totalVisitors}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <TrendingDown className="w-3 h-3 text-red-400" />
+                      <span className="text-xs text-red-400">+1.06%</span>
                     </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Leads Table */}
-          <Card className="bg-[#0f0f0f] border-[#1a1a1a]">
-            <CardContent className="p-6">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-1">Leads Cadastrados</h3>
-                  <p className="text-sm text-[#888]">{submissions.length} leads no total</p>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666]" />
-                    <Input
-                      placeholder="Buscar lead..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 w-[250px] bg-[#141414] border-[#1a1a1a] text-white placeholder:text-[#666]"
-                      data-testid="input-search"
-                    />
                   </div>
-                  <Button variant="outline" size="sm" className="border-[#1a1a1a] bg-[#141414] text-[#888] hover:bg-[#1a1a1a] hover:text-white">
-                    <Filter className="w-4 h-4 mr-2" />
-                    Filtros
-                  </Button>
-                </div>
-              </div>
+                  <MiniChart trend="down" />
+                </CardContent>
+              </Card>
 
-              {loadingSubmissions ? (
-                <p className="text-[#666] py-8 text-center">Carregando...</p>
-              ) : filteredSubmissions.length === 0 ? (
-                <p className="text-[#666] py-8 text-center">
-                  {searchTerm ? "Nenhum resultado encontrado" : "Nenhum lead cadastrado"}
-                </p>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-[#1a1a1a]">
-                        <th className="text-left py-4 px-4 text-[#888] font-medium text-sm">Lead</th>
-                        <th className="text-left py-4 px-4 text-[#888] font-medium text-sm">Contato</th>
-                        <th className="text-left py-4 px-4 text-[#888] font-medium text-sm">Urgência</th>
-                        <th className="text-left py-4 px-4 text-[#888] font-medium text-sm">Data</th>
-                        <th className="text-left py-4 px-4 text-[#888] font-medium text-sm">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredSubmissions.map((sub) => {
-                        const formatPhoneForWhatsApp = (phone: string | null) => {
-                          if (!phone) return "";
-                          return phone.replace(/\D/g, "");
-                        };
+              {/* Taxa de Conversão Card */}
+              <Card className="bg-[#111] border-[#1a1a1a]">
+                <CardContent className="p-4">
+                  <p className="text-xs text-[#666] mb-2">Taxa de conversão</p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-bold text-white" data-testid="text-conversion-rate">
+                      {loadingFunnel ? "..." : `${completionRate}`}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <TrendingDown className="w-3 h-3 text-red-400" />
+                      <span className="text-xs text-red-400">+1.06%</span>
+                    </div>
+                  </div>
+                  <MiniChart trend="down" />
+                </CardContent>
+              </Card>
 
-                        const getUrgencyBadge = (urgency: string | null) => {
-                          if (!urgency) return { color: "bg-[#666]/20 text-[#666] border-[#666]/30", label: "-" };
-                          if (urgency.toLowerCase().includes("imediato") || urgency.toLowerCase().includes("urgente")) {
-                            return { color: "bg-red-500/20 text-red-400 border-red-500/30", label: urgency };
-                          }
-                          if (urgency.toLowerCase().includes("30 dias") || urgency.toLowerCase().includes("1 mês")) {
-                            return { color: "bg-orange-500/20 text-orange-400 border-orange-500/30", label: urgency };
-                          }
-                          if (urgency.toLowerCase().includes("90 dias") || urgency.toLowerCase().includes("3 meses")) {
-                            return { color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30", label: urgency };
-                          }
-                          return { color: "bg-[#8b5cf6]/20 text-[#8b5cf6] border-[#8b5cf6]/30", label: urgency };
-                        };
-
-                        const urgencyInfo = getUrgencyBadge(sub.urgency);
-
-                        return (
-                          <tr 
-                            key={sub.id} 
-                            className="border-b border-[#1a1a1a] hover:bg-[#141414] transition-colors"
-                            data-testid={`row-submission-${sub.id}`}
-                          >
-                            <td className="py-4 px-4">
-                              <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#8b5cf6] to-[#7c3aed] flex items-center justify-center text-white text-sm font-semibold">
-                                  {(sub.name || "?")[0].toUpperCase()}
-                                </div>
-                                <div>
-                                  <p className="text-white font-medium text-sm">{sub.name || "-"}</p>
-                                  <p className="text-[#888] text-xs">{sub.role || "-"}</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="py-4 px-4">
-                              <div>
-                                <p className="text-white text-sm">{sub.email || "-"}</p>
-                                <p className="text-[#888] text-xs">{sub.phone || "-"}</p>
-                              </div>
-                            </td>
-                            <td className="py-4 px-4">
-                              <Badge className={`${urgencyInfo.color} text-xs font-medium`}>
-                                {urgencyInfo.label}
-                              </Badge>
-                            </td>
-                            <td className="py-4 px-4 text-[#888] text-sm">{formatDate(sub.createdAt)}</td>
-                            <td className="py-4 px-4">
-                              {sub.phone ? (
-                                <a
-                                  href={`https://wa.me/55${formatPhoneForWhatsApp(sub.phone)}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
-                                  data-testid={`button-whatsapp-${sub.id}`}
-                                >
-                                  <MessageCircle className="w-4 h-4" />
-                                  WhatsApp
-                                </a>
-                              ) : (
-                                <span className="text-[#666] text-sm">-</span>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </main>
-      </div>
+              {/* Leads Novos Card */}
+              <Card className="bg-[#111] border-[#1a1a1a]">
+                <CardContent className="p-4">
+                  <p className="text-xs text-[#666] mb-1">Leads novos</p>
+                  <p className="text-[10px] text-[#666] mb-2">Últimas 24h</p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-bold text-white" data-testid="text-new-leads">
+                      {loadingSubmissions ? "..." : todaySubmissions}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <TrendingUp className="w-3 h-3 text-green-400" />
+                      <span className="text-xs text-green-400">+1.06%</span>
+                    </div>
+                  </div>
+                  <MiniChart trend="up" />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
