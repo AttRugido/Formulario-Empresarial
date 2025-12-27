@@ -7,6 +7,29 @@
   }
 }
 
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #262831;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #363945;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #262831 transparent;
+}
+
 :root {
   --animate-spin: spin 1s linear infinite;
 }

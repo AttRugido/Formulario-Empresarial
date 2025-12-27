@@ -534,7 +534,7 @@ export default function Dashboard() {
             </div>
 
             {/* Leads Table */}
-            <div className="overflow-x-auto rounded-lg" style={{ background: '#0B0C0E' }}>
+            <div className="overflow-x-auto custom-scrollbar" style={{ background: '#0B0C0E', borderRadius: '12px' }}>
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
                   <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
