@@ -534,62 +534,63 @@ export default function Dashboard() {
             </div>
 
             {/* Leads Table */}
-            <div className="overflow-x-auto rounded-lg border border-[#1a1a1a]">
-              <table className="w-full text-sm">
+            <div className="overflow-x-auto rounded-lg" style={{ background: '#0B0C0E' }}>
+              <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
-                  <tr className="bg-[#0f0f0f] border-b border-[#1a1a1a]">
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Data</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Nome</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">E-mail</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Urgência</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Whatsapp</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Rede Social</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Cargo</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Gargalo</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Faturamento</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Tamanho do Time</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Segmento</th>
-                    <th className="text-left p-3 text-[#666] font-medium whitespace-nowrap">Tem Sócio</th>
+                  <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Data</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Nome</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>E-mail</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Urgência</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Whatsapp</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Rede Social</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Cargo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Gargalo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Faturamento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tamanho do Time</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Segmento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tem Sócio</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingSubmissions ? (
-                    <tr>
-                      <td colSpan={12} className="text-center p-8 text-[#666]">Carregando...</td>
+                    <tr style={{ height: '53px' }}>
+                      <td colSpan={12} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
                     </tr>
                   ) : filteredSubmissions.length === 0 ? (
-                    <tr>
-                      <td colSpan={12} className="text-center p-8 text-[#666]">Nenhum lead encontrado</td>
+                    <tr style={{ height: '53px' }}>
+                      <td colSpan={12} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
                     </tr>
                   ) : (
                     filteredSubmissions.map((sub, index) => (
-                      <tr key={sub.id || index} className="border-b border-[#1a1a1a] hover:bg-[#111]">
-                        <td className="p-3 text-[#888] whitespace-nowrap">{formatDate(sub.createdAt)}</td>
-                        <td className="p-3 text-white whitespace-nowrap">{sub.name || "-"}</td>
-                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.email || "-"}</td>
-                        <td className="p-3">{getUrgencyBadge(sub.urgency)}</td>
-                        <td className="p-3">
+                      <tr key={sub.id || index} className="hover:bg-[#111]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(sub.createdAt)}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.name || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.email || "-"}</td>
+                        <td className="text-center px-4">{getUrgencyBadge(sub.urgency)}</td>
+                        <td className="text-center px-4">
                           {sub.phone ? (
                             <button
                               onClick={() => openWhatsApp(sub.phone)}
-                              className="text-green-400 hover:text-green-300 whitespace-nowrap"
+                              className="underline hover:opacity-80 whitespace-nowrap"
+                              style={{ color: 'white', fontSize: '16px' }}
                               data-testid={`button-whatsapp-${sub.id}`}
                             >
                               {formatPhone(sub.phone)}
                             </button>
                           ) : (
-                            <span className="text-[#666]">-</span>
+                            <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>
                           )}
                         </td>
-                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.socialMedia || "-"}</td>
-                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.role || "-"}</td>
-                        <td className="p-3 text-[#888] max-w-[200px] truncate" title={sub.bottleneck || ""}>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.socialMedia || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.role || "-"}</td>
+                        <td className="text-center px-4 max-w-[200px] truncate" style={{ color: '#979BA2', fontSize: '16px' }} title={sub.bottleneck || ""}>
                           {sub.bottleneck || "-"}
                         </td>
-                        <td className="p-3">{getFaturamentoBadge(sub.revenue)}</td>
-                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.teamSize || "-"}</td>
-                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.segment || "-"}</td>
-                        <td className="p-3 text-[#888] whitespace-nowrap">{sub.hasPartner || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{sub.revenue || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.teamSize || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.segment || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.hasPartner || "-"}</td>
                       </tr>
                     ))
                   )}
