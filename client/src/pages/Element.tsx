@@ -208,11 +208,14 @@ export const Element = (): JSX.Element => {
           body: formBody.toString(),
         });
         
-        // Also try to save to local API (will work on Replit, fail silently on Vercel)
-        try {
-          await apiRequest("POST", "/api/submissions", formData);
-        } catch {
-          // Silently ignore - this is expected on Vercel
+        // Only save to local API on Replit (skip on Vercel to avoid errors)
+        const isVercel = window.location.hostname.includes('vercel.app');
+        if (!isVercel) {
+          try {
+            await apiRequest("POST", "/api/submissions", formData);
+          } catch {
+            // Silently ignore
+          }
         }
         
         setHasSubmitted(true);
