@@ -191,7 +191,7 @@ export const Element = (): JSX.Element => {
       setIsSubmitting(true);
       try {
         // Send directly to Google Sheets webhook (works on Vercel and Replit)
-        const googleSheetsWebhook = "https://script.google.com/macros/s/AKfycbz5-Eeil0hsVpTes5FE7CaCJaBRVxzex_PutQZ5WiBU8J3TE1y2-o9TiBvrVjrvBDUH/exec";
+        const googleSheetsWebhook = "https://script.google.com/macros/s/AKfycbx9o7J5WCENxoqDiixQJ22cNJKm0-t3VGpKX8wjTtAr6SserFU0hXbGYPu7nsa_QsER/exec";
         
         // Use URLSearchParams for form-encoded data (works with no-cors)
         const formBody = new URLSearchParams();
