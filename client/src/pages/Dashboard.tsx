@@ -443,7 +443,7 @@ export default function Dashboard() {
               <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
               <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
             </svg>
-            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Último Update: <span style={{ color: '#FFF' }}>{getTimeSinceLastSubmission()}</span></span>
+            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Último Lead Cadastrado: <span style={{ color: '#FFF' }}>{getTimeSinceLastSubmission()}</span></span>
           </div>
 
           {/* Leads Section */}
