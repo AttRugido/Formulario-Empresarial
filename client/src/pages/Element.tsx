@@ -1,5 +1,6 @@
 import { ArrowRightIcon, ArrowLeftIcon, ClockIcon } from "lucide-react";
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import InputMask from "react-input-mask";
@@ -91,6 +92,7 @@ const sidebarMessages = [
 ];
 
 export const Element = (): JSX.Element => {
+  const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
   const [displayStep, setDisplayStep] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -182,6 +184,7 @@ export const Element = (): JSX.Element => {
         
         setHasSubmitted(true);
         console.log("Form submitted successfully:", formData);
+        setLocation("/obrigado");
       } catch (error) {
         console.error("Failed to submit form:", error);
       } finally {

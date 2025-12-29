@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import { Element } from "@/pages/Element";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
+import ThankYou from "@/pages/ThankYou";
 
 function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -24,6 +25,7 @@ function Router() {
     <Switch>
       {/* Add pages below */}
       <Route path="/" component={Element} />
+      <Route path="/obrigado" component={ThankYou} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard">
         {() => <ProtectedRoute component={Dashboard} />}
