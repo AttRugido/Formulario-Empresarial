@@ -1,4 +1,4 @@
-import { CheckCircle, AlertTriangle, Download, Clock, Phone } from "lucide-react";
+import { CheckCircle, AlertTriangle, Download, Clock, Phone, ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const ThankYou = (): JSX.Element => {
@@ -6,10 +6,10 @@ export const ThankYou = (): JSX.Element => {
   const checklistLink = "#";
 
   return (
-    <div className="bg-[#08090B] min-h-screen flex flex-col lg:flex-row overflow-hidden">
-      {/* Container 1 - Left Sidebar (Desktop only) */}
+    <div className="bg-[#08090B] h-screen flex flex-col lg:flex-row overflow-hidden">
+      {/* Container 1 - Left Sidebar (Desktop only) - Fixed */}
       <div 
-        className="hidden lg:flex w-[46.7%] flex-col relative overflow-hidden"
+        className="hidden lg:flex w-[46.7%] h-screen flex-col relative overflow-hidden fixed left-0 top-0"
         style={{
           background: 'linear-gradient(163deg, #1B1B20 -0.04%, #0C0D0F 90.1%)',
           borderRight: '1px solid rgba(255, 255, 255, 0.05)'
@@ -41,8 +41,8 @@ export const ThankYou = (): JSX.Element => {
         </div>
       </div>
 
-      {/* Container 2 - Right Content */}
-      <div className="flex-1 flex flex-col bg-[#08090B] overflow-y-auto">
+      {/* Container 2 - Right Content - Scrollable */}
+      <div className="flex-1 flex flex-col bg-[#08090B] overflow-y-auto h-screen lg:ml-[46.7%]">
         {/* Logo */}
         <div className="flex justify-center pt-6 lg:pt-[53px]">
           <img
@@ -87,7 +87,10 @@ export const ThankYou = (): JSX.Element => {
                   className="green-animated-button w-full sm:w-auto"
                   data-testid="button-urgent-cta-top"
                 >
-                  <span>QUERO SER ATENDIDO AGORA</span>
+                  <span>
+                    QUERO SER ATENDIDO AGORA
+                    <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
+                  </span>
                 </button>
               </a>
               <p className="font-['Inter'] font-normal text-[#565656] text-[12px]">
@@ -228,7 +231,10 @@ export const ThankYou = (): JSX.Element => {
                   className="green-animated-button"
                   data-testid="button-urgent-cta-bottom"
                 >
-                  <span>QUERO SER ATENDIDO AGORA</span>
+                  <span>
+                    QUERO SER ATENDIDO AGORA
+                    <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
+                  </span>
                 </button>
               </a>
               <p className="font-['Inter'] font-normal text-[#565656] text-[12px] mt-2">
