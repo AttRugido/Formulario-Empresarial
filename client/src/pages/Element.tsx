@@ -249,7 +249,7 @@ export const Element = (): JSX.Element => {
         <h1 
           className="font-['Inter'] font-medium text-[24px] sm:text-[32px] lg:text-[39.278px] text-center leading-[110%]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -339,7 +339,7 @@ export const Element = (): JSX.Element => {
                      displayStep === 7 ? '490px' : 
                      displayStep === 8 ? '505px' : 
                      displayStep === 9 ? '573px' : '591px',
-              background: theme.textGradient,
+              backgroundImage: theme.textGradient,
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
@@ -475,7 +475,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -534,7 +534,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -593,7 +593,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -652,7 +652,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -717,7 +717,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -808,7 +808,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -863,7 +863,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -940,7 +940,7 @@ export const Element = (): JSX.Element => {
           <h2 
             className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
             style={{
-              background: theme.textGradient,
+              backgroundImage: theme.textGradient,
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
@@ -1021,7 +1021,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: theme.textGradient,
+            backgroundImage: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
