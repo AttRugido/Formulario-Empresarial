@@ -730,13 +730,25 @@ export default function Dashboard() {
                   borderRadius: '12px'
                 }}
               >
-                <p className="text-[14px] md:text-[16px]" style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px' }}>Visitantes</p>
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px', fontSize: '14px' }}>Visitantes</p>
                 <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-visitors">
                   {loadingFunnel ? "..." : totalVisitors}
                 </span>
                 <div className="flex items-center gap-1 mt-auto">
-                  <TrendingDown className="w-4 h-4" style={{ color: '#E03232' }} />
-                  <span style={{ fontSize: '14px', fontFamily: 'Inter', color: '#E03232' }}>+1.06%</span>
+                  <span 
+                    className="inline-flex items-center gap-1"
+                    style={{ 
+                      background: 'rgba(224, 50, 50, 0.15)',
+                      padding: '4px 10px',
+                      borderRadius: '60px',
+                      fontSize: '14px',
+                      fontFamily: 'Inter',
+                      color: '#E03232'
+                    }}
+                  >
+                    <TrendingDown className="w-3 h-3" />
+                    +1.06%
+                  </span>
                 </div>
               </div>
 
@@ -749,13 +761,25 @@ export default function Dashboard() {
                   borderRadius: '12px'
                 }}
               >
-                <p className="text-[14px] md:text-[16px]" style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px' }}>Taxa de conversão</p>
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px', fontSize: '14px' }}>Taxa de conversão</p>
                 <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-conversion-rate">
-                  {loadingFunnel ? "..." : `${completionRate}`}
+                  {loadingFunnel ? "..." : `${completionRate}%`}
                 </span>
                 <div className="flex items-center gap-1 mt-auto">
-                  <TrendingDown className="w-4 h-4" style={{ color: '#E03232' }} />
-                  <span style={{ fontSize: '14px', fontFamily: 'Inter', color: '#E03232' }}>+1.06%</span>
+                  <span 
+                    className="inline-flex items-center gap-1"
+                    style={{ 
+                      background: 'rgba(224, 50, 50, 0.15)',
+                      padding: '4px 10px',
+                      borderRadius: '60px',
+                      fontSize: '14px',
+                      fontFamily: 'Inter',
+                      color: '#E03232'
+                    }}
+                  >
+                    <TrendingDown className="w-3 h-3" />
+                    +1.06%
+                  </span>
                 </div>
               </div>
 
@@ -768,14 +792,26 @@ export default function Dashboard() {
                   borderRadius: '12px'
                 }}
               >
-                <p className="text-[14px] md:text-[16px]" style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '0' }}>Leads novos</p>
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '0', fontSize: '14px' }}>Leads novos</p>
                 <p style={{ color: '#979BA2', fontSize: '12px', fontFamily: 'Inter', marginBottom: '4px' }}>Últimas 24h</p>
                 <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-new-leads">
                   {loadingSubmissions ? "..." : todaySubmissions}
                 </span>
                 <div className="flex items-center gap-1 mt-auto">
-                  <TrendingUp className="w-4 h-4" style={{ color: '#10B981' }} />
-                  <span style={{ fontSize: '14px', fontFamily: 'Inter', color: '#10B981' }}>+1.06%</span>
+                  <span 
+                    className="inline-flex items-center gap-1"
+                    style={{ 
+                      background: 'rgba(16, 185, 129, 0.15)',
+                      padding: '4px 10px',
+                      borderRadius: '60px',
+                      fontSize: '14px',
+                      fontFamily: 'Inter',
+                      color: '#10B981'
+                    }}
+                  >
+                    <TrendingUp className="w-3 h-3" />
+                    +1.06%
+                  </span>
                 </div>
               </div>
             </div>
