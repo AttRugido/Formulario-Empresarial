@@ -6,10 +6,10 @@ export const ThankYou = (): JSX.Element => {
   const checklistLink = "#";
 
   return (
-    <div className="bg-[#08090B] h-screen flex flex-col lg:flex-row overflow-hidden">
-      {/* Container 1 - Left Sidebar (Desktop only) - Fixed */}
+    <div className="bg-[#08090B] h-screen flex overflow-hidden">
+      {/* Container 1 - Left (Fixed, 50% width) */}
       <div 
-        className="hidden lg:flex w-[46.7%] h-screen flex-col relative overflow-hidden fixed left-0 top-0"
+        className="hidden lg:flex w-1/2 h-screen flex-col relative overflow-hidden flex-shrink-0"
         style={{
           background: 'linear-gradient(163deg, #1B1B20 -0.04%, #0C0D0F 90.1%)',
           borderRight: '1px solid rgba(255, 255, 255, 0.05)'
@@ -41,8 +41,8 @@ export const ThankYou = (): JSX.Element => {
         </div>
       </div>
 
-      {/* Container 2 - Right Content - Scrollable */}
-      <div className="w-full lg:w-[53.3%] lg:ml-[46.7%] flex flex-col bg-[#08090B] overflow-y-auto h-screen">
+      {/* Container 2 - Right (Scrollable, 50% width) */}
+      <div className="w-full lg:w-1/2 flex flex-col bg-[#08090B] overflow-y-auto h-screen custom-scrollbar">
         {/* Logo */}
         <div className="flex justify-center pt-6 lg:pt-[53px]">
           <img
