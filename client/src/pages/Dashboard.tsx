@@ -232,82 +232,6 @@ export default function Dashboard() {
     window.open(`https://wa.me/${whatsappNumber}`, "_blank");
   };
 
-  const MiniChart = ({ trend }: { trend: "up" | "down" }) => {
-    const primaryColor = "#A646E6";
-    const uniqueId = `chart-${trend}-${Math.random().toString(36).substr(2, 9)}`;
-    
-    return (
-      <div className="relative w-full h-24 mt-2">
-        {/* Blur glow effect at top */}
-        <div 
-          className="absolute -top-8 left-1/2 h-16 w-16 -translate-x-1/2 rounded-full blur-3xl transition-all duration-700"
-          style={{ background: 'rgba(166, 70, 230, 0.15)' }}
-        />
-        
-        <svg 
-          className="h-full w-full relative"
-          viewBox="0 0 300 100"
-          preserveAspectRatio="none"
-        >
-          <defs>
-            <linearGradient id={`aurora-gradient-${uniqueId}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={primaryColor} stopOpacity="0.3" />
-              <stop offset="100%" stopColor={primaryColor} stopOpacity="0" />
-            </linearGradient>
-            <filter id={`glow-${uniqueId}`} x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          
-          {/* Main curved line */}
-          <path
-            d={trend === "up" 
-              ? "M0,65 C50,20 80,80 150,70 S250,50 300,15" 
-              : "M0,35 C50,80 80,20 150,30 S250,50 300,85"}
-            fill="none"
-            stroke={primaryColor}
-            strokeWidth="2.5"
-            filter={`url(#glow-${uniqueId})`}
-          />
-          
-          {/* Gradient fill under the line */}
-          <path
-            d={trend === "up" 
-              ? "M0,100 L0,65 C50,20 80,80 150,70 S250,50 300,15 L300,100 Z" 
-              : "M0,100 L0,35 C50,80 80,20 150,30 S250,50 300,85 L300,100 Z"}
-            fill={`url(#aurora-gradient-${uniqueId})`}
-          />
-        </svg>
-        
-        {/* Pulsing dot at the end */}
-        <div 
-          className="absolute"
-          style={{ 
-            right: '-1px', 
-            top: trend === "up" ? '15%' : '85%',
-            transform: 'translate(-50%, -50%)'
-          }}
-        >
-          <div 
-            className="h-3 w-3 rounded-full"
-            style={{ 
-              background: primaryColor,
-              boxShadow: `0 0 10px ${primaryColor}, 0 0 20px ${primaryColor}50`
-            }}
-          />
-          <div 
-            className="absolute inset-0 h-3 w-3 rounded-full animate-ping"
-            style={{ background: `${primaryColor}40` }}
-          />
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen flex" style={{ background: '#08090B' }}>
       {/* Sidebar */}
@@ -734,7 +658,6 @@ export default function Dashboard() {
                       <span className="text-xs text-red-400">+1.06%</span>
                     </div>
                   </div>
-                  <MiniChart trend="down" />
                 </CardContent>
               </Card>
 
@@ -751,7 +674,6 @@ export default function Dashboard() {
                       <span className="text-xs text-red-400">+1.06%</span>
                     </div>
                   </div>
-                  <MiniChart trend="down" />
                 </CardContent>
               </Card>
 
@@ -769,7 +691,6 @@ export default function Dashboard() {
                       <span className="text-xs text-green-400">+1.06%</span>
                     </div>
                   </div>
-                  <MiniChart trend="up" />
                 </CardContent>
               </Card>
             </div>
