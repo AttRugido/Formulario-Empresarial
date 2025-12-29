@@ -16,8 +16,18 @@ import logoGranMoney from "@assets/Logo_Gran_Money_Branco_1766593059522.png";
 import logoCenter from "@assets/Group_2_1766593059521.png";
 import logoMansaoMaromba from "@assets/logotipo_MM-PA_horizontal_1766593332339.png";
 
-const CustomCheck = ({ checked, onClick, className }: { checked: boolean; onClick: () => void; className?: string }) => (
-  <div className={`custom-check ${checked ? 'checked' : ''} ${className || ''}`} onClick={onClick}>
+import logoArtsPortasLight from "@assets/Mask_group_1767051532408.png";
+import logoWallTravelLight from "@assets/Mask_groupw_1767051532408.png";
+import logoTimboLight from "@assets/ewe_1767051532407.png";
+import logoRainhaLight from "@assets/argaa_1767051532407.png";
+import logoLuzianaLannaLight from "@assets/logo_LL_1767051532407.png";
+import logoHidrogynLight from "@assets/aerfgf_1767051532406.png";
+import logoGranMoneyLight from "@assets/aegfv_1767051532406.png";
+import logoCenterLight from "@assets/ghsrdtg_1767051532407.png";
+import logoMansaoMarombaLight from "@assets/agerg_1767051532407.png";
+
+const CustomCheck = ({ checked, onClick, className, isLightMode }: { checked: boolean; onClick: () => void; className?: string; isLightMode?: boolean }) => (
+  <div className={`custom-check ${checked ? 'checked' : ''} ${isLightMode ? 'light-mode' : ''} ${className || ''}`} onClick={onClick}>
     <svg viewBox="0 0 18 18" height="18px" width="18px">
       <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z" />
       <polyline points="1 9 7 14 15 4" />
@@ -240,12 +250,19 @@ export const Element = (): JSX.Element => {
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <img
-          className="w-[44.26px] h-16"
-          alt="Logo"
-          src={isDarkMode ? "/figmaAssets/logo.png" : "/figmaAssets/logo-dark.png"}
-          style={{ filter: isDarkMode ? 'none' : 'invert(1)' }}
-        />
+        {isDarkMode ? (
+          <img
+            className="w-[44.26px] h-16"
+            alt="Logo"
+            src="/figmaAssets/logo.png"
+          />
+        ) : (
+          <img
+            className="w-[44.26px] h-16"
+            alt="Logo"
+            src="/figmaAssets/logo-light-mode.svg"
+          />
+        )}
         <h1 
           className="font-['Inter'] font-medium text-[24px] sm:text-[32px] lg:text-[39.278px] text-center leading-[110%]"
           style={{
@@ -305,12 +322,19 @@ export const Element = (): JSX.Element => {
           >
             {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
-          <img
-            className="w-[20px] h-[29px]"
-            alt="Logo"
-            src="/figmaAssets/logo.png"
-            style={{ filter: isDarkMode ? 'none' : 'invert(1)' }}
-          />
+          {isDarkMode ? (
+            <img
+              className="w-[20px] h-[29px]"
+              alt="Logo"
+              src="/figmaAssets/logo.png"
+            />
+          ) : (
+            <img
+              className="w-[20px] h-[29px]"
+              alt="Logo"
+              src="/figmaAssets/logo-light-mode.svg"
+            />
+          )}
         </div>
       </div>
       
@@ -355,19 +379,19 @@ export const Element = (): JSX.Element => {
               </p>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-4">
-                  <img src={logoArtsPortas} alt="Arts Portas" className="h-8 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
-                  <img src={logoWallTravel} alt="Wall Travel" className="h-4 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
-                  <img src={logoTimbo} alt="Timbo" className="h-6 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
-                  <img src={logoRainha} alt="Rainha" className="h-10 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={isDarkMode ? logoArtsPortas : logoArtsPortasLight} alt="Arts Portas" className="h-8 w-auto" />
+                  <img src={isDarkMode ? logoWallTravel : logoWallTravelLight} alt="Wall Travel" className="h-4 w-auto" />
+                  <img src={isDarkMode ? logoTimbo : logoTimboLight} alt="Timbo" className="h-6 w-auto" />
+                  <img src={isDarkMode ? logoRainha : logoRainhaLight} alt="Rainha" className="h-10 w-auto" />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src={logoMansaoMaromba} alt="Mansão Maromba" className="h-5 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
-                  <img src={logoLuzianaLanna} alt="Luziana Lanna" className="h-6 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={isDarkMode ? logoMansaoMaromba : logoMansaoMarombaLight} alt="Mansão Maromba" className="h-5 w-auto" />
+                  <img src={isDarkMode ? logoLuzianaLanna : logoLuzianaLannaLight} alt="Luziana Lanna" className="h-6 w-auto" />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src={logoGranMoney} alt="Gran Money" className="h-7 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
-                  <img src={logoHidrogyn} alt="Hidrogyn" className="h-12 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
-                  <img src={logoCenter} alt="Center" className="h-10 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={isDarkMode ? logoGranMoney : logoGranMoneyLight} alt="Gran Money" className="h-7 w-auto" />
+                  <img src={isDarkMode ? logoHidrogyn : logoHidrogynLight} alt="Hidrogyn" className="h-12 w-auto" />
+                  <img src={isDarkMode ? logoCenter : logoCenterLight} alt="Center" className="h-10 w-auto" />
                 </div>
               </div>
             </>
@@ -407,12 +431,19 @@ export const Element = (): JSX.Element => {
         
         {/* Desktop centered logo */}
         <div className="hidden lg:flex justify-center pt-[53px]">
-          <img
-            className="w-[44.263px] h-16"
-            alt="Logo"
-            src="/figmaAssets/logo.png"
-            style={{ filter: isDarkMode ? 'none' : 'invert(1)' }}
-          />
+          {isDarkMode ? (
+            <img
+              className="w-[44.263px] h-16"
+              alt="Logo"
+              src="/figmaAssets/logo.png"
+            />
+          ) : (
+            <img
+              className="w-[44.263px] h-16"
+              alt="Logo"
+              src="/figmaAssets/logo-light-mode.svg"
+            />
+          )}
         </div>
         <div className="flex-1 flex flex-col items-center pt-[20px] lg:pt-[80px] px-4 sm:px-8 overflow-y-auto">
           <div className="w-full max-w-[290px] sm:max-w-[450px]">
@@ -496,6 +527,7 @@ export const Element = (): JSX.Element => {
                   checked={formData.role === option}
                   onClick={() => {}}
                   className="mt-[4px]"
+                  isLightMode={!isDarkMode}
                 />
                 <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.role === option ? theme.text : theme.textSecondary }}>
                   {option}
@@ -555,6 +587,7 @@ export const Element = (): JSX.Element => {
                   checked={formData.bottleneck === option}
                   onClick={() => {}}
                   className="mt-[4px]"
+                  isLightMode={!isDarkMode}
                 />
                 <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.bottleneck === option ? theme.text : theme.textSecondary }}>
                   {option}
@@ -614,6 +647,7 @@ export const Element = (): JSX.Element => {
                   checked={formData.revenue === option}
                   onClick={() => {}}
                   className="mt-[4px]"
+                  isLightMode={!isDarkMode}
                 />
                 <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.revenue === option ? theme.text : theme.textSecondary }}>
                   {option}
@@ -673,6 +707,7 @@ export const Element = (): JSX.Element => {
                   checked={formData.teamSize === option}
                   onClick={() => {}}
                   className="mt-[4px]"
+                  isLightMode={!isDarkMode}
                 />
                 <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.teamSize === option ? theme.text : theme.textSecondary }}>
                   {option}
@@ -737,6 +772,7 @@ export const Element = (): JSX.Element => {
                 checked={!!formData.segment}
                 onClick={() => {}}
                 className="mt-0"
+                isLightMode={!isDarkMode}
               />
               <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3]" style={{ color: formData.segment ? theme.text : theme.textSecondary }}>
                 {formData.segment || "Selecione o segmento"}
@@ -771,6 +807,7 @@ export const Element = (): JSX.Element => {
                     checked={formData.segment === option}
                     onClick={() => {}}
                     className="mt-0"
+                    isLightMode={!isDarkMode}
                   />
                   <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3]" style={{ color: formData.segment === option ? theme.text : theme.textSecondary }}>
                     {option}
@@ -829,6 +866,7 @@ export const Element = (): JSX.Element => {
                   checked={formData.urgency === option}
                   onClick={() => {}}
                   className="mt-[4px]"
+                  isLightMode={!isDarkMode}
                 />
                 <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.urgency === option ? theme.text : theme.textSecondary }}>
                   {option}
@@ -884,6 +922,7 @@ export const Element = (): JSX.Element => {
                   checked={formData.hasPartner === option}
                   onClick={() => {}}
                   className="mt-[4px]"
+                  isLightMode={!isDarkMode}
                 />
                 <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.hasPartner === option ? theme.text : theme.textSecondary }}>
                   {option}

@@ -510,8 +510,28 @@
   stroke: #999999;
 }
 
+.light-mode .custom-check:hover svg {
+  stroke: #0b9a1b;
+}
+
+.light-mode .custom-check.checked svg {
+  stroke: #0b9a1b;
+}
+
 .light-mode .custom-check.checked svg path {
-  stroke: #A646E6;
+  stroke: #0b9a1b;
+}
+
+.custom-check.light-mode:hover svg {
+  stroke: #0b9a1b;
+}
+
+.custom-check.light-mode.checked svg {
+  stroke: #0b9a1b;
+}
+
+.custom-check.light-mode.checked svg path {
+  stroke: #0b9a1b;
 }
 
 /* Continuous Logo Carousel */
