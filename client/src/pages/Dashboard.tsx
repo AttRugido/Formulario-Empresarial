@@ -557,6 +557,7 @@ export default function Dashboard() {
                     fontFamily: 'Inter', 
                     fontWeight: 500, 
                     lineHeight: '1.1',
+                    width: '233px',
                     background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
@@ -768,7 +769,7 @@ export default function Dashboard() {
                         </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.social_media || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.role || "-"}</td>
-                        <td className="text-center px-4 max-w-[200px] truncate" style={{ color: '#979BA2', fontSize: '16px' }} title={sub.bottleneck || ""}>
+                        <td className="text-center px-4 whitespace-normal" style={{ color: '#979BA2', fontSize: '16px', minWidth: '200px' }}>
                           {sub.bottleneck || "-"}
                         </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{sub.revenue || "-"}</td>

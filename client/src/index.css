@@ -30,7 +30,7 @@
   scrollbar-color: #262831 transparent;
 }
 
-/* Custom Checkbox - Red */
+/* Custom Checkbox - Dark to Red */
 .lead-checkbox[type="checkbox"] {
   display: none;
 }
@@ -39,10 +39,11 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid #E03232;
+  border: 2px solid #101115;
   border-radius: 50%;
   position: relative;
   cursor: pointer;
+  background: transparent;
 }
 
 .custom-checkbox-red::after {
@@ -56,6 +57,10 @@
   background-color: #E03232;
   border-radius: 50%;
   opacity: 0;
+}
+
+.lead-checkbox[type="checkbox"]:checked + .custom-checkbox-red {
+  border-color: #E03232;
 }
 
 .lead-checkbox[type="checkbox"]:checked + .custom-checkbox-red::after {
