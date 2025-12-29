@@ -343,17 +343,22 @@ export const Element = (): JSX.Element => {
       <div 
         className="hidden lg:flex w-[46.7%] flex-col relative overflow-hidden"
         style={{
-          background: isDarkMode ? theme.bgGradient : `url(${sidebarBgLight}) no-repeat center center`,
-          backgroundSize: isDarkMode ? 'auto' : 'cover',
+          background: theme.bgGradient,
           borderRight: `1px solid ${theme.border}`
         }}
       >
-        {isDarkMode && (
+        {isDarkMode ? (
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 897 836" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
             <path d="M2.03444 808.821C17.1929 965.5 32.4734 1043.01 -7.87744 1106.45C51.8152 1064.45 80.3883 1012.04 166.337 987.444C517.783 881.289 557.512 586.451 658.012 179.582C479.437 357.736 337.732 433.82 115.533 545.076C-1.43885 607.964 -10.4482 730.877 2.03444 808.821Z" fill="white" fillOpacity="0.01"/>
             <path d="M683.665 186.454C602.518 628.153 527.914 855.741 256.717 988.806C577.955 950.246 731.073 691.51 927.523 0C863.423 11.244 832.038 63.2881 782.505 112.466C745.047 146.426 722.632 173.283 683.665 186.454Z" fill="white" fillOpacity="0.01"/>
             <path d="M942.308 42.1156C803.582 530.653 724.92 749.992 561.09 866.963C772.603 802.13 868.013 741.977 1026.89 255.029C988.662 227.553 971.901 210.971 970.99 155.758C974.461 113.499 959.585 83.2633 942.308 42.1156Z" fill="white" fillOpacity="0.01"/>
           </svg>
+        ) : (
+          <img 
+            src={sidebarBgLight} 
+            alt="" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         )}
         <div className={`relative z-10 p-[120px] flex-1 flex flex-col justify-end transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
