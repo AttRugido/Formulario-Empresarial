@@ -35,8 +35,8 @@ export default function Login() {
       <div 
         className="w-full max-w-md p-8 rounded-xl"
         style={{ 
-          background: '#0C0D0F',
-          border: '1px solid rgba(255, 255, 255, 0.05)'
+          background: '#101115',
+          border: '1px solid rgba(255, 255, 255, 0.03)'
         }}
       >
         <div className="flex flex-col items-center mb-8">
