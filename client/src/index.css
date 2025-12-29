@@ -30,6 +30,38 @@
   scrollbar-color: #262831 transparent;
 }
 
+/* Custom Checkbox - Red */
+.lead-checkbox[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox-red {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #E03232;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+}
+
+.custom-checkbox-red::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: #E03232;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.lead-checkbox[type="checkbox"]:checked + .custom-checkbox-red::after {
+  opacity: 1;
+}
+
 :root {
   --animate-spin: spin 1s linear infinite;
 }

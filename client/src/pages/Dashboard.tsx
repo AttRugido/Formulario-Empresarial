@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut, Trash2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { supabase, type Lead } from "@/lib/supabase";
@@ -17,10 +17,57 @@ export default function Dashboard() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     setLocation("/login");
+  };
+
+  const toggleSelectLead = (id: string) => {
+    setSelectedLeads(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleSelectAll = (leads: Lead[]) => {
+    if (selectedLeads.size === leads.length && leads.length > 0) {
+      setSelectedLeads(new Set());
+    } else {
+      setSelectedLeads(new Set(leads.map(s => s.id).filter((id): id is string => !!id)));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedLeads.size === 0) return;
+    
+    const confirmDelete = window.confirm(`Deseja excluir ${selectedLeads.size} lead(s) selecionado(s)?`);
+    if (!confirmDelete) return;
+
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .delete()
+        .in('id', Array.from(selectedLeads));
+      
+      if (error) throw error;
+      
+      setSelectedLeads(new Set());
+      window.location.reload();
+    } catch (error) {
+      console.error('Erro ao excluir leads:', error);
+      alert('Erro ao excluir leads. Tente novamente.');
+    } finally {
+      setIsDeleting(false);
+    }
   };
   
   const { data: submissions = [], isLoading: loadingSubmissions } = useQuery<Lead[]>({
@@ -541,6 +588,24 @@ export default function Dashboard() {
                     data-testid="input-search"
                   />
                 </div>
+                {selectedLeads.size > 0 && (
+                  <button
+                    onClick={handleDeleteSelected}
+                    disabled={isDeleting}
+                    className="flex items-center gap-2 px-4 py-2 rounded-md transition-colors"
+                    style={{
+                      background: '#27080C',
+                      border: '1px solid #E03232',
+                      color: '#E03232',
+                      fontFamily: 'Inter',
+                      fontSize: '14px'
+                    }}
+                    data-testid="button-delete-selected"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    {isDeleting ? 'Excluindo...' : `Excluir (${selectedLeads.size})`}
+                  </button>
+                )}
                 <button 
                   onClick={handleExportCSV}
                   className="Documents-btn"
@@ -633,6 +698,18 @@ export default function Dashboard() {
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
                   <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>
+                      <label className="cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="lead-checkbox"
+                          checked={selectedLeads.size === filteredSubmissions.length && filteredSubmissions.length > 0}
+                          onChange={() => toggleSelectAll(filteredSubmissions)}
+                          data-testid="checkbox-select-all"
+                        />
+                        <span className="custom-checkbox-red"></span>
+                      </label>
+                    </th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Data</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Nome</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>E-mail</th>
@@ -650,15 +727,27 @@ export default function Dashboard() {
                 <tbody>
                   {loadingSubmissions ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={12} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
+                      <td colSpan={13} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
                     </tr>
                   ) : filteredSubmissions.length === 0 ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={12} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
+                      <td colSpan={13} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
                     </tr>
                   ) : (
                     filteredSubmissions.map((sub, index) => (
                       <tr key={sub.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
+                        <td className="text-center px-4">
+                          <label className="cursor-pointer">
+                            <input 
+                              type="checkbox" 
+                              className="lead-checkbox"
+                              checked={sub.id ? selectedLeads.has(sub.id) : false}
+                              onChange={() => sub.id && toggleSelectLead(sub.id)}
+                              data-testid={`checkbox-lead-${sub.id}`}
+                            />
+                            <span className="custom-checkbox-red"></span>
+                          </label>
+                        </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(sub.created_at)}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.name || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.email || "-"}</td>
