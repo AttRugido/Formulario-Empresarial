@@ -1,9 +1,9 @@
 import { ArrowRightIcon, ArrowLeftIcon, ClockIcon } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import InputMask from "react-input-mask";
-import { apiRequest } from "@/lib/queryClient";
+import { supabase } from "@/lib/supabase";
 
 import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
 import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
@@ -90,10 +90,6 @@ const sidebarMessages = [
   "Você está a 24 horas de ter clareza total sobre sua receita"
 ];
 
-const generateSessionId = () => {
-  return 'session_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
-};
-
 export const Element = (): JSX.Element => {
   const [step, setStep] = useState(1);
   const [displayStep, setDisplayStep] = useState(1);
@@ -117,34 +113,8 @@ export const Element = (): JSX.Element => {
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const sessionIdRef = useRef<string>("");
-  const trackedStepsRef = useRef<Set<number>>(new Set());
 
-  useEffect(() => {
-    if (!sessionIdRef.current) {
-      sessionIdRef.current = generateSessionId();
-    }
-  }, []);
-
-  const trackStepEvent = async (stepNumber: number) => {
-    if (trackedStepsRef.current.has(stepNumber)) return;
-    trackedStepsRef.current.add(stepNumber);
-    try {
-      await apiRequest("POST", "/api/step-events", {
-        sessionId: sessionIdRef.current,
-        step: stepNumber
-      });
-    } catch (error) {
-      console.error("Failed to track step:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (step >= 1) {
-      trackStepEvent(step);
-    }
-  }, [step]);
-
+  
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -190,32 +160,24 @@ export const Element = (): JSX.Element => {
       }
       setIsSubmitting(true);
       try {
-        // Send directly to Google Sheets webhook (works on Vercel and Replit)
-        const googleSheetsWebhook = "https://script.google.com/macros/s/AKfycbx9o7J5WCENxoqDiixQJ22cNJKm0-t3VGpKX8wjTtAr6SserFU0hXbGYPu7nsa_QsER/exec";
-        
-        // Use URLSearchParams for form-encoded data (works with no-cors)
-        const formBody = new URLSearchParams();
-        Object.entries(formData).forEach(([key, value]) => {
-          formBody.append(key, String(value || ''));
+        // Save to Supabase
+        const { error } = await supabase.from('leads').insert({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          role: formData.role,
+          bottleneck: formData.bottleneck,
+          revenue: formData.revenue,
+          team_size: formData.teamSize,
+          segment: formData.segment,
+          urgency: formData.urgency,
+          has_partner: formData.hasPartner,
+          social_media: formData.socialMedia
         });
         
-        await fetch(googleSheetsWebhook, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: formBody.toString(),
-        });
-        
-        // Only save to local API on Replit (skip on Vercel to avoid errors)
-        const isVercel = window.location.hostname.includes('vercel.app');
-        if (!isVercel) {
-          try {
-            await apiRequest("POST", "/api/submissions", formData);
-          } catch {
-            // Silently ignore
-          }
+        if (error) {
+          console.error("Error saving to Supabase:", error);
+          throw error;
         }
         
         setHasSubmitted(true);

@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings } from "lucide-react";
-import type { FormSubmission } from "@shared/schema";
 import { useState } from "react";
+import { supabase, type Lead } from "@/lib/supabase";
 
 interface FunnelData {
   step: number;
@@ -16,22 +16,67 @@ export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   
-  const { data: submissions = [], isLoading: loadingSubmissions } = useQuery<FormSubmission[]>({
-    queryKey: ["/api/submissions"]
+  const { data: submissions = [], isLoading: loadingSubmissions } = useQuery<Lead[]>({
+    queryKey: ["supabase-leads"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return data || [];
+    }
   });
 
   const { data: funnelData = [], isLoading: loadingFunnel } = useQuery<FunnelData[]>({
-    queryKey: ["/api/analytics/funnel"]
+    queryKey: ["supabase-funnel"],
+    queryFn: async () => {
+      const { count } = await supabase
+        .from('leads')
+        .select('*', { count: 'exact', head: true });
+      return [
+        { step: 1, count: count || 0 },
+        { step: 9, count: count || 0 }
+      ];
+    }
   });
 
   const handleExportCSV = () => {
-    window.open("/api/submissions/export", "_blank");
+    if (submissions.length === 0) return;
+    
+    const headers = ['Data', 'Nome', 'Email', 'Telefone', 'Cargo', 'Gargalo', 'Faturamento', 'Tamanho do Time', 'Segmento', 'Urgência', 'Tem Sócio', 'Rede Social'];
+    const rows = submissions.map(s => [
+      formatDate(s.created_at),
+      s.name || '',
+      s.email || '',
+      s.phone || '',
+      s.role || '',
+      s.bottleneck || '',
+      s.revenue || '',
+      s.team_size || '',
+      s.segment || '',
+      s.urgency || '',
+      s.has_partner || '',
+      s.social_media || ''
+    ]);
+    
+    const csvContent = [headers, ...rows]
+      .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `leads_${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const todaySubmissions = submissions.filter(s => {
-    if (!s.createdAt) return false;
+    if (!s.created_at) return false;
     const today = new Date();
-    const subDate = new Date(s.createdAt);
+    const subDate = new Date(s.created_at);
     return subDate.toDateString() === today.toDateString();
   }).length;
 
@@ -44,7 +89,7 @@ export default function Dashboard() {
 
   const totalVisitors = funnelData.find(f => f.step === 1)?.count || 0;
 
-  const formatDate = (date: Date | string | null) => {
+  const formatDate = (date: Date | string | null | undefined) => {
     if (!date) return "00/00/0000";
     return new Date(date).toLocaleDateString("pt-BR", {
       day: "2-digit",
@@ -65,14 +110,14 @@ export default function Dashboard() {
   const getTimeSinceLastSubmission = () => {
     if (submissions.length === 0) return "Sem cadastros";
     const lastSubmission = submissions.reduce((latest, current) => {
-      if (!current.createdAt) return latest;
-      if (!latest.createdAt) return current;
-      return new Date(current.createdAt) > new Date(latest.createdAt) ? current : latest;
+      if (!current.created_at) return latest;
+      if (!latest.created_at) return current;
+      return new Date(current.created_at) > new Date(latest.created_at) ? current : latest;
     });
-    if (!lastSubmission.createdAt) return "Sem cadastros";
+    if (!lastSubmission.created_at) return "Sem cadastros";
     
     const now = new Date();
-    const lastDate = new Date(lastSubmission.createdAt);
+    const lastDate = new Date(lastSubmission.created_at);
     const diffMs = now.getTime() - lastDate.getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
@@ -614,7 +659,7 @@ export default function Dashboard() {
                   ) : (
                     filteredSubmissions.map((sub, index) => (
                       <tr key={sub.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(sub.createdAt)}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(sub.created_at)}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.name || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.email || "-"}</td>
                         <td className="text-center px-4">{getUrgencyBadge(sub.urgency)}</td>
@@ -632,15 +677,15 @@ export default function Dashboard() {
                             <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>
                           )}
                         </td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.socialMedia || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.social_media || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.role || "-"}</td>
                         <td className="text-center px-4 max-w-[200px] truncate" style={{ color: '#979BA2', fontSize: '16px' }} title={sub.bottleneck || ""}>
                           {sub.bottleneck || "-"}
                         </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{sub.revenue || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.teamSize || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.team_size || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.segment || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.hasPartner || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.has_partner || "-"}</td>
                       </tr>
                     ))
                   )}
