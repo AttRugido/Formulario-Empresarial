@@ -42,7 +42,7 @@ export const ThankYou = (): JSX.Element => {
       </div>
 
       {/* Container 2 - Right Content - Scrollable */}
-      <div className="flex-1 flex flex-col bg-[#08090B] overflow-y-auto h-screen lg:ml-[46.7%]">
+      <div className="w-full lg:w-[53.3%] lg:ml-[46.7%] flex flex-col bg-[#08090B] overflow-y-auto h-screen">
         {/* Logo */}
         <div className="flex justify-center pt-6 lg:pt-[53px]">
           <img
