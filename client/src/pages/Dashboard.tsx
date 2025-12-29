@@ -720,20 +720,18 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:flex md:flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4">
               {/* Visitantes Card */}
               <div 
-                className="p-4 flex flex-col"
+                className="p-4 flex flex-col w-[calc(50%-8px)] md:w-[200px] h-[160px] md:h-[200px]"
                 style={{ 
                   background: '#101115', 
                   border: '1px solid rgba(255, 255, 255, 0.03)', 
-                  borderRadius: '12px',
-                  width: '200px',
-                  height: '200px'
+                  borderRadius: '12px'
                 }}
               >
-                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '12px', fontSize: '14px' }}>Visitantes</p>
-                <span style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white', fontSize: '48px' }} data-testid="text-visitors">
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px', fontSize: '14px' }}>Visitantes</p>
+                <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-visitors">
                   {loadingFunnel ? "..." : totalVisitors}
                 </span>
                 <div className="flex items-center gap-1 mt-auto">
@@ -756,17 +754,15 @@ export default function Dashboard() {
 
               {/* Taxa de Conversão Card */}
               <div 
-                className="p-4 flex flex-col"
+                className="p-4 flex flex-col w-[calc(50%-8px)] md:w-[200px] h-[160px] md:h-[200px]"
                 style={{ 
                   background: '#101115', 
                   border: '1px solid rgba(255, 255, 255, 0.03)', 
-                  borderRadius: '12px',
-                  width: '200px',
-                  height: '200px'
+                  borderRadius: '12px'
                 }}
               >
-                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '12px', fontSize: '14px' }}>Taxa de conversão</p>
-                <span style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white', fontSize: '48px' }} data-testid="text-conversion-rate">
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px', fontSize: '14px' }}>Taxa de conversão</p>
+                <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-conversion-rate">
                   {loadingFunnel ? "..." : `${completionRate}%`}
                 </span>
                 <div className="flex items-center gap-1 mt-auto">
@@ -789,18 +785,16 @@ export default function Dashboard() {
 
               {/* Leads Novos Card */}
               <div 
-                className="p-4 flex flex-col"
+                className="p-4 flex flex-col w-full md:w-[200px] h-[160px] md:h-[200px]"
                 style={{ 
                   background: '#101115', 
                   border: '1px solid rgba(255, 255, 255, 0.03)', 
-                  borderRadius: '12px',
-                  width: '200px',
-                  height: '200px'
+                  borderRadius: '12px'
                 }}
               >
                 <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '0', fontSize: '14px' }}>Leads novos</p>
                 <p style={{ color: '#979BA2', fontSize: '12px', fontFamily: 'Inter', marginBottom: '8px' }}>Últimas 24h</p>
-                <span style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white', fontSize: '48px' }} data-testid="text-new-leads">
+                <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-new-leads">
                   {loadingSubmissions ? "..." : todaySubmissions}
                 </span>
                 <div className="flex items-center gap-1 mt-auto">
