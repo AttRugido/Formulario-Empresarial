@@ -232,9 +232,70 @@ export default function Dashboard() {
     window.open(`https://wa.me/${whatsappNumber}`, "_blank");
   };
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen flex" style={{ background: '#08090B' }}>
-      {/* Sidebar */}
+      {/* Mobile Sidebar Overlay */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Sidebar */}
+      <aside 
+        className={`fixed lg:hidden top-0 left-0 h-full w-[280px] z-50 flex flex-col transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ 
+          background: '#0C0D0F',
+          borderRight: '1px solid rgba(255, 255, 255, 0.03)',
+          padding: '20px',
+          fontFamily: 'Inter, sans-serif'
+        }}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <svg className="flex-shrink-0" width="24" height="35" viewBox="0 0 24 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.715211 26.9572C2.27321 31.2693 2.36903 32.9023 1.73224 35C3.05303 33.3616 3.85068 32.463 6.01446 31.1173C14.8215 25.4572 13.8477 17.9698 13.6154 5.71315C10.0479 12.0987 7.29932 13.7005 2.05363 18.5261C-0.676304 21.1886 -0.194604 24.8494 0.715211 26.9572Z" fill="white" fillOpacity="0.82"/>
+              <path d="M14.3651 5.71315C15.3795 18.8074 14.6317 24.8607 8.20937 30.6735C16.2185 27.7496 18.8098 20.4357 19.9855 0C18.3199 0.802974 17.6045 1.56356 16.6132 3.32805C15.84 4.57114 15.3313 5.04601 14.3651 5.71315Z" fill="white" fillOpacity="0.82"/>
+            </svg>
+            <span 
+              className="font-medium text-[16px]"
+              style={{
+                background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              Grupo Rugido
+            </span>
+          </div>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-[#666]"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </Button>
+        </div>
+        <div className="mt-auto pt-4 border-t border-white/5">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-[#6E707C] hover:text-white hover:bg-white/5 transition-colors"
+            style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Sair</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Desktop Sidebar */}
       <aside 
         className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[309px]'} min-h-screen transition-all duration-300 relative`}
         style={{ 
@@ -402,22 +463,23 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <header className="sticky top-0 z-10 p-4" style={{ background: '#08090B' }}>
+        <header className="sticky top-0 z-10 p-3 md:p-4" style={{ background: '#08090B' }}>
           <div className="flex items-center" style={{ gap: '8px' }}>
             <Button 
               variant="ghost" 
               size="icon" 
               className="lg:hidden text-[#666]"
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              onClick={() => setMobileMenuOpen(true)}
+              data-testid="button-mobile-menu"
             >
               <PanelLeft className="w-5 h-5" />
             </Button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
+            <svg className="hidden md:block" xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
               <path d="M20.487 9.26216L11.737 0.512158C11.4089 0.184217 10.9639 0 10.5 0C10.0361 0 9.59114 0.184217 9.26298 0.512158L0.51298 9.26216C0.349688 9.42424 0.220247 9.61716 0.132184 9.82972C0.0441203 10.0423 -0.000807906 10.2702 1.0996e-05 10.5003V21.0003C1.0996e-05 21.2323 0.0921984 21.4549 0.256293 21.619C0.420387 21.7831 0.642947 21.8753 0.875011 21.8753H20.125C20.3571 21.8753 20.5796 21.7831 20.7437 21.619C20.9078 21.4549 21 21.2323 21 21.0003V10.5003C21.0008 10.2702 20.9559 10.0423 20.8678 9.82972C20.7798 9.61716 20.6503 9.42424 20.487 9.26216ZM19.25 20.1253H1.75001V10.5003L10.5 1.75028L19.25 10.5003V20.1253Z" fill="#6E707C"/>
             </svg>
-            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400, lineHeight: '23.4px' }}>Overview</span>
-            <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400 }}>/</span>
-            <span style={{ color: '#FFF', fontFamily: 'Inter', fontSize: '18px', fontWeight: 400, lineHeight: '30.8px' }}>Dashboard</span>
+            <span className="hidden md:inline" style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400, lineHeight: '23.4px' }}>Overview</span>
+            <span className="hidden md:inline" style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '20px', fontWeight: 400 }}>/</span>
+            <span style={{ color: '#FFF', fontFamily: 'Inter', fontSize: '16px', fontWeight: 400 }} className="md:text-[18px]">Dashboard</span>
           </div>
         </header>
 
@@ -433,22 +495,21 @@ export default function Dashboard() {
 
           {/* Leads Section */}
           <div className="mb-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
                 <span 
-                  style={{ fontFamily: 'Inter', fontSize: '77px', fontWeight: 500 }}
-                  className="text-white" 
+                  className="text-white text-[48px] md:text-[77px]" 
+                  style={{ fontFamily: 'Inter', fontWeight: 500 }}
                   data-testid="text-total-submissions"
                 >
                   {loadingSubmissions ? "..." : submissions.length}
                 </span>
                 <span 
+                  className="text-[24px] md:text-[38px]"
                   style={{ 
                     fontFamily: 'Inter', 
-                    fontSize: '38px', 
                     fontWeight: 500, 
-                    lineHeight: '37.625px',
-                    width: '233px',
+                    lineHeight: '1.1',
                     background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
@@ -459,17 +520,16 @@ export default function Dashboard() {
                 </span>
               </div>
               
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="relative group">
+              <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+                <div className="relative group flex-1 lg:flex-initial">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A7F85] group-hover:text-white transition-colors" />
                   <input
                     placeholder="Buscar lead..."
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 text-[#7A7F85] placeholder:text-[#7A7F85] hover:text-white hover:placeholder:text-white focus:text-white focus:placeholder:text-white transition-colors"
+                    className="w-full lg:w-[356px] pl-10 pr-4 text-[#7A7F85] placeholder:text-[#7A7F85] hover:text-white hover:placeholder:text-white focus:text-white focus:placeholder:text-white transition-colors"
                     style={{
-                      width: '356px',
                       height: '40px',
                       borderRadius: '6px',
                       border: '1px solid rgba(255, 255, 255, 0.10)',
@@ -636,96 +696,86 @@ export default function Dashboard() {
 
           {/* Fluxo de Visitantes Section */}
           <div className="mt-8">
-            <div className="flex items-center gap-3 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <div className="flex items-start gap-2 mb-4">
+              <svg className="mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
                 <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
               </svg>
-              <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Taxa de progresso</span>
-              <span 
-                style={{ 
-                  fontFamily: 'Inter', 
-                  fontSize: '38px', 
-                  fontWeight: 500, 
-                  lineHeight: '37.625px',
-                  background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}
-              >
-                Fluxo de visitantes
-              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Taxa de progresso</span>
+                <span 
+                  className="text-[24px] md:text-[38px]"
+                  style={{ 
+                    fontFamily: 'Inter', 
+                    fontWeight: 500, 
+                    lineHeight: '1.1',
+                    background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
+                  Fluxo de visitantes
+                </span>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:flex md:flex-wrap gap-4">
               {/* Visitantes Card */}
               <div 
-                className="p-4"
+                className="p-3 md:p-4 flex flex-col w-full md:w-[160px] h-[140px] md:h-[160px]"
                 style={{ 
                   background: '#101115', 
-                  border: '1px solid rgba(255, 255, 255, 0.12)', 
-                  borderRadius: '12px',
-                  width: '100%',
-                  minHeight: '120px'
+                  border: '1px solid rgba(255, 255, 255, 0.03)', 
+                  borderRadius: '12px'
                 }}
               >
-                <p style={{ color: '#979BA2', fontSize: '16px', fontFamily: 'Inter', fontWeight: 500, marginBottom: '12px' }}>Visitantes</p>
-                <div className="flex items-center gap-3">
-                  <span style={{ fontFamily: 'Inter', fontSize: '48px', fontWeight: 500, color: 'white' }} data-testid="text-visitors">
-                    {loadingFunnel ? "..." : totalVisitors}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <TrendingDown className="w-3 h-3 text-red-400" />
-                    <span className="text-xs text-red-400">+1.06%</span>
-                  </div>
+                <p className="text-[14px] md:text-[16px]" style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px' }}>Visitantes</p>
+                <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-visitors">
+                  {loadingFunnel ? "..." : totalVisitors}
+                </span>
+                <div className="flex items-center gap-1 mt-auto">
+                  <TrendingDown className="w-4 h-4" style={{ color: '#E03232' }} />
+                  <span style={{ fontSize: '14px', fontFamily: 'Inter', color: '#E03232' }}>+1.06%</span>
                 </div>
               </div>
 
               {/* Taxa de Conversão Card */}
               <div 
-                className="p-4"
+                className="p-3 md:p-4 flex flex-col w-full md:w-[160px] h-[140px] md:h-[160px]"
                 style={{ 
                   background: '#101115', 
-                  border: '1px solid rgba(255, 255, 255, 0.12)', 
-                  borderRadius: '12px',
-                  width: '100%',
-                  minHeight: '120px'
+                  border: '1px solid rgba(255, 255, 255, 0.03)', 
+                  borderRadius: '12px'
                 }}
               >
-                <p style={{ color: '#979BA2', fontSize: '16px', fontFamily: 'Inter', fontWeight: 500, marginBottom: '12px' }}>Taxa de conversão</p>
-                <div className="flex items-center gap-3">
-                  <span style={{ fontFamily: 'Inter', fontSize: '48px', fontWeight: 500, color: 'white' }} data-testid="text-conversion-rate">
-                    {loadingFunnel ? "..." : `${completionRate}`}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <TrendingDown className="w-3 h-3 text-red-400" />
-                    <span className="text-xs text-red-400">+1.06%</span>
-                  </div>
+                <p className="text-[14px] md:text-[16px]" style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '8px' }}>Taxa de conversão</p>
+                <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-conversion-rate">
+                  {loadingFunnel ? "..." : `${completionRate}`}
+                </span>
+                <div className="flex items-center gap-1 mt-auto">
+                  <TrendingDown className="w-4 h-4" style={{ color: '#E03232' }} />
+                  <span style={{ fontSize: '14px', fontFamily: 'Inter', color: '#E03232' }}>+1.06%</span>
                 </div>
               </div>
 
               {/* Leads Novos Card */}
               <div 
-                className="p-4"
+                className="p-3 md:p-4 flex flex-col col-span-2 md:col-span-1 md:w-[160px] h-[140px] md:h-[160px]"
                 style={{ 
                   background: '#101115', 
-                  border: '1px solid rgba(255, 255, 255, 0.12)', 
-                  borderRadius: '12px',
-                  width: '100%',
-                  minHeight: '120px'
+                  border: '1px solid rgba(255, 255, 255, 0.03)', 
+                  borderRadius: '12px'
                 }}
               >
-                <p style={{ color: '#979BA2', fontSize: '16px', fontFamily: 'Inter', fontWeight: 500, marginBottom: '4px' }}>Leads novos</p>
-                <p style={{ color: '#979BA2', fontSize: '12px', fontFamily: 'Inter', marginBottom: '12px' }}>Últimas 24h</p>
-                <div className="flex items-center gap-3">
-                  <span style={{ fontFamily: 'Inter', fontSize: '48px', fontWeight: 500, color: 'white' }} data-testid="text-new-leads">
-                    {loadingSubmissions ? "..." : todaySubmissions}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3 text-green-400" />
-                    <span className="text-xs text-green-400">+1.06%</span>
-                  </div>
+                <p className="text-[14px] md:text-[16px]" style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '0' }}>Leads novos</p>
+                <p style={{ color: '#979BA2', fontSize: '12px', fontFamily: 'Inter', marginBottom: '4px' }}>Últimas 24h</p>
+                <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-new-leads">
+                  {loadingSubmissions ? "..." : todaySubmissions}
+                </span>
+                <div className="flex items-center gap-1 mt-auto">
+                  <TrendingUp className="w-4 h-4" style={{ color: '#10B981' }} />
+                  <span style={{ fontSize: '14px', fontFamily: 'Inter', color: '#10B981' }}>+1.06%</span>
                 </div>
               </div>
             </div>
