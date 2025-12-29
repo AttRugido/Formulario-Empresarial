@@ -758,16 +758,8 @@ export default function Dashboard() {
                         </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.social_media || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.role || "-"}</td>
-                        <td className="text-center px-4" style={{ color: '#979BA2', fontSize: '16px', minWidth: '200px', maxWidth: '300px' }}>
-                          <span style={{ 
-                            display: '-webkit-box', 
-                            WebkitLineClamp: 2, 
-                            WebkitBoxOrient: 'vertical', 
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis'
-                          }}>
-                            {sub.bottleneck || "-"}
-                          </span>
+                        <td className="text-center px-4" style={{ color: '#979BA2', fontSize: '16px', minWidth: '200px' }}>
+                          {sub.bottleneck || "-"}
                         </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{sub.revenue || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.team_size || "-"}</td>
