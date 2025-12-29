@@ -636,63 +636,98 @@ export default function Dashboard() {
 
           {/* Fluxo de Visitantes Section */}
           <div className="mt-8">
-            <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="w-5 h-5 text-[#8b5cf6]" />
-              <div>
-                <p className="text-xs text-[#666]">Taxa de progresso</p>
-                <p className="text-lg font-semibold text-white">Fluxo de visitantes</p>
-              </div>
+            <div className="flex items-center gap-3 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
+                <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
+              </svg>
+              <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Taxa de progresso</span>
+              <span 
+                style={{ 
+                  fontFamily: 'Inter', 
+                  fontSize: '38px', 
+                  fontWeight: 500, 
+                  lineHeight: '37.625px',
+                  background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
+                Fluxo de visitantes
+              </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Visitantes Card */}
-              <Card className="bg-[#111] border-[#1a1a1a]">
-                <CardContent className="p-4">
-                  <p className="text-xs text-[#666] mb-2">Visitantes</p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl font-bold text-white" data-testid="text-visitors">
-                      {loadingFunnel ? "..." : totalVisitors}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <TrendingDown className="w-3 h-3 text-red-400" />
-                      <span className="text-xs text-red-400">+1.06%</span>
-                    </div>
+              <div 
+                className="p-4"
+                style={{ 
+                  background: '#101115', 
+                  border: '1px solid rgba(255, 255, 255, 0.12)', 
+                  borderRadius: '12px',
+                  width: '100%',
+                  minHeight: '120px'
+                }}
+              >
+                <p style={{ color: '#979BA2', fontSize: '16px', fontFamily: 'Inter', fontWeight: 500, marginBottom: '12px' }}>Visitantes</p>
+                <div className="flex items-center gap-3">
+                  <span style={{ fontFamily: 'Inter', fontSize: '48px', fontWeight: 500, color: 'white' }} data-testid="text-visitors">
+                    {loadingFunnel ? "..." : totalVisitors}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <TrendingDown className="w-3 h-3 text-red-400" />
+                    <span className="text-xs text-red-400">+1.06%</span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Taxa de Conversão Card */}
-              <Card className="bg-[#111] border-[#1a1a1a]">
-                <CardContent className="p-4">
-                  <p className="text-xs text-[#666] mb-2">Taxa de conversão</p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl font-bold text-white" data-testid="text-conversion-rate">
-                      {loadingFunnel ? "..." : `${completionRate}`}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <TrendingDown className="w-3 h-3 text-red-400" />
-                      <span className="text-xs text-red-400">+1.06%</span>
-                    </div>
+              <div 
+                className="p-4"
+                style={{ 
+                  background: '#101115', 
+                  border: '1px solid rgba(255, 255, 255, 0.12)', 
+                  borderRadius: '12px',
+                  width: '100%',
+                  minHeight: '120px'
+                }}
+              >
+                <p style={{ color: '#979BA2', fontSize: '16px', fontFamily: 'Inter', fontWeight: 500, marginBottom: '12px' }}>Taxa de conversão</p>
+                <div className="flex items-center gap-3">
+                  <span style={{ fontFamily: 'Inter', fontSize: '48px', fontWeight: 500, color: 'white' }} data-testid="text-conversion-rate">
+                    {loadingFunnel ? "..." : `${completionRate}`}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <TrendingDown className="w-3 h-3 text-red-400" />
+                    <span className="text-xs text-red-400">+1.06%</span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Leads Novos Card */}
-              <Card className="bg-[#111] border-[#1a1a1a]">
-                <CardContent className="p-4">
-                  <p className="text-xs text-[#666] mb-1">Leads novos</p>
-                  <p className="text-[10px] text-[#666] mb-2">Últimas 24h</p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl font-bold text-white" data-testid="text-new-leads">
-                      {loadingSubmissions ? "..." : todaySubmissions}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3 text-green-400" />
-                      <span className="text-xs text-green-400">+1.06%</span>
-                    </div>
+              <div 
+                className="p-4"
+                style={{ 
+                  background: '#101115', 
+                  border: '1px solid rgba(255, 255, 255, 0.12)', 
+                  borderRadius: '12px',
+                  width: '100%',
+                  minHeight: '120px'
+                }}
+              >
+                <p style={{ color: '#979BA2', fontSize: '16px', fontFamily: 'Inter', fontWeight: 500, marginBottom: '4px' }}>Leads novos</p>
+                <p style={{ color: '#979BA2', fontSize: '12px', fontFamily: 'Inter', marginBottom: '12px' }}>Últimas 24h</p>
+                <div className="flex items-center gap-3">
+                  <span style={{ fontFamily: 'Inter', fontSize: '48px', fontWeight: 500, color: 'white' }} data-testid="text-new-leads">
+                    {loadingSubmissions ? "..." : todaySubmissions}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3 text-green-400" />
+                    <span className="text-xs text-green-400">+1.06%</span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
