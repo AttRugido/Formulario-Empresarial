@@ -699,18 +699,7 @@ export default function Dashboard() {
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
                   <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>
-                      <label className="cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="lead-checkbox"
-                          checked={selectedLeads.size === filteredSubmissions.length && filteredSubmissions.length > 0}
-                          onChange={() => toggleSelectAll(filteredSubmissions)}
-                          data-testid="checkbox-select-all"
-                        />
-                        <span className="custom-checkbox-red"></span>
-                      </label>
-                    </th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px', width: '50px' }}></th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Data</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Nome</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>E-mail</th>
