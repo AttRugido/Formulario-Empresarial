@@ -30,7 +30,7 @@
   scrollbar-color: #262831 transparent;
 }
 
-/* Custom Checkbox - Dark to Red */
+/* Custom Checkbox - Gray to Red */
 .lead-checkbox[type="checkbox"] {
   display: none;
 }
@@ -39,7 +39,7 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid #101115;
+  border: 2px solid #979BA2;
   border-radius: 50%;
   position: relative;
   cursor: pointer;
@@ -65,6 +65,11 @@
 
 .lead-checkbox[type="checkbox"]:checked + .custom-checkbox-red::after {
   opacity: 1;
+}
+
+/* Selected row background */
+.lead-row-selected {
+  background-color: rgba(224, 50, 50, 0.3) !important;
 }
 
 :root {

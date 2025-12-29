@@ -736,7 +736,7 @@ export default function Dashboard() {
                     </tr>
                   ) : (
                     filteredSubmissions.map((sub, index) => (
-                      <tr key={sub.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
+                      <tr key={sub.id || index} className={`hover:bg-[#101115] ${sub.id && selectedLeads.has(sub.id) ? 'lead-row-selected' : ''}`} style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
                         <td className="text-center px-4">
                           <label className="cursor-pointer">
                             <input 
