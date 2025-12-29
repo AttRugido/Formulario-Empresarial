@@ -2,7 +2,7 @@ import { CheckCircle, AlertTriangle, Download, Clock, Phone } from "lucide-react
 import { Button } from "@/components/ui/button";
 
 export const ThankYou = (): JSX.Element => {
-  const whatsappLink = "https://wa.me/5511999999999";
+  const supportLink = "https://links.rugido.co/suporte";
   const checklistLink = "#";
 
   return (
@@ -82,18 +82,13 @@ export const ThankYou = (): JSX.Element => {
                 <AlertTriangle className="w-5 h-5" />
                 <span className="font-['Inter'] font-medium text-[16px]">Não quer esperar?</span>
               </div>
-              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                <Button 
-                  className="w-full sm:w-auto px-8 py-6 text-[16px] font-semibold"
-                  style={{ 
-                    background: '#DC2626', 
-                    color: 'white',
-                    borderRadius: '8px'
-                  }}
+              <a href={supportLink} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <button 
+                  className="green-animated-button w-full sm:w-auto"
                   data-testid="button-urgent-cta-top"
                 >
-                  QUERO SER ATENDIDO AGORA
-                </Button>
+                  <span>QUERO SER ATENDIDO AGORA</span>
+                </button>
               </a>
               <p className="font-['Inter'] font-normal text-[#565656] text-[12px]">
                 aperte o botão caso precise pular a fila
@@ -228,19 +223,13 @@ export const ThankYou = (): JSX.Element => {
               <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[16px] mb-4">
                 Se sua situação é crítica e você não pode esperar 24h:
               </p>
-              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-block">
-                <Button 
-                  className="px-8 py-6 text-[16px] font-semibold flex items-center gap-2"
-                  style={{ 
-                    background: '#DC2626', 
-                    color: 'white',
-                    borderRadius: '8px'
-                  }}
+              <a href={supportLink} target="_blank" rel="noopener noreferrer" className="inline-block">
+                <button 
+                  className="green-animated-button"
                   data-testid="button-urgent-cta-bottom"
                 >
-                  <Phone className="w-5 h-5" />
-                  QUERO SER ATENDIDO AGORA
-                </Button>
+                  <span>QUERO SER ATENDIDO AGORA</span>
+                </button>
               </a>
               <p className="font-['Inter'] font-normal text-[#565656] text-[12px] mt-2">
                 aperte o botão caso precise pular a fila
