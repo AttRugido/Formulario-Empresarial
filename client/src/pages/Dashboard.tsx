@@ -3,7 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut } from "lucide-react";
+import { useLocation } from "wouter";
 import { useState } from "react";
 import { supabase, type Lead } from "@/lib/supabase";
 
@@ -13,8 +14,14 @@ interface FunnelData {
 }
 
 export default function Dashboard() {
+  const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setLocation("/login");
+  };
   
   const { data: submissions = [], isLoading: loadingSubmissions } = useQuery<Lead[]>({
     queryKey: ["supabase-leads"],
@@ -454,8 +461,17 @@ export default function Dashboard() {
         {/* Footer */}
         <div className="pt-4 mt-auto border-t border-white/5 relative z-10">
           {!sidebarCollapsed && (
-            <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px]">Painel Administrativo</p>
+            <p className="text-[#6E707C] text-[13px] font-normal leading-[23.4px] mb-3">Painel Administrativo</p>
           )}
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-[#6E707C] hover:text-white hover:bg-white/5 transition-colors"
+            style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+            data-testid="button-logout"
+          >
+            <LogOut className="w-4 h-4" />
+            {!sidebarCollapsed && <span>Sair</span>}
+          </button>
         </div>
       </aside>
 
