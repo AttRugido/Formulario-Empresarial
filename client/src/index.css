@@ -485,6 +485,35 @@
   stroke: #ef4444;
 }
 
+/* Light Mode Custom Input Styles */
+.light-mode .custom-input {
+  background-color: #F0F0F2;
+  color: #08090B;
+  border: 2px solid #E0E0E5;
+}
+
+.light-mode .custom-input::placeholder {
+  color: #999999;
+}
+
+.light-mode .custom-input:focus, 
+.light-mode .custom-input:hover {
+  background-color: #F0F0F2;
+  border-color: #A646E6;
+}
+
+.light-mode .custom-input-icon {
+  stroke: #999999;
+}
+
+.light-mode .custom-check svg path {
+  stroke: #999999;
+}
+
+.light-mode .custom-check.checked svg path {
+  stroke: #A646E6;
+}
+
 /* Continuous Logo Carousel */
 @keyframes scroll-logos {
   0% {

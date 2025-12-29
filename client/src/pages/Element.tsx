@@ -1,4 +1,4 @@
-import { ArrowRightIcon, ArrowLeftIcon, ClockIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowLeftIcon, ClockIcon, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -115,6 +115,29 @@ export const Element = (): JSX.Element => {
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  // Theme colors
+  const theme = {
+    bg: isDarkMode ? '#08090B' : '#FFFFFF',
+    bgSecondary: isDarkMode ? '#1B1B20' : '#F5F5F7',
+    bgGradient: isDarkMode 
+      ? 'linear-gradient(163deg, #1B1B20 -0.04%, #0C0D0F 90.1%)' 
+      : 'linear-gradient(163deg, #F5F5F7 -0.04%, #E8E8EA 90.1%)',
+    text: isDarkMode ? '#FFFFFF' : '#08090B',
+    textSecondary: isDarkMode ? '#b7b7b7' : '#666666',
+    textGradient: isDarkMode 
+      ? 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)' 
+      : 'linear-gradient(92deg, #08090B 3.96%, #4A4A4A 136.52%)',
+    border: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.1)',
+    inputBg: isDarkMode ? '#131316' : '#F0F0F2',
+    inputBorder: isDarkMode ? '#1c1d21' : '#D0D0D5',
+    cardBg: isDarkMode ? '#1A1A1F' : '#F8F8FA',
+    cardBorder: isDarkMode ? '#27272F' : '#E0E0E5',
+    optionBg: isDarkMode ? '#131316' : '#FFFFFF',
+    optionBorder: isDarkMode ? '#222' : '#E0E0E5',
+    optionHoverBg: isDarkMode ? '#222' : '#F0F0F2',
+  };
 
   
   const validateEmail = (email: string): boolean => {
@@ -200,7 +223,18 @@ export const Element = (): JSX.Element => {
   };
 
   const renderWelcomeScreen = () => (
-    <div className="bg-[#08090B] w-full h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6">
+    <div className="w-full h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 relative" style={{ backgroundColor: theme.bg }}>
+      {/* Theme Toggle Button */}
+      <Button
+        onClick={() => setIsDarkMode(!isDarkMode)}
+        variant="ghost"
+        size="icon"
+        className="absolute top-4 right-4 z-50"
+        style={{ color: theme.textSecondary }}
+        data-testid="button-theme-toggle"
+      >
+        {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      </Button>
       <div 
         className={`flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[690px] transition-opacity duration-200 ease-in-out ${
           container2Visible ? 'opacity-100' : 'opacity-0'
@@ -209,12 +243,13 @@ export const Element = (): JSX.Element => {
         <img
           className="w-[44.26px] h-16"
           alt="Logo"
-          src="/figmaAssets/logo.png"
+          src={isDarkMode ? "/figmaAssets/logo.png" : "/figmaAssets/logo-dark.png"}
+          style={{ filter: isDarkMode ? 'none' : 'invert(1)' }}
         />
         <h1 
           className="font-['Inter'] font-medium text-[24px] sm:text-[32px] lg:text-[39.278px] text-center leading-[110%]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -222,12 +257,12 @@ export const Element = (): JSX.Element => {
         >
           Obrigado pelo interesse em estruturar a receita da sua empresa!
         </h1>
-        <p className="font-['Inter'] font-normal text-[#b7b7b7] text-base sm:text-lg text-center leading-[1.3]">
+        <p className="font-['Inter'] font-normal text-base sm:text-lg text-center leading-[1.3]" style={{ color: theme.textSecondary }}>
           Antes de agendar sua reunião estratégica, responda algumas perguntas para personalizarmos nossa conversa.
         </p>
         <div className="flex flex-col gap-1 items-center">
-          <ClockIcon className="w-6 h-6 sm:w-7 sm:h-7 text-[#b7b7b7]" />
-          <p className="font-['Inter'] font-normal text-[#b7b7b7] text-base sm:text-lg text-center leading-[1.3]">
+          <ClockIcon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: theme.textSecondary }} />
+          <p className="font-['Inter'] font-normal text-base sm:text-lg text-center leading-[1.3]" style={{ color: theme.textSecondary }}>
             Isso leva apenas 2 minutos
           </p>
         </div>
@@ -247,31 +282,44 @@ export const Element = (): JSX.Element => {
   );
 
   const renderFormLayout = (children: React.ReactNode, testimonialIndex: number) => (
-    <div className="bg-[#08090B] w-full h-screen flex flex-col lg:flex-row overflow-hidden">
+    <div className="w-full h-screen flex flex-col lg:flex-row overflow-hidden" style={{ backgroundColor: theme.bg }}>
       {/* Mobile Header with back button and logo */}
-      <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-[#08090B]">
+      <div className="lg:hidden flex items-center justify-between px-4 py-3" style={{ backgroundColor: theme.bg }}>
         <Button
           onClick={handleBack}
           variant="ghost"
           size="icon"
           disabled={isTransitioning}
-          className="text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30"
+          className="hover:bg-transparent hover:opacity-30"
+          style={{ color: theme.textSecondary }}
         >
           <ArrowLeftIcon className="w-5 h-5" />
         </Button>
-        <img
-          className="w-[20px] h-[29px]"
-          alt="Logo"
-          src="/figmaAssets/logo.png"
-        />
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            variant="ghost"
+            size="icon"
+            style={{ color: theme.textSecondary }}
+            data-testid="button-theme-toggle-mobile"
+          >
+            {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
+          <img
+            className="w-[20px] h-[29px]"
+            alt="Logo"
+            src="/figmaAssets/logo.png"
+            style={{ filter: isDarkMode ? 'none' : 'invert(1)' }}
+          />
+        </div>
       </div>
       
       {/* Container 1 - Left Sidebar (Desktop only) */}
       <div 
         className="hidden lg:flex w-[46.7%] flex-col relative overflow-hidden"
         style={{
-          background: 'linear-gradient(163deg, #1B1B20 -0.04%, #0C0D0F 90.1%)',
-          borderRight: '1px solid rgba(255, 255, 255, 0.05)'
+          background: theme.bgGradient,
+          borderRight: `1px solid ${theme.border}`
         }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 897 836" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
@@ -291,7 +339,7 @@ export const Element = (): JSX.Element => {
                      displayStep === 7 ? '490px' : 
                      displayStep === 8 ? '505px' : 
                      displayStep === 9 ? '573px' : '591px',
-              background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+              background: theme.textGradient,
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
@@ -301,25 +349,25 @@ export const Element = (): JSX.Element => {
           </h2>
           {displayStep === 1 && (
             <>
-              <div className="w-[418px] h-[1px] bg-white/20 mt-[17px] mb-[17px]" />
-              <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[18px] leading-[1.3] w-[417px] mb-6">
+              <div className="w-[418px] h-[1px] mt-[17px] mb-[17px]" style={{ backgroundColor: theme.border }} />
+              <p className="font-['Inter'] font-normal text-[18px] leading-[1.3] w-[417px] mb-6" style={{ color: theme.textSecondary }}>
                 Veja abaixo algumas empresas que multiplicaram as vendas com a nossa ajuda:
               </p>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-4">
-                  <img src={logoArtsPortas} alt="Arts Portas" className="h-8 w-auto" />
-                  <img src={logoWallTravel} alt="Wall Travel" className="h-4 w-auto" />
-                  <img src={logoTimbo} alt="Timbo" className="h-6 w-auto" />
-                  <img src={logoRainha} alt="Rainha" className="h-10 w-auto" />
+                  <img src={logoArtsPortas} alt="Arts Portas" className="h-8 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={logoWallTravel} alt="Wall Travel" className="h-4 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={logoTimbo} alt="Timbo" className="h-6 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={logoRainha} alt="Rainha" className="h-10 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src={logoMansaoMaromba} alt="Mansão Maromba" className="h-5 w-auto" />
-                  <img src={logoLuzianaLanna} alt="Luziana Lanna" className="h-6 w-auto" />
+                  <img src={logoMansaoMaromba} alt="Mansão Maromba" className="h-5 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={logoLuzianaLanna} alt="Luziana Lanna" className="h-6 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src={logoGranMoney} alt="Gran Money" className="h-7 w-auto" />
-                  <img src={logoHidrogyn} alt="Hidrogyn" className="h-12 w-auto" />
-                  <img src={logoCenter} alt="Center" className="h-10 w-auto" />
+                  <img src={logoGranMoney} alt="Gran Money" className="h-7 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={logoHidrogyn} alt="Hidrogyn" className="h-12 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
+                  <img src={logoCenter} alt="Center" className="h-10 w-auto" style={{ filter: isDarkMode ? 'none' : 'invert(0.7)' }} />
                 </div>
               </div>
             </>
@@ -328,9 +376,10 @@ export const Element = (): JSX.Element => {
       </div>
       {/* Container 2 - Right Content */}
       <div 
-        className={`flex-1 flex flex-col h-full lg:h-screen bg-[#08090B] overflow-hidden relative transition-opacity duration-200 ease-in-out ${
+        className={`flex-1 flex flex-col h-full lg:h-screen overflow-hidden relative transition-opacity duration-200 ease-in-out ${
           container2Visible ? 'opacity-100' : 'opacity-0'
         }`}
+        style={{ backgroundColor: theme.bg }}
       >
         {/* Desktop Back button positioned at top left */}
         <Button
@@ -338,9 +387,22 @@ export const Element = (): JSX.Element => {
           variant="ghost"
           size="icon"
           disabled={isTransitioning}
-          className="hidden lg:flex absolute top-[20px] left-[20px] text-[#b7b7b7] hover:text-white hover:bg-transparent hover:opacity-30 z-10"
+          className="hidden lg:flex absolute top-[20px] left-[20px] hover:bg-transparent hover:opacity-30 z-10"
+          style={{ color: theme.textSecondary }}
         >
           <ArrowLeftIcon className="w-5 h-5" />
+        </Button>
+        
+        {/* Desktop Theme Toggle button positioned at top right */}
+        <Button
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          variant="ghost"
+          size="icon"
+          className="hidden lg:flex absolute top-[20px] right-[20px] z-10"
+          style={{ color: theme.textSecondary }}
+          data-testid="button-theme-toggle-desktop"
+        >
+          {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </Button>
         
         {/* Desktop centered logo */}
@@ -349,6 +411,7 @@ export const Element = (): JSX.Element => {
             className="w-[44.263px] h-16"
             alt="Logo"
             src="/figmaAssets/logo.png"
+            style={{ filter: isDarkMode ? 'none' : 'invert(1)' }}
           />
         </div>
         <div className="flex-1 flex flex-col items-center pt-[20px] lg:pt-[80px] px-4 sm:px-8 overflow-y-auto">
@@ -361,27 +424,27 @@ export const Element = (): JSX.Element => {
           <div className="relative">
             {/* Mobile: quotes above the box, aligned left */}
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="34" viewBox="0 0 58 50" fill="none" className="sm:hidden block mb-2 ml-0 w-[40px] h-[34px]">
-              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#292830"/>
+              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill={isDarkMode ? "#292830" : "#D0D0D5"}/>
             </svg>
             {/* Desktop: quotes positioned to the left of the box */}
             <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="hidden sm:block absolute -left-[39px] top-[21px] w-[58px] h-[50px]">
-              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#292830"/>
+              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill={isDarkMode ? "#292830" : "#D0D0D5"}/>
             </svg>
-            <div className="bg-[#0C0D0F] border border-white/5 rounded-[12px] px-[16px] sm:px-[30px] py-[12px] sm:py-[15px] w-full sm:w-[592px]">
-              <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3] mb-2">
+            <div className="rounded-[12px] px-[16px] sm:px-[30px] py-[12px] sm:py-[15px] w-full sm:w-[592px]" style={{ backgroundColor: isDarkMode ? '#0C0D0F' : '#F5F5F7', border: `1px solid ${theme.border}` }}>
+              <p className="font-['Inter'] font-normal text-[14px] sm:text-[18px] leading-[1.3] mb-2" style={{ color: theme.textSecondary }}>
                 {testimonials[testimonialIndex]?.quote}
               </p>
-              <p className="font-['Inter'] italic text-[#504E5D] text-[12px] sm:text-[14px] leading-[1.3]">
+              <p className="font-['Inter'] italic text-[12px] sm:text-[14px] leading-[1.3]" style={{ color: isDarkMode ? '#504E5D' : '#999999' }}>
                 {testimonials[testimonialIndex]?.author}
               </p>
             </div>
           </div>
         </div>
         <footer className="absolute bottom-[16px] sm:bottom-[20px] left-0 right-0 text-center px-4">
-          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[10px] sm:text-[11px] leading-[1.3] mb-[8px]">
+          <p className="font-['Inter'] font-normal text-[10px] sm:text-[11px] leading-[1.3] mb-[8px]" style={{ color: theme.textSecondary }}>
             Ao PROSSEGUIR você automaticamente concordo com os <span className="underline">termos de uso</span> e <span className="underline">politica de privacidade</span>
           </p>
-          <p className="font-['Inter'] font-normal text-[#565656] text-[8px] sm:text-[9px] leading-[1.3]">
+          <p className="font-['Inter'] font-normal text-[8px] sm:text-[9px] leading-[1.3]" style={{ color: isDarkMode ? '#565656' : '#999999' }}>
             © 2025 Grupo Rugido. CNPJ: 39.617.248/0001-31 Todos os direitos reservados.
           </p>
         </footer>
@@ -412,7 +475,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -434,14 +497,12 @@ export const Element = (): JSX.Element => {
                   onClick={() => {}}
                   className="mt-[4px]"
                 />
-                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.role === option ? 'text-white' : 'text-[#6B717F]'
-                }`}>
+                <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.role === option ? theme.text : theme.textSecondary }}>
                   {option}
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[6px]" />
+                <div className="h-[1px] my-[6px]" style={{ backgroundColor: theme.border }} />
               )}
             </div>
           ))}
@@ -473,7 +534,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -495,14 +556,12 @@ export const Element = (): JSX.Element => {
                   onClick={() => {}}
                   className="mt-[4px]"
                 />
-                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.bottleneck === option ? 'text-white' : 'text-[#6B717F]'
-                }`}>
+                <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.bottleneck === option ? theme.text : theme.textSecondary }}>
                   {option}
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[6px]" />
+                <div className="h-[1px] my-[6px]" style={{ backgroundColor: theme.border }} />
               )}
             </div>
           ))}
@@ -534,7 +593,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -556,14 +615,12 @@ export const Element = (): JSX.Element => {
                   onClick={() => {}}
                   className="mt-[4px]"
                 />
-                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.revenue === option ? 'text-white' : 'text-[#6B717F]'
-                }`}>
+                <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.revenue === option ? theme.text : theme.textSecondary }}>
                   {option}
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[6px]" />
+                <div className="h-[1px] my-[6px]" style={{ backgroundColor: theme.border }} />
               )}
             </div>
           ))}
@@ -595,7 +652,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -617,14 +674,12 @@ export const Element = (): JSX.Element => {
                   onClick={() => {}}
                   className="mt-[4px]"
                 />
-                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.teamSize === option ? 'text-white' : 'text-[#6B717F]'
-                }`}>
+                <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.teamSize === option ? theme.text : theme.textSecondary }}>
                   {option}
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[6px]" />
+                <div className="h-[1px] my-[6px]" style={{ backgroundColor: theme.border }} />
               )}
             </div>
           ))}
@@ -662,7 +717,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -673,7 +728,8 @@ export const Element = (): JSX.Element => {
         <div className="relative max-w-[450px]">
           {/* Dropdown trigger */}
           <div 
-            className="flex items-center justify-between gap-[9px] cursor-pointer py-[12px] px-[16px] border border-white/10 rounded-[8px] transition-all duration-200 hover:border-[#A646E6]"
+            className="flex items-center justify-between gap-[9px] cursor-pointer py-[12px] px-[16px] rounded-[8px] transition-all duration-200 hover:border-[#A646E6]"
+            style={{ border: `1px solid ${theme.border}` }}
             onClick={() => setIsSegmentDropdownOpen(!isSegmentDropdownOpen)}
           >
             <div className="flex items-center gap-[9px]">
@@ -682,9 +738,7 @@ export const Element = (): JSX.Element => {
                 onClick={() => {}}
                 className="mt-0"
               />
-              <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
-                formData.segment ? 'text-white' : 'text-[#6B717F]'
-              }`}>
+              <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3]" style={{ color: formData.segment ? theme.text : theme.textSecondary }}>
                 {formData.segment || "Selecione o segmento"}
               </span>
             </div>
@@ -700,9 +754,10 @@ export const Element = (): JSX.Element => {
 
           {/* Dropdown options */}
           <div 
-            className={`absolute top-full left-0 right-0 mt-2 bg-[#0C0D0F] border border-white/10 rounded-[8px] overflow-hidden z-20 transition-all duration-200 ${
+            className={`absolute top-full left-0 right-0 mt-2 rounded-[8px] overflow-hidden z-20 transition-all duration-200 ${
               isSegmentDropdownOpen ? 'opacity-100 max-h-[300px] overflow-y-auto' : 'opacity-0 max-h-0 pointer-events-none'
             }`}
+            style={{ backgroundColor: isDarkMode ? '#0C0D0F' : '#FFFFFF', border: `1px solid ${theme.border}` }}
           >
             {options.map((option, index) => (
               <div key={option}>
@@ -717,14 +772,12 @@ export const Element = (): JSX.Element => {
                     onClick={() => {}}
                     className="mt-0"
                   />
-                  <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] ${
-                    formData.segment === option ? 'text-white' : 'text-[#6B717F]'
-                  }`}>
+                  <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3]" style={{ color: formData.segment === option ? theme.text : theme.textSecondary }}>
                     {option}
                   </span>
                 </div>
                 {index < options.length - 1 && (
-                  <div className="h-[1px] bg-white/5 mx-[16px]" />
+                  <div className="h-[1px] mx-[16px]" style={{ backgroundColor: theme.border }} />
                 )}
               </div>
             ))}
@@ -755,7 +808,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -777,14 +830,12 @@ export const Element = (): JSX.Element => {
                   onClick={() => {}}
                   className="mt-[4px]"
                 />
-                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.urgency === option ? 'text-white' : 'text-[#6B717F]'
-                }`}>
+                <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.urgency === option ? theme.text : theme.textSecondary }}>
                   {option}
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[6px]" />
+                <div className="h-[1px] my-[6px]" style={{ backgroundColor: theme.border }} />
               )}
             </div>
           ))}
@@ -812,7 +863,7 @@ export const Element = (): JSX.Element => {
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -834,14 +885,12 @@ export const Element = (): JSX.Element => {
                   onClick={() => {}}
                   className="mt-[4px]"
                 />
-                <span className={`font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px] ${
-                  formData.hasPartner === option ? 'text-white' : 'text-[#6B717F]'
-                }`}>
+                <span className="font-['Inter'] font-normal text-[16px] sm:text-[18px] leading-[1.3] pt-[1px]" style={{ color: formData.hasPartner === option ? theme.text : theme.textSecondary }}>
                   {option}
                 </span>
               </div>
               {index < options.length - 1 && (
-                <div className="h-[1px] bg-white/5 my-[6px]" />
+                <div className="h-[1px] my-[6px]" style={{ backgroundColor: theme.border }} />
               )}
             </div>
           ))}
@@ -885,13 +934,13 @@ export const Element = (): JSX.Element => {
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
         <div className="flex flex-col gap-3 sm:gap-4">
-          <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
+          <p className="font-['Inter'] font-normal text-[14px] sm:text-[18px] leading-[1.3]" style={{ color: theme.textSecondary }}>
             Para conhecermos melhor sua empresa, nos informe:
           </p>
           <h2 
             className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
             style={{
-              background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+              background: theme.textGradient,
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
@@ -915,7 +964,7 @@ export const Element = (): JSX.Element => {
           </div>
           
           {socialType && username && (
-            <div className="mt-2 p-4 bg-[#1a1a1a] rounded-[10px] border border-white/10 transition-all duration-300">
+            <div className="mt-2 p-4 rounded-[10px] transition-all duration-300" style={{ backgroundColor: isDarkMode ? '#1a1a1a' : '#F5F5F7', border: `1px solid ${theme.border}` }}>
               <div className="flex items-center gap-3">
                 {socialType === 'instagram' ? (
                   <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FFDC80] via-[#F56040] to-[#833AB4] flex items-center justify-center">
@@ -931,10 +980,10 @@ export const Element = (): JSX.Element => {
                   </div>
                 )}
                 <div className="flex flex-col">
-                  <span className="text-white font-['Inter'] font-medium text-sm">
+                  <span className="font-['Inter'] font-medium text-sm" style={{ color: theme.text }}>
                     {socialType === 'instagram' ? 'Instagram' : 'LinkedIn'}
                   </span>
-                  <span className="text-[#b8b8b8] font-['Inter'] text-xs">
+                  <span className="font-['Inter'] text-xs" style={{ color: theme.textSecondary }}>
                     @{username}
                   </span>
                 </div>
@@ -966,13 +1015,13 @@ export const Element = (): JSX.Element => {
   const renderContactForm = () => (
     <div className="flex flex-col gap-6 sm:gap-[37px]">
       <div className="flex flex-col gap-3 sm:gap-4">
-        <p className="font-['Inter'] font-normal text-[#b8b8b8] text-[14px] sm:text-[18px] leading-[1.3]">
+        <p className="font-['Inter'] font-normal text-[14px] sm:text-[18px] leading-[1.3]" style={{ color: theme.textSecondary }}>
           Perfeito! Agora vamos agendar sua Reunião Estratégica.
         </p>
         <h2 
           className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
           style={{
-            background: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+            background: theme.textGradient,
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -1072,5 +1121,17 @@ export const Element = (): JSX.Element => {
     }
   };
 
-  return renderFormLayout(stepContent(), step - 1);
+  if (step === 0) {
+    return (
+      <div className={!isDarkMode ? 'light-mode' : ''}>
+        {renderWelcomeScreen()}
+      </div>
+    );
+  }
+  
+  return (
+    <div className={!isDarkMode ? 'light-mode' : ''}>
+      {renderFormLayout(stepContent(), step - 1)}
+    </div>
+  );
 };
