@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut, Trash2, Filter, X } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut, Trash2, Filter, X, Link, Copy, Check, ExternalLink } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { supabase, type Lead } from "@/lib/supabase";
@@ -28,6 +28,16 @@ export default function Dashboard() {
     segment: '',
     utm_source: '',
   });
+  const [utmGenerator, setUtmGenerator] = useState({
+    baseUrl: '',
+    source: '',
+    medium: '',
+    campaign: '',
+    content: '',
+    term: ''
+  });
+  const [generatedUrl, setGeneratedUrl] = useState('');
+  const [urlCopied, setUrlCopied] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -237,6 +247,90 @@ export default function Dashboard() {
   };
 
   const activeFilterCount = Object.values(filters).filter(v => v).length;
+
+  const generateUtmUrl = () => {
+    if (!utmGenerator.baseUrl) return;
+    
+    let url = utmGenerator.baseUrl;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
+    
+    const params = new URLSearchParams();
+    if (utmGenerator.source) params.append('utm_source', utmGenerator.source);
+    if (utmGenerator.medium) params.append('utm_medium', utmGenerator.medium);
+    if (utmGenerator.campaign) params.append('utm_campaign', utmGenerator.campaign);
+    if (utmGenerator.content) params.append('utm_content', utmGenerator.content);
+    if (utmGenerator.term) params.append('utm_term', utmGenerator.term);
+    
+    const separator = url.includes('?') ? '&' : '?';
+    const finalUrl = params.toString() ? `${url}${separator}${params.toString()}` : url;
+    setGeneratedUrl(finalUrl);
+    setUrlCopied(false);
+  };
+
+  const copyToClipboard = async () => {
+    if (!generatedUrl) return;
+    try {
+      await navigator.clipboard.writeText(generatedUrl);
+      setUrlCopied(true);
+      setTimeout(() => setUrlCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const getUtmSourceStats = () => {
+    const stats: Record<string, number> = {};
+    submissions.forEach(sub => {
+      const source = sub.utm_source || 'Direto';
+      stats[source] = (stats[source] || 0) + 1;
+    });
+    return Object.entries(stats)
+      .map(([name, count]) => ({ name, count, percentage: Math.round((count / submissions.length) * 100) || 0 }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+  };
+
+  const getDeviceStats = () => {
+    const stats: Record<string, number> = {};
+    submissions.forEach(sub => {
+      const device = sub.device || 'Desconhecido';
+      stats[device] = (stats[device] || 0) + 1;
+    });
+    return Object.entries(stats)
+      .map(([name, count]) => ({ name, count, percentage: Math.round((count / submissions.length) * 100) || 0 }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  const getTrafficSourceStats = () => {
+    const stats: Record<string, number> = {};
+    submissions.forEach(sub => {
+      let source = 'Direto';
+      if (sub.utm_source) {
+        source = sub.utm_source;
+      } else if (sub.social_media) {
+        source = sub.social_media;
+      } else if (sub.referrer) {
+        const referrerLower = sub.referrer.toLowerCase();
+        if (referrerLower.includes('instagram')) source = 'Instagram';
+        else if (referrerLower.includes('youtube')) source = 'YouTube';
+        else if (referrerLower.includes('facebook')) source = 'Facebook';
+        else if (referrerLower.includes('google')) source = 'Google';
+        else if (referrerLower.includes('tiktok')) source = 'TikTok';
+        else source = 'Outro';
+      }
+      stats[source] = (stats[source] || 0) + 1;
+    });
+    return Object.entries(stats)
+      .map(([name, count]) => ({ name, count, percentage: Math.round((count / submissions.length) * 100) || 0 }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+  };
+
+  const utmSourceStats = getUtmSourceStats();
+  const deviceStats = getDeviceStats();
+  const trafficSourceStats = getTrafficSourceStats();
 
   const getUrgencyBadge = (urgency: string | null) => {
     if (!urgency) return null;
@@ -1066,6 +1160,366 @@ export default function Dashboard() {
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* UTM Analytics Section */}
+          <div className="mt-8">
+            <div className="flex items-start gap-2 mb-4">
+              <svg className="mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
+                <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
+              </svg>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Análise de Tráfego</span>
+                <span 
+                  className="text-[24px] md:text-[38px]"
+                  style={{ 
+                    fontFamily: 'Inter', 
+                    fontWeight: 500, 
+                    lineHeight: '1.1',
+                    background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
+                  Origem dos Leads
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              {/* UTM Sources Card */}
+              <div 
+                className="p-4 flex flex-col w-full md:w-[calc(50%-8px)] lg:w-[300px]"
+                style={{ 
+                  background: '#101115', 
+                  border: '1px solid rgba(255, 255, 255, 0.03)', 
+                  borderRadius: '12px'
+                }}
+              >
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '16px', fontSize: '14px' }}>UTM Sources</p>
+                {utmSourceStats.length === 0 ? (
+                  <p style={{ color: '#6E707C', fontSize: '13px' }}>Sem dados de UTM</p>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    {utmSourceStats.map((stat, index) => (
+                      <div key={stat.name} className="flex items-center gap-3">
+                        <div 
+                          className="w-full rounded-full overflow-hidden" 
+                          style={{ height: '8px', background: 'rgba(255,255,255,0.1)' }}
+                        >
+                          <div 
+                            style={{ 
+                              width: `${stat.percentage}%`, 
+                              height: '100%', 
+                              background: index === 0 ? '#A646E6' : index === 1 ? '#7331FF' : index === 2 ? '#00FED1' : '#6E707C',
+                              borderRadius: '4px'
+                            }} 
+                          />
+                        </div>
+                        <span style={{ color: '#979BA2', fontSize: '13px', minWidth: '100px', fontFamily: 'Inter' }}>{stat.name}</span>
+                        <span style={{ color: 'white', fontSize: '14px', fontWeight: 500, fontFamily: 'Inter' }}>{stat.count}</span>
+                        <span style={{ color: '#6E707C', fontSize: '12px', fontFamily: 'Inter' }}>({stat.percentage}%)</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Traffic Sources Card */}
+              <div 
+                className="p-4 flex flex-col w-full md:w-[calc(50%-8px)] lg:w-[300px]"
+                style={{ 
+                  background: '#101115', 
+                  border: '1px solid rgba(255, 255, 255, 0.03)', 
+                  borderRadius: '12px'
+                }}
+              >
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '16px', fontSize: '14px' }}>Fontes de Tráfego</p>
+                {trafficSourceStats.length === 0 ? (
+                  <p style={{ color: '#6E707C', fontSize: '13px' }}>Sem dados</p>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    {trafficSourceStats.map((stat, index) => (
+                      <div key={stat.name} className="flex items-center gap-3">
+                        <div 
+                          className="w-full rounded-full overflow-hidden" 
+                          style={{ height: '8px', background: 'rgba(255,255,255,0.1)' }}
+                        >
+                          <div 
+                            style={{ 
+                              width: `${stat.percentage}%`, 
+                              height: '100%', 
+                              background: index === 0 ? '#E03232' : index === 1 ? '#FE30FD' : index === 2 ? '#00FED1' : index === 3 ? '#7331FF' : '#6E707C',
+                              borderRadius: '4px'
+                            }} 
+                          />
+                        </div>
+                        <span style={{ color: '#979BA2', fontSize: '13px', minWidth: '100px', fontFamily: 'Inter' }}>{stat.name}</span>
+                        <span style={{ color: 'white', fontSize: '14px', fontWeight: 500, fontFamily: 'Inter' }}>{stat.count}</span>
+                        <span style={{ color: '#6E707C', fontSize: '12px', fontFamily: 'Inter' }}>({stat.percentage}%)</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Device Stats Card */}
+              <div 
+                className="p-4 flex flex-col w-full md:w-[calc(50%-8px)] lg:w-[250px]"
+                style={{ 
+                  background: '#101115', 
+                  border: '1px solid rgba(255, 255, 255, 0.03)', 
+                  borderRadius: '12px'
+                }}
+              >
+                <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '16px', fontSize: '14px' }}>Dispositivos</p>
+                {deviceStats.length === 0 ? (
+                  <p style={{ color: '#6E707C', fontSize: '13px' }}>Sem dados</p>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    {deviceStats.map((stat, index) => (
+                      <div key={stat.name} className="flex items-center justify-between">
+                        <span style={{ color: '#979BA2', fontSize: '13px', fontFamily: 'Inter' }}>{stat.name}</span>
+                        <div className="flex items-center gap-2">
+                          <span style={{ color: 'white', fontSize: '14px', fontWeight: 500, fontFamily: 'Inter' }}>{stat.count}</span>
+                          <span 
+                            className="px-2 py-1 rounded-full"
+                            style={{ 
+                              background: index === 0 ? 'rgba(166, 70, 230, 0.15)' : 'rgba(255,255,255,0.05)', 
+                              color: index === 0 ? '#A646E6' : '#6E707C',
+                              fontSize: '12px',
+                              fontFamily: 'Inter'
+                            }}
+                          >
+                            {stat.percentage}%
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* UTM Generator Section */}
+          <div className="mt-8 mb-8">
+            <div className="flex items-start gap-2 mb-4">
+              <svg className="mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M0 7C0 3.13401 3.13401 0 7 0C10.866 0 14 3.13401 14 7C14 10.866 10.866 14 7 14C3.13401 14 0 10.866 0 7Z" fill="white" fillOpacity="0.1"/>
+                <path d="M10 7C10 8.65685 8.65685 10 7 10C5.34315 10 4 8.65685 4 7C4 5.34315 5.34315 4 7 4C8.65685 4 10 5.34315 10 7Z" fill="white"/>
+              </svg>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <span style={{ color: '#6E707C', fontFamily: 'Inter', fontSize: '13px', fontWeight: 400, lineHeight: '23.4px' }}>Ferramenta</span>
+                <span 
+                  className="text-[24px] md:text-[38px]"
+                  style={{ 
+                    fontFamily: 'Inter', 
+                    fontWeight: 500, 
+                    lineHeight: '1.1',
+                    background: 'linear-gradient(88deg, #F6F6F8 6.29%, #A8B2BC 87%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}
+                >
+                  Gerador de Links UTM
+                </span>
+              </div>
+            </div>
+
+            <div 
+              className="p-6"
+              style={{ 
+                background: '#101115', 
+                border: '1px solid rgba(255, 255, 255, 0.03)', 
+                borderRadius: '12px'
+              }}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                <div className="flex flex-col gap-2">
+                  <label style={{ color: '#979BA2', fontSize: '13px', fontFamily: 'Inter' }}>URL Base *</label>
+                  <input
+                    type="text"
+                    placeholder="ex: seusite.com"
+                    value={utmGenerator.baseUrl}
+                    onChange={(e) => setUtmGenerator({ ...utmGenerator, baseUrl: e.target.value })}
+                    className="px-4 py-2 rounded-md"
+                    style={{
+                      background: '#0E0F12',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      fontFamily: 'Inter',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-utm-base-url"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label style={{ color: '#979BA2', fontSize: '13px', fontFamily: 'Inter' }}>UTM Source *</label>
+                  <input
+                    type="text"
+                    placeholder="ex: instagram, youtube, google"
+                    value={utmGenerator.source}
+                    onChange={(e) => setUtmGenerator({ ...utmGenerator, source: e.target.value })}
+                    className="px-4 py-2 rounded-md"
+                    style={{
+                      background: '#0E0F12',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      fontFamily: 'Inter',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-utm-source"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label style={{ color: '#979BA2', fontSize: '13px', fontFamily: 'Inter' }}>UTM Medium</label>
+                  <input
+                    type="text"
+                    placeholder="ex: social, cpc, email"
+                    value={utmGenerator.medium}
+                    onChange={(e) => setUtmGenerator({ ...utmGenerator, medium: e.target.value })}
+                    className="px-4 py-2 rounded-md"
+                    style={{
+                      background: '#0E0F12',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      fontFamily: 'Inter',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-utm-medium"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label style={{ color: '#979BA2', fontSize: '13px', fontFamily: 'Inter' }}>UTM Campaign</label>
+                  <input
+                    type="text"
+                    placeholder="ex: lancamento-2024"
+                    value={utmGenerator.campaign}
+                    onChange={(e) => setUtmGenerator({ ...utmGenerator, campaign: e.target.value })}
+                    className="px-4 py-2 rounded-md"
+                    style={{
+                      background: '#0E0F12',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      fontFamily: 'Inter',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-utm-campaign"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label style={{ color: '#979BA2', fontSize: '13px', fontFamily: 'Inter' }}>UTM Content</label>
+                  <input
+                    type="text"
+                    placeholder="ex: banner-topo"
+                    value={utmGenerator.content}
+                    onChange={(e) => setUtmGenerator({ ...utmGenerator, content: e.target.value })}
+                    className="px-4 py-2 rounded-md"
+                    style={{
+                      background: '#0E0F12',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      fontFamily: 'Inter',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-utm-content"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label style={{ color: '#979BA2', fontSize: '13px', fontFamily: 'Inter' }}>UTM Term</label>
+                  <input
+                    type="text"
+                    placeholder="ex: consultoria"
+                    value={utmGenerator.term}
+                    onChange={(e) => setUtmGenerator({ ...utmGenerator, term: e.target.value })}
+                    className="px-4 py-2 rounded-md"
+                    style={{
+                      background: '#0E0F12',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: 'white',
+                      fontFamily: 'Inter',
+                      fontSize: '14px'
+                    }}
+                    data-testid="input-utm-term"
+                  />
+                </div>
+              </div>
+
+              <button
+                onClick={generateUtmUrl}
+                disabled={!utmGenerator.baseUrl || !utmGenerator.source}
+                className="flex items-center gap-2 px-6 py-2 rounded-md transition-colors mb-4"
+                style={{
+                  background: utmGenerator.baseUrl && utmGenerator.source ? '#A646E6' : '#3B3B3B',
+                  color: 'white',
+                  fontFamily: 'Inter',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  cursor: utmGenerator.baseUrl && utmGenerator.source ? 'pointer' : 'not-allowed'
+                }}
+                data-testid="button-generate-utm"
+              >
+                <Link className="w-4 h-4" />
+                Gerar Link
+              </button>
+
+              {generatedUrl && (
+                <div className="mt-4 p-4 rounded-md" style={{ background: '#0E0F12', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex-1 overflow-hidden">
+                      <p style={{ color: '#6E707C', fontSize: '12px', marginBottom: '4px', fontFamily: 'Inter' }}>Link Gerado:</p>
+                      <p 
+                        style={{ 
+                          color: '#A646E6', 
+                          fontSize: '14px', 
+                          fontFamily: 'Inter',
+                          wordBreak: 'break-all'
+                        }}
+                        data-testid="text-generated-url"
+                      >
+                        {generatedUrl}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={copyToClipboard}
+                        className="flex items-center gap-2 px-4 py-2 rounded-md transition-colors"
+                        style={{
+                          background: urlCopied ? 'rgba(16, 185, 129, 0.15)' : 'rgba(166, 70, 230, 0.15)',
+                          color: urlCopied ? '#10B981' : '#A646E6',
+                          fontFamily: 'Inter',
+                          fontSize: '14px'
+                        }}
+                        data-testid="button-copy-utm"
+                      >
+                        {urlCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                        {urlCopied ? 'Copiado!' : 'Copiar'}
+                      </button>
+                      <a
+                        href={generatedUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-md transition-colors"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          color: '#979BA2',
+                          fontFamily: 'Inter',
+                          fontSize: '14px'
+                        }}
+                        data-testid="link-open-utm"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Abrir
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
