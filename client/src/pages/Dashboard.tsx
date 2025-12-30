@@ -483,7 +483,7 @@ export default function Dashboard() {
 
       {/* Desktop Sidebar */}
       <aside 
-        className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[309px]'} min-h-screen transition-all duration-300 relative`}
+        className={`hidden lg:flex flex-col ${sidebarCollapsed ? 'w-[60px]' : 'w-[309px]'} h-screen transition-all duration-300 relative sticky top-0`}
         style={{ 
           background: '#0C0D0F',
           borderRight: '1px solid rgba(255, 255, 255, 0.03)',
