@@ -1,0 +1,177 @@
+1) useAttribution.tsx (hook) + AttributionHiddenFields.tsx
+
+Pode usar em .tsx ou .jsx (só remover types).
+
+// useAttribution.tsx
+import { useEffect, useMemo, useState } from "react";
+
+type AttributionData = Record<string, string>;
+
+const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
+
+const EXTRA_KEYS = ["referrer", "first_page", "current_page", "device", "timestamp"] as const;
+
+export const ATTR_KEYS = [...UTM_KEYS, ...EXTRA_KEYS] as const;
+
+function getDeviceType() {
+  const ua = navigator.userAgent.toLowerCase();
+  if (/mobile|android|iphone|ipad|ipod/.test(ua)) return "mobile";
+  return "desktop";
+}
+
+function nowISO() {
+  return new Date().toISOString();
+}
+
+function getUTMsFromURL(url: string) {
+  const u = new URL(url);
+  const params = u.searchParams;
+  const out: AttributionData = {};
+  UTM_KEYS.forEach((k) => {
+    const v = params.get(k);
+    if (v) out[k] = v;
+  });
+  return out;
+}
+
+function loadFromStorage(): AttributionData {
+  const out: AttributionData = {};
+  ATTR_KEYS.forEach((k) => {
+    const v = localStorage.getItem(k);
+    if (v) out[k] = v;
+  });
+  return out;
+}
+
+function saveToStorage(data: AttributionData) {
+  Object.entries(data).forEach(([k, v]) => {
+    if (!v) return;
+
+    // Não sobrescreve campos de "primeiro toque"
+    const isFirstTouch =
+      k === "first_page" ||
+      k === "referrer" ||
+      k.startsWith("utm_");
+
+    // Sempre atualiza estes
+    const alwaysUpdate = k === "current_page" || k === "timestamp";
+
+    if (alwaysUpdate) {
+      localStorage.setItem(k, v);
+      return;
+    }
+
+    if (isFirstTouch) {
+      if (!localStorage.getItem(k)) localStorage.setItem(k, v);
+      return;
+    }
+
+    // fallback
+    if (!localStorage.getItem(k)) localStorage.setItem(k, v);
+  });
+}
+
+/**
+ * Hook principal:
+ * - Captura UTMs da URL atual
+ * - Salva first_page/referrer (1ª visita)
+ * - Atualiza current_page e timestamp em toda navegação (SPA)
+ */
+export function useAttribution(currentUrl?: string) {
+  const initialUrl = useMemo(() => currentUrl ?? window.location.href, [currentUrl]);
+  const [data, setData] = useState<AttributionData>(() => loadFromStorage());
+
+  useEffect(() => {
+    const url = currentUrl ?? window.location.href;
+
+    const utms = getUTMsFromURL(url);
+
+    const payload: AttributionData = {
+      ...utms,
+      // primeira visita
+      referrer: localStorage.getItem("referrer") ? "" : (document.referrer || "direct"),
+      first_page: localStorage.getItem("first_page") ? "" : window.location.href,
+      // sempre
+      current_page: url,
+      device: getDeviceType(),
+      timestamp: nowISO(),
+    };
+
+    saveToStorage(payload);
+    setData(loadFromStorage());
+  }, [currentUrl, initialUrl]);
+
+  return data;
+}
+
+// AttributionHiddenFields.tsx
+import React from "react";
+import { ATTR_KEYS, useAttribution } from "./useAttribution";
+
+type Props = {
+  /**
+   * Se você usa React Router, passe aqui o URL completo construído a partir do location.
+   * Se não passar nada, ele usa window.location.href.
+   */
+  currentUrl?: string;
+};
+
+export function AttributionHiddenFields({ currentUrl }: Props) {
+  const data = useAttribution(currentUrl);
+
+  return (
+    <>
+      {ATTR_KEYS.map((key) => (
+        <input
+          key={key}
+          type="hidden"
+          name={key}
+          value={data[key] || ""}
+          readOnly
+        />
+      ))}
+    </>
+  );
+}
+
+2) Como usar dentro do seu form
+✅ A) Se você usa React Router (v6)
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { AttributionHiddenFields } from "./AttributionHiddenFields";
+
+export default function LeadForm() {
+  const location = useLocation();
+  const currentUrl = `${window.location.origin}${location.pathname}${location.search}${location.hash}`;
+
+  return (
+    <form method="post" action="/api/lead">
+      <AttributionHiddenFields currentUrl={currentUrl} />
+
+      <input name="name" placeholder="Seu nome" required />
+      <input name="email" placeholder="Seu email" required />
+
+      <button type="submit">Enviar</button>
+    </form>
+  );
+}
+
+
+Isso garante que current_page e timestamp atualizem toda vez que muda rota.
+
+✅ B) Se você NÃO usa router (site “uma página”)
+import React from "react";
+import { AttributionHiddenFields } from "./AttributionHiddenFields";
+
+export default function LeadForm() {
+  return (
+    <form method="post" action="/api/lead">
+      <AttributionHiddenFields />
+
+      <input name="name" placeholder="Seu nome" required />
+      <input name="email" placeholder="Seu email" required />
+
+      <button type="submit">Enviar</button>
+    </form>
+  );
+}

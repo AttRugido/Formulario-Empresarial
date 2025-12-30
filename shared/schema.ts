@@ -30,6 +30,15 @@ export const formSubmissions = pgTable("form_submissions", {
   name: text("name"),
   email: text("email"),
   phone: text("phone"),
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
+  utmContent: text("utm_content"),
+  utmTerm: text("utm_term"),
+  referrer: text("referrer"),
+  firstPage: text("first_page"),
+  currentPage: text("current_page"),
+  device: text("device"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

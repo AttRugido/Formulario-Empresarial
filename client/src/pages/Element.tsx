@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import InputMask from "react-input-mask";
 import { supabase } from "@/lib/supabase";
+import { useAttribution } from "@/hooks/useAttribution";
 
 import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
 import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
@@ -126,6 +127,7 @@ export const Element = (): JSX.Element => {
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const attribution = useAttribution();
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -223,7 +225,16 @@ export const Element = (): JSX.Element => {
           segment: formData.segment,
           urgency: formData.urgency,
           has_partner: formData.hasPartner,
-          social_media: formData.socialMedia
+          social_media: formData.socialMedia,
+          utm_source: attribution.utm_source || null,
+          utm_medium: attribution.utm_medium || null,
+          utm_campaign: attribution.utm_campaign || null,
+          utm_content: attribution.utm_content || null,
+          utm_term: attribution.utm_term || null,
+          referrer: attribution.referrer || null,
+          first_page: attribution.first_page || null,
+          current_page: attribution.current_page || null,
+          device: attribution.device || null
         });
         
         if (error) {
