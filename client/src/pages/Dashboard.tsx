@@ -3,9 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut, Trash2, Sun, Moon } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut, Trash2, Filter, X } from "lucide-react";
 import { useLocation } from "wouter";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase, type Lead } from "@/lib/supabase";
 
 interface FunnelData {
@@ -19,33 +19,15 @@ export default function Dashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return true;
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    device: '',
+    has_partner: '',
+    revenue: '',
+    urgency: '',
+    segment: '',
+    utm_source: '',
   });
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDarkMode(e.matches);
-    };
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  const theme = {
-    bg: isDarkMode ? '#08090B' : '#FFFFFF',
-    bgSecondary: isDarkMode ? '#0C0D0F' : '#F5F5F7',
-    bgCard: isDarkMode ? '#101115' : '#FAFAFA',
-    bgTable: isDarkMode ? '#0B0C0E' : '#FFFFFF',
-    text: isDarkMode ? '#FFFFFF' : '#08090B',
-    textSecondary: isDarkMode ? '#979BA2' : '#666666',
-    textTertiary: isDarkMode ? '#6E707C' : '#888888',
-    border: isDarkMode ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.08)',
-    borderLight: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.1)',
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -220,14 +202,41 @@ export default function Dashboard() {
   };
 
   const filteredSubmissions = submissions.filter(sub => {
-    if (!searchTerm) return true;
-    const term = searchTerm.toLowerCase();
-    return (
-      (sub.name?.toLowerCase().includes(term)) ||
-      (sub.email?.toLowerCase().includes(term)) ||
-      (sub.phone?.includes(term))
-    );
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      const matchesSearch = (
+        (sub.name?.toLowerCase().includes(term)) ||
+        (sub.email?.toLowerCase().includes(term)) ||
+        (sub.phone?.includes(term))
+      );
+      if (!matchesSearch) return false;
+    }
+    if (filters.device && sub.device !== filters.device) return false;
+    if (filters.has_partner && sub.has_partner !== filters.has_partner) return false;
+    if (filters.revenue && sub.revenue !== filters.revenue) return false;
+    if (filters.urgency && sub.urgency !== filters.urgency) return false;
+    if (filters.segment && sub.segment !== filters.segment) return false;
+    if (filters.utm_source && sub.utm_source !== filters.utm_source) return false;
+    return true;
   });
+
+  const getUniqueValues = (key: keyof Lead) => {
+    const values = submissions.map(s => s[key]).filter((v): v is string => !!v);
+    return Array.from(new Set(values));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      device: '',
+      has_partner: '',
+      revenue: '',
+      urgency: '',
+      segment: '',
+      utm_source: '',
+    });
+  };
+
+  const activeFilterCount = Object.values(filters).filter(v => v).length;
 
   const getUrgencyBadge = (urgency: string | null) => {
     if (!urgency) return null;
@@ -318,7 +327,7 @@ export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex" style={{ background: theme.bg }}>
+    <div className="min-h-screen flex" style={{ background: '#08090B' }}>
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div 
@@ -545,25 +554,8 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        {/* Theme Toggle */}
-        <button
-          onClick={() => setIsDarkMode(!isDarkMode)}
-          className="fixed top-4 right-4 z-50 p-2 rounded-full transition-all duration-200"
-          style={{
-            backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-            border: `1px solid ${theme.borderLight}`
-          }}
-          data-testid="button-theme-toggle"
-        >
-          {isDarkMode ? (
-            <Sun className="w-5 h-5" style={{ color: theme.text }} />
-          ) : (
-            <Moon className="w-5 h-5" style={{ color: theme.text }} />
-          )}
-        </button>
-
         {/* Header */}
-        <header className="sticky top-0 z-10 p-3 md:p-4" style={{ background: theme.bg }}>
+        <header className="sticky top-0 z-10 p-3 md:p-4" style={{ background: '#08090B' }}>
           <div className="flex items-center" style={{ gap: '8px' }}>
             <Button 
               variant="ghost" 
@@ -747,38 +739,154 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Filters */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="gap-2"
+                  style={{ borderColor: 'rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                  data-testid="button-toggle-filters"
+                >
+                  <Filter className="w-4 h-4" />
+                  Filtros
+                  {activeFilterCount > 0 && (
+                    <span className="ml-1 px-2 py-0.5 rounded-full text-xs bg-[#A646E6] text-white">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </Button>
+                {activeFilterCount > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="gap-1 text-[#979BA2] hover:text-white"
+                    data-testid="button-clear-filters"
+                  >
+                    <X className="w-4 h-4" />
+                    Limpar filtros
+                  </Button>
+                )}
+              </div>
+              
+              {showFilters && (
+                <div className="mt-3 p-4 rounded-lg flex flex-wrap gap-3" style={{ background: '#101115', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                  <select
+                    value={filters.device}
+                    onChange={(e) => setFilters({ ...filters, device: e.target.value })}
+                    className="px-3 py-2 rounded-md text-sm"
+                    style={{ background: '#1A1A1F', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                    data-testid="select-filter-device"
+                  >
+                    <option value="">Dispositivo</option>
+                    {getUniqueValues('device').map(v => (
+                      <option key={v} value={v}>{v}</option>
+                    ))}
+                  </select>
+                  
+                  <select
+                    value={filters.has_partner}
+                    onChange={(e) => setFilters({ ...filters, has_partner: e.target.value })}
+                    className="px-3 py-2 rounded-md text-sm"
+                    style={{ background: '#1A1A1F', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                    data-testid="select-filter-partner"
+                  >
+                    <option value="">Tem Sócio</option>
+                    {getUniqueValues('has_partner').map(v => (
+                      <option key={v} value={v}>{v}</option>
+                    ))}
+                  </select>
+                  
+                  <select
+                    value={filters.revenue}
+                    onChange={(e) => setFilters({ ...filters, revenue: e.target.value })}
+                    className="px-3 py-2 rounded-md text-sm"
+                    style={{ background: '#1A1A1F', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                    data-testid="select-filter-revenue"
+                  >
+                    <option value="">Faturamento</option>
+                    {getUniqueValues('revenue').map(v => (
+                      <option key={v} value={v}>{v}</option>
+                    ))}
+                  </select>
+                  
+                  <select
+                    value={filters.urgency}
+                    onChange={(e) => setFilters({ ...filters, urgency: e.target.value })}
+                    className="px-3 py-2 rounded-md text-sm"
+                    style={{ background: '#1A1A1F', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                    data-testid="select-filter-urgency"
+                  >
+                    <option value="">Urgência</option>
+                    {getUniqueValues('urgency').map(v => (
+                      <option key={v} value={v}>{v}</option>
+                    ))}
+                  </select>
+                  
+                  <select
+                    value={filters.segment}
+                    onChange={(e) => setFilters({ ...filters, segment: e.target.value })}
+                    className="px-3 py-2 rounded-md text-sm"
+                    style={{ background: '#1A1A1F', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                    data-testid="select-filter-segment"
+                  >
+                    <option value="">Segmento</option>
+                    {getUniqueValues('segment').map(v => (
+                      <option key={v} value={v}>{v}</option>
+                    ))}
+                  </select>
+                  
+                  <select
+                    value={filters.utm_source}
+                    onChange={(e) => setFilters({ ...filters, utm_source: e.target.value })}
+                    className="px-3 py-2 rounded-md text-sm"
+                    style={{ background: '#1A1A1F', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                    data-testid="select-filter-utm"
+                  >
+                    <option value="">UTM Source</option>
+                    {getUniqueValues('utm_source').map(v => (
+                      <option key={v} value={v}>{v}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+
             {/* Leads Table */}
-            <div className="overflow-x-auto custom-scrollbar" style={{ background: theme.bgTable, borderRadius: '12px', border: `1px solid ${theme.border}` }}>
+            <div className="overflow-x-auto custom-scrollbar" style={{ background: '#0B0C0E', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.03)' }}>
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
-                  <tr style={{ background: theme.bgCard, borderBottom: `1px solid ${theme.border}`, height: '63px' }}>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px', width: '50px' }}></th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Data</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Nome</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>E-mail</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Urgência</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Whatsapp</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Rede Social</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Cargo</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Gargalo</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Faturamento</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Tamanho do Time</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Segmento</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Tem Sócio</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>UTM Source</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>UTM Medium</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>UTM Campaign</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Dispositivo</th>
+                  <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px', width: '50px' }}></th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Data</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Nome</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>E-mail</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Urgência</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Whatsapp</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Rede Social</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Cargo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Gargalo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Faturamento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tamanho do Time</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Segmento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tem Sócio</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Source</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Medium</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Campaign</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Dispositivo</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingSubmissions ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={17} className="text-center" style={{ color: theme.textSecondary, fontSize: '16px' }}>Carregando...</td>
+                      <td colSpan={17} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
                     </tr>
                   ) : filteredSubmissions.length === 0 ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={17} className="text-center" style={{ color: theme.textSecondary, fontSize: '16px' }}>Nenhum lead encontrado</td>
+                      <td colSpan={17} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
                     </tr>
                   ) : (
                     filteredSubmissions.map((sub, index) => (
@@ -827,12 +935,12 @@ export default function Dashboard() {
                         </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{sub.revenue || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.team_size || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.segment || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.has_partner || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.utm_source || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.utm_medium || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.utm_campaign || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.device || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.segment || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.has_partner || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_source || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_medium || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_campaign || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.device || "-"}</td>
                       </tr>
                     ))
                   )}
