@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import InputMask from "react-input-mask";
 import { supabase } from "@/lib/supabase";
 import { useAttribution } from "@/hooks/useAttribution";
+import { useToast } from "@/hooks/use-toast";
 
 import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
 import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
@@ -105,6 +106,7 @@ const sidebarMessages = [
 
 export const Element = (): JSX.Element => {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [displayStep, setDisplayStep] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -211,10 +213,15 @@ export const Element = (): JSX.Element => {
         console.log("Form already submitted, skipping duplicate submission");
         return;
       }
+      
+      console.log("Starting form submission...");
+      console.log("Form data:", formData);
+      console.log("Attribution data:", attribution);
+      
       setIsSubmitting(true);
       try {
         // Save to Supabase
-        const { error } = await supabase.from('leads').insert({
+        const insertData = {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -235,18 +242,35 @@ export const Element = (): JSX.Element => {
           first_page: attribution.first_page || null,
           current_page: attribution.current_page || null,
           device: attribution.device || null
-        });
+        };
+        
+        console.log("Inserting data to Supabase:", insertData);
+        
+        const { data, error } = await supabase.from('leads').insert(insertData).select();
+        
+        console.log("Supabase response - data:", data);
+        console.log("Supabase response - error:", error);
         
         if (error) {
           console.error("Error saving to Supabase:", error);
+          toast({
+            title: "Erro ao enviar",
+            description: error.message || "Ocorreu um erro ao enviar seus dados. Tente novamente.",
+            variant: "destructive"
+          });
           throw error;
         }
         
         setHasSubmitted(true);
         console.log("Form submitted successfully:", formData);
         setLocation("/obrigado");
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to submit form:", error);
+        toast({
+          title: "Erro ao enviar",
+          description: error?.message || "Ocorreu um erro ao enviar seus dados. Tente novamente.",
+          variant: "destructive"
+        });
       } finally {
         setIsSubmitting(false);
       }
@@ -1157,13 +1181,13 @@ export const Element = (): JSX.Element => {
         </div>
         <button
           onClick={handleNext}
-          disabled={!formData.name || !formData.email || !formData.phone || emailError !== "" || isTransitioning}
+          disabled={!formData.name || !formData.email || !formData.phone || emailError !== "" || isTransitioning || isSubmitting}
           className="green-animated-button w-full disabled:opacity-50"
           data-testid="button-prosseguir"
         >
           <span>
-            PROSSEGUIR
-            <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
+            {isSubmitting ? 'ENVIANDO...' : 'PROSSEGUIR'}
+            {!isSubmitting && <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />}
           </span>
         </button>
       </div>
