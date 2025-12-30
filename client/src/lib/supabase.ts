@@ -19,4 +19,13 @@ export interface Lead {
   urgency: string | null;
   has_partner: string | null;
   social_media: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_content: string | null;
+  utm_term: string | null;
+  referrer: string | null;
+  first_page: string | null;
+  current_page: string | null;
+  device: string | null;
 }

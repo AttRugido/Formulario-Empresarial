@@ -3,9 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut, Trash2 } from "lucide-react";
+import { Download, TrendingUp, TrendingDown, Search, ChevronRight, LayoutDashboard, PanelLeft, Settings, LogOut, Trash2, Sun, Moon } from "lucide-react";
 import { useLocation } from "wouter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase, type Lead } from "@/lib/supabase";
 
 interface FunnelData {
@@ -19,6 +19,33 @@ export default function Dashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDarkMode(e.matches);
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  const theme = {
+    bg: isDarkMode ? '#08090B' : '#FFFFFF',
+    bgSecondary: isDarkMode ? '#0C0D0F' : '#F5F5F7',
+    bgCard: isDarkMode ? '#101115' : '#FAFAFA',
+    bgTable: isDarkMode ? '#0B0C0E' : '#FFFFFF',
+    text: isDarkMode ? '#FFFFFF' : '#08090B',
+    textSecondary: isDarkMode ? '#979BA2' : '#666666',
+    textTertiary: isDarkMode ? '#6E707C' : '#888888',
+    border: isDarkMode ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.08)',
+    borderLight: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.1)',
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -98,7 +125,7 @@ export default function Dashboard() {
   const handleExportCSV = () => {
     if (submissions.length === 0) return;
     
-    const headers = ['Data', 'Nome', 'Email', 'Telefone', 'Cargo', 'Gargalo', 'Faturamento', 'Tamanho do Time', 'Segmento', 'Urgência', 'Tem Sócio', 'Rede Social'];
+    const headers = ['Data', 'Nome', 'Email', 'Telefone', 'Cargo', 'Gargalo', 'Faturamento', 'Tamanho do Time', 'Segmento', 'Urgência', 'Tem Sócio', 'Rede Social', 'UTM Source', 'UTM Medium', 'UTM Campaign', 'UTM Content', 'UTM Term', 'Referrer', 'Página Inicial', 'Página Atual', 'Dispositivo'];
     const rows = submissions.map(s => [
       formatDate(s.created_at),
       s.name || '',
@@ -111,7 +138,16 @@ export default function Dashboard() {
       s.segment || '',
       s.urgency || '',
       s.has_partner || '',
-      s.social_media || ''
+      s.social_media || '',
+      s.utm_source || '',
+      s.utm_medium || '',
+      s.utm_campaign || '',
+      s.utm_content || '',
+      s.utm_term || '',
+      s.referrer || '',
+      s.first_page || '',
+      s.current_page || '',
+      s.device || ''
     ]);
     
     const csvContent = [headers, ...rows]
@@ -282,7 +318,7 @@ export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#08090B' }}>
+    <div className="min-h-screen flex" style={{ background: theme.bg }}>
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div 
@@ -509,8 +545,25 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
+        {/* Theme Toggle */}
+        <button
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          className="fixed top-4 right-4 z-50 p-2 rounded-full transition-all duration-200"
+          style={{
+            backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+            border: `1px solid ${theme.borderLight}`
+          }}
+          data-testid="button-theme-toggle"
+        >
+          {isDarkMode ? (
+            <Sun className="w-5 h-5" style={{ color: theme.text }} />
+          ) : (
+            <Moon className="w-5 h-5" style={{ color: theme.text }} />
+          )}
+        </button>
+
         {/* Header */}
-        <header className="sticky top-0 z-10 p-3 md:p-4" style={{ background: '#08090B' }}>
+        <header className="sticky top-0 z-10 p-3 md:p-4" style={{ background: theme.bg }}>
           <div className="flex items-center" style={{ gap: '8px' }}>
             <Button 
               variant="ghost" 
@@ -695,33 +748,37 @@ export default function Dashboard() {
             </div>
 
             {/* Leads Table */}
-            <div className="overflow-x-auto custom-scrollbar" style={{ background: '#0B0C0E', borderRadius: '12px' }}>
+            <div className="overflow-x-auto custom-scrollbar" style={{ background: theme.bgTable, borderRadius: '12px', border: `1px solid ${theme.border}` }}>
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
-                  <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px', width: '50px' }}></th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Data</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Nome</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>E-mail</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Urgência</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Whatsapp</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Rede Social</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Cargo</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Gargalo</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Faturamento</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tamanho do Time</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Segmento</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tem Sócio</th>
+                  <tr style={{ background: theme.bgCard, borderBottom: `1px solid ${theme.border}`, height: '63px' }}>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px', width: '50px' }}></th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Data</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Nome</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>E-mail</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Urgência</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Whatsapp</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Rede Social</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Cargo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Gargalo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Faturamento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Tamanho do Time</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Segmento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Tem Sócio</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>UTM Source</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>UTM Medium</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>UTM Campaign</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: theme.textSecondary, fontSize: '16px' }}>Dispositivo</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingSubmissions ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={13} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
+                      <td colSpan={17} className="text-center" style={{ color: theme.textSecondary, fontSize: '16px' }}>Carregando...</td>
                     </tr>
                   ) : filteredSubmissions.length === 0 ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={13} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
+                      <td colSpan={17} className="text-center" style={{ color: theme.textSecondary, fontSize: '16px' }}>Nenhum lead encontrado</td>
                     </tr>
                   ) : (
                     filteredSubmissions.map((sub, index) => (
@@ -770,8 +827,12 @@ export default function Dashboard() {
                         </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{sub.revenue || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.team_size || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.segment || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.has_partner || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.segment || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.has_partner || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.utm_source || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.utm_medium || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.utm_campaign || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: theme.textSecondary, fontSize: '16px' }}>{sub.device || "-"}</td>
                       </tr>
                     ))
                   )}
