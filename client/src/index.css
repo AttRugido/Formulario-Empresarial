@@ -864,3 +864,39 @@
 .Documents-btn:hover .fileFront {
   transform: rotateX(30deg);
 }
+
+/* Filter button - same style as Documents-btn but without folder */
+.filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 0px 15px;
+  border-radius: 5px;
+  background-color: #0E0F12;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn .text {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.filter-btn svg {
+  color: white;
+}
+
+.filter-btn:hover {
+  background-color: #1C1E25;
+}
+
+.filter-btn:active {
+  transform: scale(0.95);
+}

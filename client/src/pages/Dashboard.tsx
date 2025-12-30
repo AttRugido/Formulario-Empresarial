@@ -742,22 +742,19 @@ export default function Dashboard() {
             {/* Filters */}
             <div className="mb-4">
               <div className="flex items-center gap-2 flex-wrap">
-                <Button
-                  variant="outline"
-                  size="sm"
+                <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="gap-2"
-                  style={{ borderColor: 'rgba(255, 255, 255, 0.1)', color: '#979BA2' }}
+                  className="filter-btn"
                   data-testid="button-toggle-filters"
                 >
                   <Filter className="w-4 h-4" />
-                  Filtros
+                  <span className="text">Filtros</span>
                   {activeFilterCount > 0 && (
                     <span className="ml-1 px-2 py-0.5 rounded-full text-xs bg-[#A646E6] text-white">
                       {activeFilterCount}
                     </span>
                   )}
-                </Button>
+                </button>
                 {activeFilterCount > 0 && (
                   <Button
                     variant="ghost"
