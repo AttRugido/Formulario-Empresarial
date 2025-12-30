@@ -967,17 +967,19 @@ export default function Dashboard() {
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Source</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Medium</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Campaign</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Content</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Term</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Dispositivo</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingSubmissions ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={17} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
+                      <td colSpan={19} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
                     </tr>
                   ) : filteredSubmissions.length === 0 ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={17} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
+                      <td colSpan={19} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
                     </tr>
                   ) : (
                     filteredSubmissions.map((sub, index) => (
@@ -1031,6 +1033,8 @@ export default function Dashboard() {
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_source || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_medium || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_campaign || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_content || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.utm_term || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{sub.device || "-"}</td>
                       </tr>
                     ))
