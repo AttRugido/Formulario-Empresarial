@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import sidebarBgLight from "@assets/Frame_3_1767052037501.png";
 
 export const ThankYou = (): JSX.Element => {
-  const whatsappNumber = "5541971844915";
+  const whatsappNumber = "554197184915";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
