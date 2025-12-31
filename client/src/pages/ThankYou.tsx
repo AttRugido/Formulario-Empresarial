@@ -1,12 +1,11 @@
-import { CheckCircle, AlertTriangle, Download, Clock, Phone, ArrowRightIcon, Sun, Moon } from "lucide-react";
+import { CheckCircle, AlertTriangle, Clock, Phone, ArrowRightIcon, Sun, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 
 import sidebarBgLight from "@assets/Frame_3_1767052037501.png";
 
 export const ThankYou = (): JSX.Element => {
-  const supportLink = "https://links.rugido.co/suporte";
-  const checklistLink = "#";
+  const whatsappNumber = "5541971844915";
+  const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -143,7 +142,7 @@ export const ThankYou = (): JSX.Element => {
                 <AlertTriangle className="w-5 h-5" />
                 <span className="font-['Inter'] font-medium text-[16px]">Não quer esperar?</span>
               </div>
-              <a href={supportLink} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                 <button 
                   className="green-animated-button w-full sm:w-auto"
                   data-testid="button-urgent-cta-top"
@@ -208,41 +207,7 @@ export const ThankYou = (): JSX.Element => {
             {/* Divider */}
             <div className="w-full h-[1px]" style={{ backgroundColor: theme.divider }} />
 
-            {/* Section 3: Download material */}
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="2">
-                  <rect x="3" y="8" width="18" height="13" rx="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 8V3M8 6l4-3 4 3" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <h2 className="font-['Inter'] font-medium text-[18px] sm:text-[20px]" style={{ color: theme.text }}>
-                  ENQUANTO AGUARDA A CONFIRMAÇÃO...
-                </h2>
-              </div>
-              <p className="font-['Inter'] font-normal text-[14px] sm:text-[16px] mb-4" style={{ color: theme.textSecondary }}>
-                Preparamos um material exclusivo para você começar a entender onde sua receita está travada:
-              </p>
-              <a href={checklistLink} target="_blank" rel="noopener noreferrer" className="block">
-                <Button 
-                  variant="outline"
-                  className="w-full py-6 text-[14px] sm:text-[16px] font-medium flex items-center justify-center gap-2"
-                  style={{ 
-                    borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
-                    color: theme.text,
-                    background: 'transparent'
-                  }}
-                  data-testid="button-download-checklist"
-                >
-                  <Download className="w-5 h-5" />
-                  BAIXAR CHECKLIST: 7 SINAIS DE QUE SUA EMPRESA PRECISA DE ENGENHARIA DE RECEITA
-                </Button>
-              </a>
-            </div>
-
-            {/* Divider */}
-            <div className="w-full h-[1px]" style={{ backgroundColor: theme.divider }} />
-
-            {/* Section 4: What happens now */}
+            {/* Section 3: What happens now */}
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-5 h-5" style={{ color: theme.text }} />
@@ -295,7 +260,7 @@ export const ThankYou = (): JSX.Element => {
               <p className="font-['Inter'] font-normal text-[14px] sm:text-[16px] mb-4" style={{ color: theme.textSecondary }}>
                 Se sua situação é crítica e você não pode esperar 24h:
               </p>
-              <a href={supportLink} target="_blank" rel="noopener noreferrer" className="inline-block">
+              <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="inline-block">
                 <button 
                   className="green-animated-button"
                   data-testid="button-urgent-cta-bottom"
