@@ -1,5 +1,5 @@
 import { CheckCircle, AlertTriangle, Clock, Phone, ArrowRightIcon, Sun, Moon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import sidebarBgLight from "@assets/Frame_3_1767052037501.png";
 
@@ -7,21 +7,7 @@ export const ThankYou = (): JSX.Element => {
   const whatsappNumber = "554197184915";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return true;
-  });
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDarkMode(e.matches);
-    };
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const theme = {
     bg: isDarkMode ? '#08090B' : '#FFFFFF',
