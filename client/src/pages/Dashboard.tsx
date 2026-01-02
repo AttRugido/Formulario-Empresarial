@@ -413,8 +413,15 @@ export default function Dashboard() {
 
   const openWhatsApp = (phone: string | null) => {
     if (!phone) return;
-    const cleaned = phone.replace(/\D/g, "");
+    // Remove todos os caracteres que não são números
+    let cleaned = phone.replace(/[^0-9]/g, "").trim();
+    // Remove zeros à esquerda extras
+    if (cleaned.startsWith("0")) {
+      cleaned = cleaned.substring(1);
+    }
+    // Adiciona código do país se não tiver
     const whatsappNumber = cleaned.startsWith("55") ? cleaned : `55${cleaned}`;
+    console.log("Phone original:", phone, "Limpo:", cleaned, "Final:", whatsappNumber);
     window.open(`https://wa.me/${whatsappNumber}`, "_blank");
   };
 
