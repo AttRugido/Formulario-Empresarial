@@ -1,5 +1,5 @@
 import { CheckCircle, AlertTriangle, Clock, Phone, ArrowRightIcon, Sun, Moon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import sidebarBgLight from "@assets/Frame_3_1767052037501.png";
 
@@ -8,6 +8,36 @@ export const ThankYou = (): JSX.Element => {
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Google Tag Manager
+  useEffect(() => {
+    // GTM Script
+    const script = document.createElement('script');
+    script.innerHTML = `
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-T2NQB9BN');
+    `;
+    document.head.appendChild(script);
+
+    // GTM noscript iframe
+    const noscript = document.createElement('noscript');
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.googletagmanager.com/ns.html?id=GTM-T2NQB9BN';
+    iframe.height = '0';
+    iframe.width = '0';
+    iframe.style.display = 'none';
+    iframe.style.visibility = 'hidden';
+    noscript.appendChild(iframe);
+    document.body.insertBefore(noscript, document.body.firstChild);
+
+    return () => {
+      document.head.removeChild(script);
+      document.body.removeChild(noscript);
+    };
+  }, []);
 
   const theme = {
     bg: isDarkMode ? '#08090B' : '#FFFFFF',
