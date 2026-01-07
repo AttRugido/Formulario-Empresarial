@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertFormSubmissionSchema, insertStepEventSchema } from "@shared/schema";
 
 const GOOGLE_SHEETS_WEBHOOK_URL = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+const EXTERNAL_WEBHOOK_URL = "https://webhook-agencia.lucasfelix.com/webhook/dfcd0293-86ea-4d13-9d41-8c09efaae495";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/submissions", async (req, res) => {
@@ -157,6 +158,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(funnel);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch funnel analytics" });
+    }
+  });
+
+  // Webhook proxy endpoint to avoid CORS issues
+  app.post("/api/webhook", async (req, res) => {
+    try {
+      console.log("Sending to external webhook:", req.body);
+      
+      const response = await fetch(EXTERNAL_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req.body),
+      });
+      
+      console.log("Webhook response status:", response.status);
+      
+      res.json({ success: true, status: response.status });
+    } catch (error) {
+      console.error("Webhook error:", error);
+      res.status(500).json({ error: "Failed to send webhook" });
     }
   });
 
