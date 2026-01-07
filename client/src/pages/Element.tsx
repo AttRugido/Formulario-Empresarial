@@ -246,6 +246,26 @@ export const Element = (): JSX.Element => {
           throw error;
         }
         
+        // Send all data to webhook
+        const webhookData = {
+          ...insertData,
+          submitted_at: new Date().toISOString()
+        };
+        
+        try {
+          await fetch('https://webhook-agencia.lucasfelix.com/webhook/dfcd0293-86ea-4d13-9d41-8c09efaae495', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(webhookData),
+            mode: 'no-cors'
+          });
+          console.log("Webhook sent successfully:", webhookData);
+        } catch (webhookError) {
+          console.error("Webhook error (non-blocking):", webhookError);
+        }
+        
         setHasSubmitted(true);
         console.log("Form submitted successfully:", formData);
         setLocation("/obrigado");
