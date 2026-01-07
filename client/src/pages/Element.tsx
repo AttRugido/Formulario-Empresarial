@@ -246,24 +246,37 @@ export const Element = (): JSX.Element => {
           throw error;
         }
         
-        // Send all data to webhook via server proxy
+        // Send all data to webhook directly
         const webhookData = {
           ...insertData,
           submitted_at: new Date().toISOString()
         };
         
         try {
-          const webhookResponse = await fetch('/api/webhook', {
+          // Try direct call first (works if webhook has CORS enabled)
+          const webhookResponse = await fetch('https://webhook-agencia.lucasfelix.com/webhook/dfcd0293-86ea-4d13-9d41-8c09efaae495', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(webhookData),
           });
-          const webhookResult = await webhookResponse.json();
-          console.log("Webhook sent successfully:", webhookResult);
+          console.log("Webhook sent successfully, status:", webhookResponse.status);
         } catch (webhookError) {
-          console.error("Webhook error (non-blocking):", webhookError);
+          // Fallback: use no-cors mode (request still sent, just can't read response)
+          try {
+            await fetch('https://webhook-agencia.lucasfelix.com/webhook/dfcd0293-86ea-4d13-9d41-8c09efaae495', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'text/plain',
+              },
+              body: JSON.stringify(webhookData),
+              mode: 'no-cors'
+            });
+            console.log("Webhook sent via no-cors mode");
+          } catch (fallbackError) {
+            console.error("Webhook error (non-blocking):", fallbackError);
+          }
         }
         
         setHasSubmitted(true);
