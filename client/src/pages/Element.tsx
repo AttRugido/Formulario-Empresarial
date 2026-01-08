@@ -180,16 +180,14 @@ export const Element = (): JSX.Element => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     
-    // Fade out both containers
+    // Fade out only container 1 (keep container 2 visible)
     setContainer1Visible(false);
-    setContainer2Visible(false);
     
     setTimeout(() => {
-      // Update step and fade in both containers together
+      // Update step and fade in container 1
       setStep(newStep);
       setDisplayStep(newStep);
       setContainer1Visible(true);
-      setContainer2Visible(true);
       
       setTimeout(() => {
         setIsTransitioning(false);
@@ -341,9 +339,7 @@ export const Element = (): JSX.Element => {
         {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
       </Button>
       <div 
-        className={`flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[690px] transition-opacity duration-200 ease-in-out ${
-          container2Visible ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-[690px]"
       >
         {isDarkMode ? (
           <img
@@ -539,9 +535,7 @@ export const Element = (): JSX.Element => {
       </div>
       {/* Container 2 - Right Content */}
       <div 
-        className={`flex-1 flex flex-col h-full lg:h-screen overflow-hidden relative transition-opacity duration-200 ease-in-out ${
-          container2Visible ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="flex-1 flex flex-col h-full lg:h-screen overflow-hidden relative"
         style={{ backgroundColor: theme.bg }}
       >
         {/* Desktop Back button positioned at top left */}
