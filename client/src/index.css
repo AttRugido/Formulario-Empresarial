@@ -323,7 +323,6 @@
   border-radius: 50%;
   background: rgba(34, 50, 84, 0.03);
   opacity: 0;
-  transition: opacity 0.2s ease;
 }
 
 .custom-check svg {
@@ -335,7 +334,6 @@
   stroke: #292D35;
   stroke-width: 1.5;
   transform: translate3d(0, 0, 0);
-  transition: all 0.2s ease;
 }
 
 .custom-check svg path {
@@ -362,13 +360,10 @@
 
 .custom-check.checked svg path {
   stroke-dashoffset: 60;
-  transition: all 0.3s linear;
 }
 
 .custom-check.checked svg polyline {
   stroke-dashoffset: 42;
-  transition: all 0.2s linear;
-  transition-delay: 0.15s;
 }
 
 /* Green Animated Button */
