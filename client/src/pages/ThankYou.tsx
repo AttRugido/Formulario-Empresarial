@@ -87,7 +87,7 @@ export const ThankYou = (): JSX.Element => {
             <h2 
               className="font-['Inter'] font-medium text-[39.278px] leading-[110%]"
               style={{
-                backgroundImage: 'linear-gradient(90deg, #A646E6 0%, #7B2CBF 100%)',
+                backgroundImage: 'linear-gradient(92deg, #08090B 3.96%, #4A4A4A 136.52%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
