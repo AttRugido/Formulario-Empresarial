@@ -60,12 +60,12 @@ export const ThankYou = (): JSX.Element => {
         )}
       </button>
 
-      {/* Container 1 - Left (50% width, light theme) */}
+      {/* Container 1 - Left (50% width, dark theme like form) */}
       <div 
         className="hidden lg:flex w-1/2 h-screen flex-col relative overflow-hidden flex-shrink-0"
         style={{
-          background: 'linear-gradient(180deg, #F8F8FA 0%, #E8E8EC 100%)',
-          borderRight: '1px solid rgba(0, 0, 0, 0.1)'
+          background: 'linear-gradient(180deg, #17151C 0%, #211F26 50%, #141118 100%)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.08)'
         }}
       >
         {isDarkMode ? (
@@ -87,7 +87,7 @@ export const ThankYou = (): JSX.Element => {
             <h2 
               className="font-['Inter'] font-medium text-[39.278px] leading-[110%]"
               style={{
-                backgroundImage: 'linear-gradient(92deg, #08090B 3.96%, #4A4A4A 136.52%)',
+                backgroundImage: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
@@ -96,7 +96,7 @@ export const ThankYou = (): JSX.Element => {
               Parabéns!
             </h2>
           </div>
-          <p className="font-['Inter'] font-normal text-[18px] leading-[1.4] max-w-[450px]" style={{ color: '#6B7280' }}>
+          <p className="font-['Inter'] font-normal text-[18px] leading-[1.4] max-w-[450px]" style={{ color: '#b7b7b7' }}>
             Você deu o primeiro passo para estruturar a receita da sua empresa de forma previsível e escalável.
           </p>
         </div>
