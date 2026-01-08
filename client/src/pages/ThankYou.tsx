@@ -60,11 +60,11 @@ export const ThankYou = (): JSX.Element => {
         )}
       </button>
 
-      {/* Container 1 - Left (Fixed, 30% width) */}
+      {/* Container 1 - Left (Fixed, 423px width) */}
       <div 
-        className="hidden lg:flex w-[30%] h-screen flex-col relative overflow-hidden flex-shrink-0"
+        className="hidden lg:flex w-[423px] h-screen flex-col relative overflow-hidden flex-shrink-0"
         style={{
-          background: theme.bgGradient,
+          background: '#121212',
           borderRight: `1px solid ${theme.border}`
         }}
       >
@@ -102,8 +102,8 @@ export const ThankYou = (): JSX.Element => {
         </div>
       </div>
 
-      {/* Container 2 - Right (Scrollable, 70% width) */}
-      <div className="w-full lg:w-[70%] flex flex-col overflow-y-auto h-screen custom-scrollbar" style={{ backgroundColor: theme.bg }}>
+      {/* Container 2 - Right (Scrollable, fills remaining width) */}
+      <div className="w-full lg:flex-1 flex flex-col overflow-y-auto h-screen custom-scrollbar" style={{ backgroundColor: theme.bg }}>
         {/* Logo */}
         <div className="flex justify-center pt-6 lg:pt-[53px]">
           <img
