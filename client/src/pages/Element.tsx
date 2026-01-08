@@ -180,19 +180,11 @@ export const Element = (): JSX.Element => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     
-    // Fade out only container 1 (keep container 2 visible)
-    setContainer1Visible(false);
+    // Instant transition
+    setStep(newStep);
+    setDisplayStep(newStep);
     
-    setTimeout(() => {
-      // Update step and fade in container 1
-      setStep(newStep);
-      setDisplayStep(newStep);
-      setContainer1Visible(true);
-      
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 200);
-    }, 200);
+    setIsTransitioning(false);
   };
 
   const handleNext = async () => {
