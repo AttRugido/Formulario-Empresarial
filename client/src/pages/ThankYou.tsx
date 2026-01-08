@@ -193,6 +193,42 @@ export const ThankYou = (): JSX.Element => {
             {/* Divider */}
             <div className="w-full h-[1px]" style={{ backgroundColor: theme.divider }} />
 
+            {/* Section: While you wait - Checklist Download */}
+            <div className="flex flex-col items-center text-center">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-5 h-5 text-[#A646E6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 3v12m0 0l-4-4m4 4l4-4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <h2 className="font-['Inter'] font-medium text-[18px] sm:text-[20px] text-[#A646E6]">
+                  ENQUANTO AGUARDA A CONFIRMAÇÃO...
+                </h2>
+              </div>
+              <p className="font-['Inter'] text-[14px] sm:text-[16px] mb-4 max-w-[450px]" style={{ color: theme.textSecondary }}>
+                Preparamos um material exclusivo para você começar a entender onde sua receita está travada:
+              </p>
+              <a 
+                href="https://gruporugido.com.br/checklist-engenharia-receita" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-full sm:w-auto"
+              >
+                <button 
+                  className="w-full sm:w-auto px-6 py-3 rounded-[10px] font-['Inter'] font-semibold text-[14px] sm:text-[16px] text-white transition-all duration-200"
+                  style={{ 
+                    background: 'linear-gradient(135deg, #A646E6 0%, #8B2FC9 100%)',
+                    border: '1px solid rgba(166, 70, 230, 0.3)'
+                  }}
+                  data-testid="button-download-checklist"
+                >
+                  BAIXAR CHECKLIST: 7 SINAIS DE QUE SUA EMPRESA PRECISA DE ENGENHARIA DE RECEITA
+                </button>
+              </a>
+            </div>
+
+            {/* Divider */}
+            <div className="w-full h-[1px]" style={{ backgroundColor: theme.divider }} />
+
             {/* Section 3: What happens now */}
             <div>
               <div className="flex items-center gap-2 mb-4">
