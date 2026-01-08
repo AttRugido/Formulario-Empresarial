@@ -637,7 +637,7 @@ export const Element = (): JSX.Element => {
       setFormData({ ...formData, role: option });
       setTimeout(() => {
         transitionToStep(step + 1);
-      }, 100);
+      }, 0);
     };
     
     return (
@@ -697,7 +697,7 @@ export const Element = (): JSX.Element => {
       setFormData({ ...formData, bottleneck: option });
       setTimeout(() => {
         transitionToStep(step + 1);
-      }, 100);
+      }, 0);
     };
 
     return (
@@ -757,7 +757,7 @@ export const Element = (): JSX.Element => {
       setFormData({ ...formData, revenue: option });
       setTimeout(() => {
         transitionToStep(step + 1);
-      }, 100);
+      }, 0);
     };
 
     return (
@@ -817,7 +817,7 @@ export const Element = (): JSX.Element => {
       setFormData({ ...formData, teamSize: option });
       setTimeout(() => {
         transitionToStep(step + 1);
-      }, 100);
+      }, 0);
     };
 
     return (
@@ -883,7 +883,7 @@ export const Element = (): JSX.Element => {
       setIsSegmentDropdownOpen(false);
       setTimeout(() => {
         transitionToStep(step + 1);
-      }, 100);
+      }, 0);
     };
 
     return (
@@ -976,7 +976,7 @@ export const Element = (): JSX.Element => {
       setFormData({ ...formData, urgency: option });
       setTimeout(() => {
         transitionToStep(step + 1);
-      }, 100);
+      }, 0);
     };
 
     return (
@@ -1032,7 +1032,7 @@ export const Element = (): JSX.Element => {
       setFormData({ ...formData, hasPartner: option });
       setTimeout(() => {
         transitionToStep(step + 1);
-      }, 100);
+      }, 0);
     };
 
     return (
