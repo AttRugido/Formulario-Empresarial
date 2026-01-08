@@ -60,9 +60,9 @@ export const ThankYou = (): JSX.Element => {
         )}
       </button>
 
-      {/* Container 1 - Left (Fixed, 20% width) */}
+      {/* Container 1 - Left (Fixed, 30% width) */}
       <div 
-        className="hidden lg:flex w-[20%] h-screen flex-col relative overflow-hidden flex-shrink-0"
+        className="hidden lg:flex w-[30%] h-screen flex-col relative overflow-hidden flex-shrink-0"
         style={{
           background: theme.bgGradient,
           borderRight: `1px solid ${theme.border}`
@@ -81,11 +81,11 @@ export const ThankYou = (): JSX.Element => {
             className="absolute inset-0 w-full h-full object-cover"
           />
         )}
-        <div className="relative z-10 p-6 flex-1 flex flex-col justify-center">
+        <div className="relative z-10 p-8 flex-1 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-4">
-            <CheckCircle className="w-8 h-8 text-[#10B981]" />
+            <CheckCircle className="w-10 h-10 text-[#10B981]" />
             <h2 
-              className="font-['Inter'] font-medium text-[24px] leading-[110%]"
+              className="font-['Inter'] font-medium text-[28px] leading-[110%]"
               style={{
                 backgroundImage: theme.textGradient,
                 backgroundClip: 'text',
@@ -96,14 +96,14 @@ export const ThankYou = (): JSX.Element => {
               Parabéns!
             </h2>
           </div>
-          <p className="font-['Inter'] font-normal text-[14px] leading-[1.4]" style={{ color: theme.textSecondary }}>
+          <p className="font-['Inter'] font-normal text-[16px] leading-[1.4]" style={{ color: theme.textSecondary }}>
             Você deu o primeiro passo para estruturar a receita da sua empresa de forma previsível e escalável.
           </p>
         </div>
       </div>
 
-      {/* Container 2 - Right (Scrollable, 80% width) */}
-      <div className="w-full lg:w-[80%] flex flex-col overflow-y-auto h-screen custom-scrollbar" style={{ backgroundColor: theme.bg }}>
+      {/* Container 2 - Right (Scrollable, 70% width) */}
+      <div className="w-full lg:w-[70%] flex flex-col overflow-y-auto h-screen custom-scrollbar" style={{ backgroundColor: theme.bg }}>
         {/* Logo */}
         <div className="flex justify-center pt-6 lg:pt-[53px]">
           <img
