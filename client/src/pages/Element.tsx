@@ -32,6 +32,7 @@ import container1Bg1 from "@assets/1_1767891534544.png";
 import container1Bg2 from "@assets/2_1767892144873.png";
 import container1Bg3 from "@assets/3_1767894721025.png";
 import container1Bg4 from "@assets/4_1767894721025.png";
+import container1Bg5 from "@assets/5_1767895408099.png";
 
 const CustomCheck = ({ checked, onClick, className, isLightMode }: { checked: boolean; onClick: () => void; className?: string; isLightMode?: boolean }) => (
   <div className={`custom-check ${checked ? 'checked' : ''} ${isLightMode ? 'light-mode' : ''} ${className || ''}`} onClick={onClick}>
@@ -442,7 +443,13 @@ export const Element = (): JSX.Element => {
           src={container1Bg4} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
-          style={{ opacity: displayStep >= 4 ? 1 : 0 }}
+          style={{ opacity: displayStep === 4 ? 1 : 0 }}
+        />
+        <img 
+          src={container1Bg5} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
+          style={{ opacity: displayStep >= 5 ? 1 : 0 }}
         />
         <div className={`relative z-10 p-[120px] flex-1 flex flex-col justify-end transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
