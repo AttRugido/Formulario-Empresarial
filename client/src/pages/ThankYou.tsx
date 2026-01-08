@@ -1,5 +1,5 @@
 import { CheckCircle, AlertTriangle, Clock, Phone, ArrowRightIcon, Sun, Moon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import sidebarBgLight from "@assets/Frame_3_1767052037501.png";
 
@@ -8,6 +8,21 @@ export const ThankYou = (): JSX.Element => {
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Push virtual pageview to GTM dataLayer on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({
+        event: 'virtualPageview',
+        virtualPageURL: '/obrigado',
+        virtualPageTitle: 'Obrigado - Grupo Rugido',
+        page_path: '/obrigado',
+        page_title: 'Obrigado - Grupo Rugido'
+      });
+      console.log("GTM dataLayer push: virtualPageview /obrigado");
+    }
+  }, []);
 
   const theme = {
     bg: isDarkMode ? '#08090B' : '#FFFFFF',

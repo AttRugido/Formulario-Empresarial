@@ -288,6 +288,25 @@ export const Element = (): JSX.Element => {
         
         setHasSubmitted(true);
         console.log("Form submitted successfully:", formData);
+        
+        // Push lead event to GTM dataLayer
+        if (typeof window !== 'undefined') {
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer.push({
+            event: 'generate_lead',
+            lead_source: 'form_submission',
+            form_name: 'grupo_rugido_lead_form',
+            user_role: formData.role,
+            user_bottleneck: formData.bottleneck,
+            user_revenue: formData.revenue,
+            user_team_size: formData.teamSize,
+            user_segment: formData.segment,
+            user_urgency: formData.urgency,
+            user_partner_status: formData.hasPartner
+          });
+          console.log("GTM dataLayer push: generate_lead event");
+        }
+        
         setLocation("/obrigado");
       } catch (error: any) {
         console.error("Failed to submit form:", error);
