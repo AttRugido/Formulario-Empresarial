@@ -1236,15 +1236,15 @@ export const Element = (): JSX.Element => {
       case 3:
         return renderRevenueQuestion();
       case 4:
-        return renderTeamSizeQuestion();
-      case 5:
-        return renderSegmentQuestion();
-      case 6:
-        return renderUrgencyQuestion();
-      case 7:
-        return renderPartnerQuestion();
-      case 8:
         return renderSocialMediaQuestion();
+      case 5:
+        return renderTeamSizeQuestion();
+      case 6:
+        return renderSegmentQuestion();
+      case 7:
+        return renderUrgencyQuestion();
+      case 8:
+        return renderPartnerQuestion();
       case 9:
         return renderContactForm();
       default:
