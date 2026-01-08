@@ -60,12 +60,12 @@ export const ThankYou = (): JSX.Element => {
         )}
       </button>
 
-      {/* Container 1 - Left (Fixed, 423px width) */}
+      {/* Container 1 - Left (50% width, light theme) */}
       <div 
-        className="hidden lg:flex w-[423px] h-screen flex-col relative overflow-hidden flex-shrink-0"
+        className="hidden lg:flex w-1/2 h-screen flex-col relative overflow-hidden flex-shrink-0"
         style={{
-          background: '#121212',
-          borderRight: `1px solid ${theme.border}`
+          background: 'linear-gradient(180deg, #F8F8FA 0%, #E8E8EC 100%)',
+          borderRight: '1px solid rgba(0, 0, 0, 0.1)'
         }}
       >
         {isDarkMode ? (
@@ -82,12 +82,12 @@ export const ThankYou = (): JSX.Element => {
           />
         )}
         <div className="relative z-10 p-8 flex-1 flex flex-col justify-center">
-          <div className="flex items-center gap-2 mb-4">
-            <CheckCircle className="w-10 h-10 text-[#10B981]" />
+          <div className="flex items-center gap-3 mb-6">
+            <CheckCircle className="w-12 h-12 text-[#10B981]" />
             <h2 
-              className="font-['Inter'] font-medium text-[28px] leading-[110%]"
+              className="font-['Inter'] font-medium text-[39.278px] leading-[110%]"
               style={{
-                backgroundImage: theme.textGradient,
+                backgroundImage: 'linear-gradient(90deg, #A646E6 0%, #7B2CBF 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
@@ -96,14 +96,14 @@ export const ThankYou = (): JSX.Element => {
               Parabéns!
             </h2>
           </div>
-          <p className="font-['Inter'] font-normal text-[16px] leading-[1.4]" style={{ color: theme.textSecondary }}>
+          <p className="font-['Inter'] font-normal text-[18px] leading-[1.4] max-w-[450px]" style={{ color: '#6B7280' }}>
             Você deu o primeiro passo para estruturar a receita da sua empresa de forma previsível e escalável.
           </p>
         </div>
       </div>
 
-      {/* Container 2 - Right (Scrollable, fills remaining width) */}
-      <div className="w-full lg:flex-1 flex flex-col overflow-y-auto h-screen custom-scrollbar" style={{ backgroundColor: theme.bg }}>
+      {/* Container 2 - Right (Scrollable, 50% width) */}
+      <div className="w-full lg:w-1/2 flex flex-col overflow-y-auto h-screen custom-scrollbar" style={{ backgroundColor: theme.bg }}>
         {/* Logo */}
         <div className="flex justify-center pt-6 lg:pt-[53px]">
           <img
