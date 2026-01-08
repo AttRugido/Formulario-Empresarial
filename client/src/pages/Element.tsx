@@ -103,11 +103,11 @@ const sidebarMessages = [
   "Junte-se a quem já estruturou receita",
   "87% das empresas perdem dinheiro sem saber onde",
   "Receita previsível não é sorte. É sistema.",
+  "Preparação personalizada. Zero papo genérico.",
   "Estrutura escalável para qualquer tamanho de operação",
   "Metodologia testada em 60+ empresas de diversos mercados",
   "Cada mês sem estrutura é receita que você nunca mais recupera",
   "Dados que alinham sócios",
-  "Preparação personalizada. Zero papo genérico.",
   "Você está a 24 horas de ter clareza total sobre sua receita"
 ];
 
@@ -449,34 +449,40 @@ export const Element = (): JSX.Element => {
           style={{ opacity: displayStep === 3 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg4} 
+          src={container1Bg8} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 4 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg5} 
+          src={container1Bg4} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 5 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg6} 
+          src={container1Bg5} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 6 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg1} 
+          src={container1Bg6} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 7 ? 1 : 0 }}
         />
         <img 
+          src={container1Bg1} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
+          style={{ opacity: displayStep === 8 ? 1 : 0 }}
+        />
+        <img 
           src={container1Bg8} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
-          style={{ opacity: displayStep >= 8 ? 1 : 0 }}
+          style={{ opacity: displayStep === 9 ? 1 : 0 }}
         />
         <div className={`relative z-10 p-[120px] flex-1 flex flex-col justify-end transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
@@ -485,10 +491,10 @@ export const Element = (): JSX.Element => {
             className="font-['Inter'] font-medium text-[39.278px] leading-[110%] mb-4"
             style={{ 
               width: displayStep === 1 ? '379px' :
-                     displayStep === 5 ? '611px' : 
-                     displayStep === 6 ? '638px' : 
-                     displayStep === 7 ? '490px' : 
-                     displayStep === 8 ? '505px' : 
+                     displayStep === 4 ? '505px' :
+                     displayStep === 6 ? '611px' : 
+                     displayStep === 7 ? '638px' : 
+                     displayStep === 8 ? '490px' : 
                      displayStep === 9 ? '573px' : '591px',
               backgroundImage: 'linear-gradient(180deg, #FFFFFF 0%, #999999 100%)',
               backgroundClip: 'text',
