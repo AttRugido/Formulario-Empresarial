@@ -60,12 +60,12 @@ export const ThankYou = (): JSX.Element => {
         )}
       </button>
 
-      {/* Container 1 - Left (50% width, dark theme like form) */}
+      {/* Container 1 - Left (50% width, follows theme toggle) */}
       <div 
         className="hidden lg:flex w-1/2 h-screen flex-col relative overflow-hidden flex-shrink-0"
         style={{
-          background: 'linear-gradient(180deg, #17151C 0%, #211F26 50%, #141118 100%)',
-          borderRight: '1px solid rgba(255, 255, 255, 0.08)'
+          background: theme.bgGradient,
+          borderRight: `1px solid ${theme.border}`
         }}
       >
         {isDarkMode ? (
@@ -87,7 +87,7 @@ export const ThankYou = (): JSX.Element => {
             <h2 
               className="font-['Inter'] font-medium text-[39.278px] leading-[110%]"
               style={{
-                backgroundImage: 'linear-gradient(92deg, #F6F6F8 3.96%, #5D656C 136.52%)',
+                backgroundImage: theme.textGradient,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
@@ -96,7 +96,7 @@ export const ThankYou = (): JSX.Element => {
               Parabéns!
             </h2>
           </div>
-          <p className="font-['Inter'] font-normal text-[18px] leading-[1.4] max-w-[450px]" style={{ color: '#b7b7b7' }}>
+          <p className="font-['Inter'] font-normal text-[18px] leading-[1.4] max-w-[450px]" style={{ color: theme.textSecondary }}>
             Você deu o primeiro passo para estruturar a receita da sua empresa de forma previsível e escalável.
           </p>
         </div>
