@@ -236,7 +236,7 @@ export const ThankYou = (): JSX.Element => {
                   }}
                   data-testid="button-download-checklist"
                 >
-                  BAIXAR CHECKLIST: 7 SINAIS DE QUE SUA EMPRESA PRECISA DE ENGENHARIA DE RECEITA
+                  BAIXAR CHECKLIST: 7 SINAIS DE QUE SUA EMPRESA ESTÁ PERDENDO DINHEIRO E VOCÊ NÃO SABE
                 </button>
               </a>
             </div>
