@@ -28,6 +28,7 @@ import logoGranMoneyLight from "@assets/aegfv_1767051532406.png";
 import logoCenterLight from "@assets/ghsrdtg_1767051532407.png";
 import logoMansaoMarombaLight from "@assets/agerg_1767051532407.png";
 import sidebarBgLight from "@assets/Frame_3_1767052037501.png";
+import container1Bg from "@assets/1_1767891534544.png";
 
 const CustomCheck = ({ checked, onClick, className, isLightMode }: { checked: boolean; onClick: () => void; className?: string; isLightMode?: boolean }) => (
   <div className={`custom-check ${checked ? 'checked' : ''} ${isLightMode ? 'light-mode' : ''} ${className || ''}`} onClick={onClick}>
@@ -407,27 +408,19 @@ export const Element = (): JSX.Element => {
         </div>
       </div>
       
-      {/* Container 1 - Left Sidebar (Desktop only) */}
+      {/* Container 1 - Left Sidebar (Desktop only) - Always Dark Mode with background image */}
       <div 
         className="hidden lg:flex w-[46.7%] flex-col relative overflow-hidden"
         style={{
-          background: theme.bgGradient,
-          borderRight: `1px solid ${theme.border}`
+          background: 'linear-gradient(180deg, #17151C 0%, #211F26 50%, #141118 100%)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.08)'
         }}
       >
-        {isDarkMode ? (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 897 836" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
-            <path d="M2.03444 808.821C17.1929 965.5 32.4734 1043.01 -7.87744 1106.45C51.8152 1064.45 80.3883 1012.04 166.337 987.444C517.783 881.289 557.512 586.451 658.012 179.582C479.437 357.736 337.732 433.82 115.533 545.076C-1.43885 607.964 -10.4482 730.877 2.03444 808.821Z" fill="white" fillOpacity="0.01"/>
-            <path d="M683.665 186.454C602.518 628.153 527.914 855.741 256.717 988.806C577.955 950.246 731.073 691.51 927.523 0C863.423 11.244 832.038 63.2881 782.505 112.466C745.047 146.426 722.632 173.283 683.665 186.454Z" fill="white" fillOpacity="0.01"/>
-            <path d="M942.308 42.1156C803.582 530.653 724.92 749.992 561.09 866.963C772.603 802.13 868.013 741.977 1026.89 255.029C988.662 227.553 971.901 210.971 970.99 155.758C974.461 113.499 959.585 83.2633 942.308 42.1156Z" fill="white" fillOpacity="0.01"/>
-          </svg>
-        ) : (
-          <img 
-            src={sidebarBgLight} 
-            alt="" 
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        )}
+        <img 
+          src={container1Bg} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
         <div className={`relative z-10 p-[120px] flex-1 flex flex-col justify-end transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
         }`}>
@@ -440,7 +433,7 @@ export const Element = (): JSX.Element => {
                      displayStep === 7 ? '490px' : 
                      displayStep === 8 ? '505px' : 
                      displayStep === 9 ? '573px' : '591px',
-              backgroundImage: theme.textGradient,
+              backgroundImage: 'linear-gradient(180deg, #FFFFFF 0%, #999999 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
@@ -450,25 +443,25 @@ export const Element = (): JSX.Element => {
           </h2>
           {displayStep === 1 && (
             <>
-              <div className="w-[418px] h-[1px] mt-[17px] mb-[17px]" style={{ backgroundColor: theme.border }} />
-              <p className="font-['Inter'] font-normal text-[18px] leading-[1.3] w-[417px] mb-6" style={{ color: theme.textSecondary }}>
+              <div className="w-[418px] h-[1px] mt-[17px] mb-[17px]" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
+              <p className="font-['Inter'] font-normal text-[18px] leading-[1.3] w-[417px] mb-6" style={{ color: '#858585' }}>
                 Veja abaixo algumas empresas que multiplicaram as vendas com a nossa ajuda:
               </p>
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-4">
-                  <img src={isDarkMode ? logoArtsPortas : logoArtsPortasLight} alt="Arts Portas" className="h-8 w-auto" />
-                  <img src={isDarkMode ? logoWallTravel : logoWallTravelLight} alt="Wall Travel" className="h-4 w-auto" />
-                  <img src={isDarkMode ? logoTimbo : logoTimboLight} alt="Timbo" className="h-6 w-auto" />
-                  <img src={isDarkMode ? logoRainha : logoRainhaLight} alt="Rainha" className="h-10 w-auto" />
+                  <img src={logoArtsPortas} alt="Arts Portas" className="h-8 w-auto" />
+                  <img src={logoWallTravel} alt="Wall Travel" className="h-4 w-auto" />
+                  <img src={logoTimbo} alt="Timbo" className="h-6 w-auto" />
+                  <img src={logoRainha} alt="Rainha" className="h-10 w-auto" />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src={isDarkMode ? logoMansaoMaromba : logoMansaoMarombaLight} alt="Mansão Maromba" className="h-5 w-auto" />
-                  <img src={isDarkMode ? logoLuzianaLanna : logoLuzianaLannaLight} alt="Luziana Lanna" className="h-6 w-auto" />
+                  <img src={logoMansaoMaromba} alt="Mansão Maromba" className="h-5 w-auto" />
+                  <img src={logoLuzianaLanna} alt="Luziana Lanna" className="h-6 w-auto" />
                 </div>
                 <div className="flex items-center gap-4">
-                  <img src={isDarkMode ? logoGranMoney : logoGranMoneyLight} alt="Gran Money" className="h-7 w-auto" />
-                  <img src={isDarkMode ? logoHidrogyn : logoHidrogynLight} alt="Hidrogyn" className="h-12 w-auto" />
-                  <img src={isDarkMode ? logoCenter : logoCenterLight} alt="Center" className="h-10 w-auto" />
+                  <img src={logoGranMoney} alt="Gran Money" className="h-7 w-auto" />
+                  <img src={logoHidrogyn} alt="Hidrogyn" className="h-12 w-auto" />
+                  <img src={logoCenter} alt="Center" className="h-10 w-auto" />
                 </div>
               </div>
             </>
