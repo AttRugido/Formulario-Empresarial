@@ -651,7 +651,7 @@ export const Element = (): JSX.Element => {
           {options.map((option, index) => (
             <div key={option}>
               <div 
-                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                className={`flex items-start gap-[9px] cursor-pointer py-[4px] ${
                   formData.role && formData.role !== option ? 'opacity-50' : 'opacity-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
@@ -711,7 +711,7 @@ export const Element = (): JSX.Element => {
           {options.map((option, index) => (
             <div key={option}>
               <div 
-                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                className={`flex items-start gap-[9px] cursor-pointer py-[4px] ${
                   formData.bottleneck && formData.bottleneck !== option ? 'opacity-50' : 'opacity-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
@@ -771,7 +771,7 @@ export const Element = (): JSX.Element => {
           {options.map((option, index) => (
             <div key={option}>
               <div 
-                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                className={`flex items-start gap-[9px] cursor-pointer py-[4px] ${
                   formData.revenue && formData.revenue !== option ? 'opacity-50' : 'opacity-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
@@ -831,7 +831,7 @@ export const Element = (): JSX.Element => {
           {options.map((option, index) => (
             <div key={option}>
               <div 
-                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                className={`flex items-start gap-[9px] cursor-pointer py-[4px] ${
                   formData.teamSize && formData.teamSize !== option ? 'opacity-50' : 'opacity-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
@@ -990,7 +990,7 @@ export const Element = (): JSX.Element => {
           {options.map((option, index) => (
             <div key={option}>
               <div 
-                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                className={`flex items-start gap-[9px] cursor-pointer py-[4px] ${
                   formData.urgency && formData.urgency !== option ? 'opacity-50' : 'opacity-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
@@ -1046,7 +1046,7 @@ export const Element = (): JSX.Element => {
           {options.map((option, index) => (
             <div key={option}>
               <div 
-                className={`flex items-start gap-[9px] cursor-pointer transition-opacity duration-200 py-[4px] ${
+                className={`flex items-start gap-[9px] cursor-pointer py-[4px] ${
                   formData.hasPartner && formData.hasPartner !== option ? 'opacity-50' : 'opacity-100'
                 }`}
                 onClick={() => handleOptionClick(option)}
