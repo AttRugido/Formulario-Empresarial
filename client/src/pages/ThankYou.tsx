@@ -223,9 +223,8 @@ export const ThankYou = (): JSX.Element => {
                 Preparamos um material exclusivo para você começar a entender onde sua receita está travada:
               </p>
               <a 
-                href="https://gruporugido.com.br/checklist-engenharia-receita" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+                href="/checklist-7-sinais.pdf" 
+                download="7-sinais-sua-empresa-esta-perdendo-dinheiro.pdf"
                 className="w-full sm:w-auto"
               >
                 <button 
