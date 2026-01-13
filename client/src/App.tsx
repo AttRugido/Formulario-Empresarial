@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
 import { Element } from "@/pages/Element";
+import { DarkForm } from "@/pages/DarkForm";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import ThankYou from "@/pages/ThankYou";
@@ -25,6 +26,7 @@ function Router() {
     <Switch>
       {/* Add pages below */}
       <Route path="/" component={Element} />
+      <Route path="/darkform" component={DarkForm} />
       <Route path="/obrigado" component={ThankYou} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard">
