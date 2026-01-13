@@ -26,7 +26,7 @@ function Router() {
     <Switch>
       {/* Add pages below */}
       <Route path="/" component={Element} />
-      <Route path="/darkform" component={DarkForm} />
+      <Route path="/form-v2" component={DarkForm} />
       <Route path="/obrigado" component={ThankYou} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard">
