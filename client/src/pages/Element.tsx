@@ -299,7 +299,7 @@ export const Element = (): JSX.Element => {
         
         // Redirect to /obrigado2 for qualified leads (revenue >= R$50k)
         const qualifiedRevenues = [
-          "Entre R$30 mil e R$70 mil",
+          "Entre R$40 mil e R$70 mil",
           "Entre R$70 mil e R$150 mil",
           "Entre R$150 mil e R$300 mil",
           "Entre R$300 mil e R$1 milhão",
@@ -741,8 +741,8 @@ export const Element = (): JSX.Element => {
 
   const renderRevenueQuestion = () => {
     const options = [
-      "Até R$30 mil",
-      "Entre R$30 mil e R$70 mil",
+      "Até R$40 mil",
+      "Entre R$40 mil e R$70 mil",
       "Entre R$70 mil e R$150 mil",
       "Entre R$150 mil e R$300 mil",
       "Entre R$300 mil e R$1 milhão",
