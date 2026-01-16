@@ -535,22 +535,18 @@ export const DarkForm = (): JSX.Element => {
             {children}
           </div>
         </div>
-        {/* Testimonial - Responsive */}
-        <div className="absolute bottom-[100px] sm:bottom-[130px] left-1/2 -translate-x-1/2 w-[calc(100%-32px)] sm:w-auto max-w-[592px]">
+        {/* Testimonial - Only visible on large screens (xl: 1280px+) with enough vertical space */}
+        <div className="hidden xl:block absolute bottom-[130px] left-1/2 -translate-x-1/2 max-w-[592px]">
           <div className="relative">
-            {/* Mobile: quotes above the box, aligned left */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="34" viewBox="0 0 58 50" fill="none" className="sm:hidden block mb-2 ml-0 w-[40px] h-[34px]">
-              <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#292830"/>
-            </svg>
             {/* Desktop: quotes positioned to the left of the box */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="hidden sm:block absolute -left-[39px] top-[21px] w-[58px] h-[50px]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="absolute -left-[39px] top-[21px] w-[58px] h-[50px]">
               <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill="#292830"/>
             </svg>
-            <div className="rounded-[12px] px-[16px] sm:px-[30px] py-[12px] sm:py-[15px] w-full sm:w-[592px]" style={{ backgroundColor: '#0C0D0F', border: `1px solid ${theme.border}` }}>
-              <p className="font-['Inter'] font-normal text-[14px] sm:text-[18px] leading-[1.3] mb-2" style={{ color: theme.textSecondary }}>
+            <div className="rounded-[12px] px-[30px] py-[15px] w-[592px]" style={{ backgroundColor: '#0C0D0F', border: `1px solid ${theme.border}` }}>
+              <p className="font-['Inter'] font-normal text-[18px] leading-[1.3] mb-2" style={{ color: theme.textSecondary }}>
                 {testimonials[testimonialIndex]?.quote}
               </p>
-              <p className="font-['Inter'] italic text-[12px] sm:text-[14px] leading-[1.3]" style={{ color: '#504E5D' }}>
+              <p className="font-['Inter'] italic text-[14px] leading-[1.3]" style={{ color: '#504E5D' }}>
                 {testimonials[testimonialIndex]?.author}
               </p>
             </div>
