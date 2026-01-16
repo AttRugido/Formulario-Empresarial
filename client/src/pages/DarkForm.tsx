@@ -297,7 +297,16 @@ export const DarkForm = (): JSX.Element => {
           console.log("GTM dataLayer push: generate_lead event");
         }
         
-        setLocation("/obrigado");
+        // Redirect to /obrigado2 for qualified leads (revenue >= R$50k)
+        const qualifiedRevenues = [
+          "Entre R$30 mil e R$70 mil",
+          "Entre R$70 mil e R$150 mil",
+          "Entre R$150 mil e R$300 mil",
+          "Entre R$300 mil e R$1 milhão",
+          "Acima de R$1 milhão"
+        ];
+        const isQualifiedLead = qualifiedRevenues.includes(formData.revenue);
+        setLocation(isQualifiedLead ? "/obrigado2" : "/obrigado");
       } catch (error: any) {
         console.error("Failed to submit form:", error);
         toast({

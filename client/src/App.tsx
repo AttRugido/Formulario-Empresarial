@@ -10,6 +10,7 @@ import { DarkForm } from "@/pages/DarkForm";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import ThankYou from "@/pages/ThankYou";
+import ThankYou2 from "@/pages/ThankYou2";
 
 function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/" component={Element} />
       <Route path="/form-v2" component={DarkForm} />
       <Route path="/obrigado" component={ThankYou} />
+      <Route path="/obrigado2" component={ThankYou2} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard">
         {() => <ProtectedRoute component={Dashboard} />}
