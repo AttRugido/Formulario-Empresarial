@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertFormSubmissionSchema, insertStepEventSchema } from "@shared/schema";
+import { insertFormSubmissionSchema, insertStepEventSchema, insertPartialLeadSchema } from "@shared/schema";
 
 const GOOGLE_SHEETS_WEBHOOK_URL = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
 const EXTERNAL_WEBHOOK_URL = "https://webhook-agencia.lucasfelix.com/webhook/dfcd0293-86ea-4d13-9d41-8c09efaae495";
@@ -158,6 +158,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(funnel);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch funnel analytics" });
+    }
+  });
+
+  // Partial lead auto-save endpoint
+  app.post("/api/partial-lead/save", async (req, res) => {
+    try {
+      const { draftId, email, phone, currentStep, answers, status } = req.body;
+      
+      if (!draftId) {
+        return res.status(400).json({ error: "draftId is required" });
+      }
+      
+      const lead = await storage.upsertPartialLead({
+        draftId,
+        email: email || null,
+        phone: phone || null,
+        currentStep: currentStep || 1,
+        answers: typeof answers === 'string' ? answers : JSON.stringify(answers || {}),
+        status: status || 'draft',
+        updatedAt: new Date(),
+      });
+      
+      res.json({ success: true, id: lead.id });
+    } catch (error) {
+      console.error("Error saving partial lead:", error);
+      res.status(500).json({ error: "Failed to save partial lead" });
+    }
+  });
+
+  // Get partial leads for admin dashboard
+  app.get("/api/partial-leads", async (req, res) => {
+    try {
+      const leads = await storage.getPartialLeads();
+      res.json(leads);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch partial leads" });
     }
   });
 

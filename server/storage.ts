@@ -5,9 +5,12 @@ import {
   type InsertFormSubmission,
   type StepEvent,
   type InsertStepEvent,
+  type PartialLead,
+  type InsertPartialLead,
   users,
   formSubmissions,
-  stepEvents
+  stepEvents,
+  partialLeads
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, sql } from "drizzle-orm";
@@ -23,6 +26,10 @@ export interface IStorage {
   
   createStepEvent(event: InsertStepEvent): Promise<StepEvent>;
   getFunnelAnalytics(): Promise<{ step: number; count: number }[]>;
+  
+  upsertPartialLead(lead: InsertPartialLead): Promise<PartialLead>;
+  getPartialLeads(): Promise<PartialLead[]>;
+  getPartialLeadByDraftId(draftId: string): Promise<PartialLead | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -71,6 +78,37 @@ export class DatabaseStorage implements IStorage {
       .orderBy(stepEvents.step);
     
     return result.map((r: { step: number; count: number }) => ({ step: r.step, count: Number(r.count) }));
+  }
+
+  async upsertPartialLead(lead: InsertPartialLead): Promise<PartialLead> {
+    const [result] = await db
+      .insert(partialLeads)
+      .values({
+        ...lead,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: partialLeads.draftId,
+        set: {
+          email: lead.email,
+          phone: lead.phone,
+          currentStep: lead.currentStep,
+          answers: lead.answers,
+          status: lead.status,
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
+    return result;
+  }
+
+  async getPartialLeads(): Promise<PartialLead[]> {
+    return await db.select().from(partialLeads).orderBy(desc(partialLeads.updatedAt));
+  }
+
+  async getPartialLeadByDraftId(draftId: string): Promise<PartialLead | undefined> {
+    const [result] = await db.select().from(partialLeads).where(eq(partialLeads.draftId, draftId));
+    return result;
   }
 }
 
