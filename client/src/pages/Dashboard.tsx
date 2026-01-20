@@ -50,6 +50,9 @@ export default function Dashboard() {
   const [generatedUrl, setGeneratedUrl] = useState('');
   const [urlCopied, setUrlCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'leads' | 'partial'>('leads');
+  const [leadsPage, setLeadsPage] = useState(1);
+  const [partialPage, setPartialPage] = useState(1);
+  const ITEMS_PER_PAGE = 30;
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -250,6 +253,12 @@ export default function Dashboard() {
     if (filters.utm_source && sub.utm_source !== filters.utm_source) return false;
     return true;
   });
+
+  const totalLeadsPages = Math.ceil(filteredSubmissions.length / ITEMS_PER_PAGE);
+  const paginatedLeads = filteredSubmissions.slice((leadsPage - 1) * ITEMS_PER_PAGE, leadsPage * ITEMS_PER_PAGE);
+
+  const totalPartialPages = Math.ceil(partialLeads.length / ITEMS_PER_PAGE);
+  const paginatedPartialLeads = partialLeads.slice((partialPage - 1) * ITEMS_PER_PAGE, partialPage * ITEMS_PER_PAGE);
 
   const getUniqueValues = (key: keyof Lead) => {
     const values = submissions.map(s => s[key]).filter((v): v is string => !!v);
@@ -994,6 +1003,7 @@ export default function Dashboard() {
 
             {/* Leads Table */}
             {activeTab === 'leads' && (
+            <>
             <div className="overflow-x-auto custom-scrollbar" style={{ background: '#0B0C0E', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.03)' }}>
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
@@ -1024,12 +1034,12 @@ export default function Dashboard() {
                     <tr style={{ height: '53px' }}>
                       <td colSpan={19} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
                     </tr>
-                  ) : filteredSubmissions.length === 0 ? (
+                  ) : paginatedLeads.length === 0 ? (
                     <tr style={{ height: '53px' }}>
                       <td colSpan={19} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead encontrado</td>
                     </tr>
                   ) : (
-                    filteredSubmissions.map((sub, index) => (
+                    paginatedLeads.map((sub, index) => (
                       <tr key={sub.id || index} className={`hover:bg-[#101115] ${sub.id && selectedLeads.has(sub.id) ? 'lead-row-selected' : ''}`} style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
                         <td className="text-center px-4">
                           <label className="cursor-pointer">
@@ -1089,10 +1099,42 @@ export default function Dashboard() {
                 </tbody>
               </table>
             </div>
+            {totalLeadsPages > 1 && (
+              <div className="flex items-center justify-between mt-4 px-2">
+                <span style={{ color: '#979BA2', fontSize: '14px' }}>
+                  Mostrando {((leadsPage - 1) * ITEMS_PER_PAGE) + 1} - {Math.min(leadsPage * ITEMS_PER_PAGE, filteredSubmissions.length)} de {filteredSubmissions.length}
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setLeadsPage(p => Math.max(1, p - 1))}
+                    disabled={leadsPage === 1}
+                    className="px-3 py-1 rounded text-sm disabled:opacity-50"
+                    style={{ background: '#1A1A1F', color: '#979BA2', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                    data-testid="button-leads-prev"
+                  >
+                    Anterior
+                  </button>
+                  <span className="px-3 py-1" style={{ color: '#979BA2', fontSize: '14px' }}>
+                    {leadsPage} / {totalLeadsPages}
+                  </span>
+                  <button
+                    onClick={() => setLeadsPage(p => Math.min(totalLeadsPages, p + 1))}
+                    disabled={leadsPage === totalLeadsPages}
+                    className="px-3 py-1 rounded text-sm disabled:opacity-50"
+                    style={{ background: '#1A1A1F', color: '#979BA2', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                    data-testid="button-leads-next"
+                  >
+                    Próximo
+                  </button>
+                </div>
+              </div>
+            )}
+            </>
             )}
 
             {/* Partial Leads Table */}
             {activeTab === 'partial' && (
+            <>
             <div className="overflow-x-auto custom-scrollbar" style={{ background: '#0B0C0E', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.03)' }}>
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
@@ -1112,12 +1154,12 @@ export default function Dashboard() {
                     <tr style={{ height: '53px' }}>
                       <td colSpan={8} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
                     </tr>
-                  ) : partialLeads.length === 0 ? (
+                  ) : paginatedPartialLeads.length === 0 ? (
                     <tr style={{ height: '53px' }}>
                       <td colSpan={8} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead parcial encontrado</td>
                     </tr>
                   ) : (
-                    partialLeads.map((lead, index) => {
+                    paginatedPartialLeads.map((lead, index) => {
                       let parsedAnswers: any = {};
                       try {
                         parsedAnswers = JSON.parse(lead.answers || '{}');
@@ -1161,6 +1203,37 @@ export default function Dashboard() {
                 </tbody>
               </table>
             </div>
+            {totalPartialPages > 1 && (
+              <div className="flex items-center justify-between mt-4 px-2">
+                <span style={{ color: '#979BA2', fontSize: '14px' }}>
+                  Mostrando {((partialPage - 1) * ITEMS_PER_PAGE) + 1} - {Math.min(partialPage * ITEMS_PER_PAGE, partialLeads.length)} de {partialLeads.length}
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setPartialPage(p => Math.max(1, p - 1))}
+                    disabled={partialPage === 1}
+                    className="px-3 py-1 rounded text-sm disabled:opacity-50"
+                    style={{ background: '#1A1A1F', color: '#979BA2', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                    data-testid="button-partial-prev"
+                  >
+                    Anterior
+                  </button>
+                  <span className="px-3 py-1" style={{ color: '#979BA2', fontSize: '14px' }}>
+                    {partialPage} / {totalPartialPages}
+                  </span>
+                  <button
+                    onClick={() => setPartialPage(p => Math.min(totalPartialPages, p + 1))}
+                    disabled={partialPage === totalPartialPages}
+                    className="px-3 py-1 rounded text-sm disabled:opacity-50"
+                    style={{ background: '#1A1A1F', color: '#979BA2', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                    data-testid="button-partial-next"
+                  >
+                    Próximo
+                  </button>
+                </div>
+              </div>
+            )}
+            </>
             )}
           </div>
 
