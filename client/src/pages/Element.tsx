@@ -590,18 +590,18 @@ export const Element = (): JSX.Element => {
             {children}
           </div>
         </div>
-        {/* Testimonial - Only visible on tall screens (min-height 800px) */}
-        <div className="hidden lg:hidden tall:lg:block absolute bottom-[70px] left-1/2 -translate-x-1/2 lg:max-w-[460px] xl:max-w-[540px]">
+        {/* Testimonial - Visible on lg screens with reduced padding for smaller displays */}
+        <div className="hidden lg:block absolute bottom-[60px] left-1/2 -translate-x-1/2 w-[90%] lg:w-[85%] xl:w-auto xl:max-w-[540px]">
           <div className="relative">
             {/* Desktop: quotes positioned to the left of the box */}
             <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="absolute -left-[39px] top-[21px] w-[58px] h-[50px]">
               <path d="M33.5597 24.6227L33.5597 1.75022e-05L58 1.96389e-05L58 6.38367C58 16.3543 57.2704 23.7715 55.8113 28.6352C54.2306 33.6206 50.1572 40.673 43.5912 49.7925L33.195 43.956C38.6667 34.5933 41.8281 28.1489 42.6792 24.6227L33.5597 24.6227ZM0.364778 24.6227L0.36478 1.46002e-05L24.805 1.67369e-05L24.805 6.38367C24.805 16.3543 24.0755 23.7715 22.6163 28.6352C21.0356 33.6206 16.9623 40.673 10.3962 49.7925L-4.87465e-06 43.956C5.47169 34.5933 8.63312 28.1489 9.48427 24.6227L0.364778 24.6227Z" fill={isDarkMode ? "#292830" : "#D0D0D5"}/>
             </svg>
-            <div className="rounded-[10px] px-[16px] lg:px-[20px] xl:px-[24px] py-[10px] lg:py-[12px] w-full" style={{ backgroundColor: isDarkMode ? '#0C0D0F' : '#F5F5F7', border: `1px solid ${theme.border}` }}>
-              <p className="font-['Inter'] font-normal text-[13px] lg:text-[14px] xl:text-[16px] leading-[1.3] mb-1" style={{ color: theme.textSecondary }}>
+            <div className="rounded-[10px] px-[12px] lg:px-[16px] xl:px-[20px] py-[8px] lg:py-[10px] w-full" style={{ backgroundColor: isDarkMode ? '#0C0D0F' : '#F5F5F7', border: `1px solid ${theme.border}` }}>
+              <p className="font-['Inter'] font-normal text-[12px] lg:text-[13px] xl:text-[15px] leading-[1.25] mb-1" style={{ color: theme.textSecondary }}>
                 {testimonials[testimonialIndex]?.quote}
               </p>
-              <p className="font-['Inter'] italic text-[11px] lg:text-[12px] xl:text-[13px] leading-[1.3]" style={{ color: isDarkMode ? '#504E5D' : '#999999' }}>
+              <p className="font-['Inter'] italic text-[10px] lg:text-[11px] xl:text-[12px] leading-[1.25]" style={{ color: isDarkMode ? '#504E5D' : '#999999' }}>
                 {testimonials[testimonialIndex]?.author}
               </p>
             </div>
