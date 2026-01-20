@@ -7,6 +7,7 @@ import InputMask from "react-input-mask";
 import { supabase } from "@/lib/supabase";
 import { useAttribution } from "@/hooks/useAttribution";
 import { useToast } from "@/hooks/use-toast";
+import { useAutoSave } from "@/hooks/useAutoSave";
 
 import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
 import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
@@ -140,6 +141,7 @@ export const Element = (): JSX.Element => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const attribution = useAttribution();
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { markAsFinalized } = useAutoSave(formData, step);
 
   // Theme colors
   const theme = {
@@ -279,6 +281,7 @@ export const Element = (): JSX.Element => {
         }
         
         setHasSubmitted(true);
+        markAsFinalized();
         console.log("Form submitted successfully:", formData);
         
         // Push lead event to GTM dataLayer
