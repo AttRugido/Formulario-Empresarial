@@ -441,59 +441,60 @@ export const Element = (): JSX.Element => {
         }}
       >
         {/* Background images with crossfade transition */}
+        {/* Steps 1, 2, 3 all use the same background (container1Bg1) */}
         <img 
           src={container1Bg1} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
-          style={{ opacity: displayStep === 1 ? 1 : 0 }}
+          style={{ opacity: (displayStep === 1 || displayStep === 2 || displayStep === 3) ? 1 : 0 }}
         />
         <img 
           src={container1Bg2} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
-          style={{ opacity: displayStep === 2 ? 1 : 0 }}
+          style={{ opacity: displayStep === 4 ? 1 : 0 }}
         />
         <img 
           src={container1Bg3} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
-          style={{ opacity: displayStep === 3 ? 1 : 0 }}
-        />
-        <img 
-          src={container1Bg8} 
-          alt="" 
-          className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
-          style={{ opacity: displayStep === 4 ? 1 : 0 }}
-        />
-        <img 
-          src={container1Bg4} 
-          alt="" 
-          className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 5 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg5} 
+          src={container1Bg8} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 6 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg6} 
+          src={container1Bg4} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 7 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg1} 
+          src={container1Bg5} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 8 ? 1 : 0 }}
         />
         <img 
-          src={container1Bg8} 
+          src={container1Bg6} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 9 ? 1 : 0 }}
+        />
+        <img 
+          src={container1Bg1} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
+          style={{ opacity: displayStep === 10 ? 1 : 0 }}
+        />
+        <img 
+          src={container1Bg8} 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
+          style={{ opacity: displayStep === 11 ? 1 : 0 }}
         />
         <div className={`relative z-10 p-[120px] flex-1 flex flex-col justify-end transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
@@ -501,12 +502,15 @@ export const Element = (): JSX.Element => {
           <h2 
             className="font-['Inter'] font-medium text-[39.278px] leading-[110%] mb-4"
             style={{ 
-              width: displayStep === 1 ? '379px' :
-                     displayStep === 4 ? '505px' :
-                     displayStep === 6 ? '611px' : 
-                     displayStep === 7 ? '638px' : 
-                     displayStep === 8 ? '490px' : 
-                     displayStep === 9 ? '573px' : '591px',
+              width: (displayStep === 1 || displayStep === 2 || displayStep === 3) ? '379px' :
+                     displayStep === 4 ? '591px' :
+                     displayStep === 5 ? '591px' :
+                     displayStep === 6 ? '505px' :
+                     displayStep === 7 ? '591px' :
+                     displayStep === 8 ? '611px' : 
+                     displayStep === 9 ? '638px' : 
+                     displayStep === 10 ? '490px' : 
+                     displayStep === 11 ? '573px' : '591px',
               backgroundImage: 'linear-gradient(180deg, #FFFFFF 0%, #999999 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
@@ -515,7 +519,7 @@ export const Element = (): JSX.Element => {
           >
             {sidebarMessages[displayStep]}
           </h2>
-          {displayStep === 1 && (
+          {(displayStep === 1 || displayStep === 2 || displayStep === 3) && (
             <>
               <div className="w-[418px] h-[1px] mt-[17px] mb-[17px]" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
               <p className="font-['Inter'] font-normal text-[18px] leading-[1.3] w-[417px] mb-6" style={{ color: '#858585' }}>
