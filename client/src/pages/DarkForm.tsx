@@ -630,6 +630,103 @@ export const DarkForm = (): JSX.Element => {
     );
   };
 
+  const renderNameQuestion = () => {
+    const handleNext = () => {
+      if (formData.name && !isTransitioning) {
+        transitionToStep(step + 1);
+      }
+    };
+
+    return (
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            backgroundImage: theme.textGradient,
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
+          Qual é o seu nome?
+        </h2>
+        <div className="flex flex-col gap-4 max-w-[450px]">
+          <input
+            type="text"
+            placeholder="Seu nome completo"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            className="custom-input"
+            data-testid="input-name-step2"
+          />
+          <button
+            onClick={handleNext}
+            disabled={!formData.name || isTransitioning}
+            className="green-animated-button w-full disabled:opacity-50"
+            data-testid="button-prosseguir-name"
+          >
+            <span>
+              PROSSEGUIR
+              <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
+            </span>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderWhatsAppQuestion = () => {
+    const handleNext = () => {
+      if (formData.phone && !isTransitioning) {
+        transitionToStep(step + 1);
+      }
+    };
+
+    return (
+      <div className="flex flex-col gap-6 sm:gap-[37px]">
+        <h2 
+          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          style={{
+            backgroundImage: theme.textGradient,
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+        >
+          Qual é o seu WhatsApp?
+        </h2>
+        <div className="flex flex-col gap-4 max-w-[450px]">
+          <InputMask
+            mask="(99) 9.9999-9999"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          >
+            {(inputProps: any) => (
+              <input
+                {...inputProps}
+                placeholder="(00) 9.0000-0000"
+                type="tel"
+                className="custom-input"
+                data-testid="input-whatsapp-step3"
+              />
+            )}
+          </InputMask>
+          <button
+            onClick={handleNext}
+            disabled={!formData.phone || isTransitioning}
+            className="green-animated-button w-full disabled:opacity-50"
+            data-testid="button-prosseguir-whatsapp"
+          >
+            <span>
+              PROSSEGUIR
+              <ArrowRightIcon className="arrow-icon w-[18px] h-[18px]" />
+            </span>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   const renderBottleneckQuestion = () => {
     const options = [
       "Não tenho volume suficiente de oportunidades",
@@ -1194,9 +1291,9 @@ export const DarkForm = (): JSX.Element => {
       case 1:
         return renderRoleQuestion();
       case 2:
-        return renderRoleQuestion();
+        return renderNameQuestion();
       case 3:
-        return renderRoleQuestion();
+        return renderWhatsAppQuestion();
       case 4:
         return renderBottleneckQuestion();
       case 5:
