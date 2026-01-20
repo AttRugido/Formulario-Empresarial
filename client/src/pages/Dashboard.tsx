@@ -1134,43 +1134,44 @@ export default function Dashboard() {
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
                   <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Última Atualização</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Status</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Step Atual</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Data</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Step</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Nome</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>E-mail</th>
-                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>WhatsApp</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Urgência</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Whatsapp</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Rede Social</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Cargo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Gargalo</th>
                     <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Faturamento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tamanho do Time</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Segmento</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Tem Sócio</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Source</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Medium</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Campaign</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Content</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>UTM Term</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Dispositivo</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingPartialLeads ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={8} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
+                      <td colSpan={19} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
                     </tr>
                   ) : paginatedPartialLeads.length === 0 ? (
                     <tr style={{ height: '53px' }}>
-                      <td colSpan={8} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead parcial encontrado</td>
+                      <td colSpan={19} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead parcial encontrado</td>
                     </tr>
                   ) : (
                     paginatedPartialLeads.map((lead, index) => (
                       <tr key={lead.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(lead.updated_at || lead.created_at)}</td>
-                        <td className="text-center px-4">
-                          <span 
-                            className="whitespace-nowrap px-3 py-1 rounded-full text-sm"
-                            style={{ 
-                              background: 'rgba(246, 166, 70, 0.15)',
-                              color: '#F6A646'
-                            }}
-                          >
-                            Abandonado
-                          </span>
-                        </td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>Step {lead.current_step || 1} de 11</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(lead.created_at)}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#F6A646', fontSize: '16px' }}>{lead.current_step || 1}/11</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.name || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.email || "-"}</td>
+                        <td className="text-center px-4">{getUrgencyBadge(lead.urgency)}</td>
                         <td className="text-center px-4">
                           {lead.phone ? (
                             <button
@@ -1184,8 +1185,28 @@ export default function Dashboard() {
                             <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>
                           )}
                         </td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.social_media || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.role || "-"}</td>
+                        <td className="text-center px-4" style={{ color: '#979BA2', fontSize: '16px', minWidth: '200px', maxWidth: '250px' }}>
+                          <span style={{ 
+                            display: '-webkit-box', 
+                            WebkitLineClamp: 2, 
+                            WebkitBoxOrient: 'vertical', 
+                            overflow: 'hidden'
+                          }}>
+                            {lead.bottleneck || "-"}
+                          </span>
+                        </td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{lead.revenue || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.team_size || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.segment || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.has_partner || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_source || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_medium || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_campaign || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_content || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_term || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.device || "-"}</td>
                       </tr>
                     ))
                   )}
