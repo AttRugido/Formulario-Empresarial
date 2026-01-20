@@ -64,3 +64,21 @@ export const insertStepEventSchema = createInsertSchema(stepEvents).omit({
 
 export type InsertStepEvent = z.infer<typeof insertStepEventSchema>;
 export type StepEvent = typeof stepEvents.$inferSelect;
+
+export const partialLeads = pgTable("partial_leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  draftId: text("draft_id").notNull().unique(),
+  email: text("email"),
+  phone: text("phone"),
+  currentStep: integer("current_step").notNull().default(1),
+  answers: text("answers").notNull().default("{}"),
+  status: text("status").notNull().default("draft"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertPartialLeadSchema = createInsertSchema(partialLeads).omit({
+  id: true,
+});
+
+export type InsertPartialLead = z.infer<typeof insertPartialLeadSchema>;
+export type PartialLead = typeof partialLeads.$inferSelect;

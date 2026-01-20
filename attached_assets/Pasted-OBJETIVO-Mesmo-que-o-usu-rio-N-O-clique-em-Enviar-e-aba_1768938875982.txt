@@ -1,0 +1,102 @@
+OBJETIVO
+
+Mesmo que o usuário NÃO clique em “Enviar” e abandone no meio (ex: para na pergunta 4), eu preciso salvar automaticamente:
+
+email e/ou telefone (se existirem)
+
+step/pergunta atual (ex: 4)
+
+respostas já selecionadas/digitadas
+
+status do lead: "draft" (parcial) ou "finalizado"
+
+COMO DEVE FUNCIONAR
+
+A cada alteração de campo (input/select/radio/checkbox/textarea), salve um “rascunho” (draft).
+
+Use debounce para não disparar requests toda hora (ex: 800–1500ms).
+
+Atualize sempre o mesmo lead (evitar duplicar).
+
+Critério para identificar o lead:
+
+Se tiver email, usar email como chave.
+
+Se não tiver email, usar telefone como chave.
+
+Se não tiver nenhum ainda, salvar em localStorage um draft_id (UUID) e usar esse id até o usuário informar email/telefone.
+
+Ao clicar em “Enviar” (submit), marque status "finalizado" e faça um último save.
+
+DADOS QUE PRECISO SALVAR
+
+draft_id (uuid)
+
+email (string | opcional)
+
+phone (string | opcional)
+
+current_step (number)
+
+answers (objeto/json com todas as respostas)
+
+status ("draft" | "finalizado")
+
+updated_at (timestamp)
+
+IMPLEMENTAÇÃO (ESCOLHA A MELHOR)
+
+Crie um endpoint backend no Replit (Node/Express) para receber os dados:
+
+POST /api/partial-lead/save
+
+Body JSON conforme acima
+
+O backend deve:
+
+validar/sanitizar inputs
+
+salvar em um storage simples (JSON file, sqlite, ou Replit DB — escolha o mais estável e simples)
+
+fazer UPSERT: se existir (por email/phone/draft_id), atualiza; senão cria
+
+No frontend:
+
+Capturar mudanças com input e change.
+
+Montar answers automaticamente lendo name e valor dos campos.
+
+Detectar current_step:
+
+Se o form for dividido em etapas, pegar o step visível atual (ex: .step.is-active).
+
+Se não existir step, estimar pela última pergunta/fieldset visível ou pelo índice do campo que o usuário está interagindo.
+
+Salvar draft_id no localStorage.
+
+Enviar via fetch com Content-Type: application/json.
+
+Tratar erros (sem quebrar UX).
+
+EXTRAS IMPORTANTES
+
+Não logar dados sensíveis no console.
+
+Garantir que não cause lentidão no formulário.
+
+Se o usuário fechar a aba, tentar salvar uma última vez usando navigator.sendBeacon (fallback se der).
+
+Código bem comentado.
+
+ENTREGÁVEIS
+
+Estrutura de arquivos no Replit (ex: server.js, public/index.html, public/partialLead.js).
+
+Código completo do backend + frontend.
+
+Instruções rápidas para eu plugar no meu form existente (onde colar o script, quais IDs/classes eu preciso ter).
+
+ANTES DE CODAR, FAÇA 5 PERGUNTAS RÁPIDAS (APENAS SE FOREM ESSENCIAIS):
+
+Ex: onde o form roda (ActiveCampaign embed vs HTML), quais campos existem (email/phone), se tem steps etc.
+Se não for essencial, assuma um HTML padrão com steps e implemente de forma genérica.
