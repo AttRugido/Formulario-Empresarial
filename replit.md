@@ -2,20 +2,7 @@
 
 ## Overview
 
-This is a multi-step lead capture form application for Grupo Rugido, a business consulting company focused on helping companies structure their revenue and sales processes. The application collects information from potential clients through an 11-step questionnaire, stores submissions in a PostgreSQL database, and provides an admin dashboard for viewing submissions and funnel analytics.
-
-### Form Flow (11 steps)
-1. Role - What is your role in the company?
-2. Name - What is your name?
-3. WhatsApp - What is your WhatsApp number?
-4. Bottleneck - What is the main bottleneck limiting revenue?
-5. Revenue - What is the monthly revenue range?
-6. Social Media - Instagram or LinkedIn of the company
-7. Team Size - How many people on the sales team?
-8. Segment - What business segment?
-9. Urgency - How urgent is solving the revenue problem?
-10. Partner - Do you have a business partner?
-11. Email - What is your best email?
+This is a multi-step lead capture form application for Grupo Rugido, a business consulting company focused on helping companies structure their revenue and sales processes. The application collects information from potential clients through a 9-step questionnaire, stores submissions in a PostgreSQL database, and provides an admin dashboard for viewing submissions and funnel analytics.
 
 ## User Preferences
 
