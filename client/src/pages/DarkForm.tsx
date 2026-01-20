@@ -140,7 +140,7 @@ export const DarkForm = (): JSX.Element => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const attribution = useAttribution();
-  const { markAsFinalized } = useAutoSave(formData, step);
+  const { markAsFinalized } = useAutoSave(formData, step, attribution);
   const isDarkMode = true;
 
   // Theme colors

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { supabase } from '@/lib/supabase';
 
 const DRAFT_ID_KEY = 'grupo_rugido_draft_id';
 
@@ -33,31 +34,6 @@ interface FormData {
   socialMedia: string;
 }
 
-interface AutoSavePayload {
-  draftId: string;
-  email: string | null;
-  phone: string | null;
-  currentStep: number;
-  answers: FormData;
-  status: 'draft' | 'finalizado';
-}
-
-async function savePartialLead(payload: AutoSavePayload): Promise<boolean> {
-  try {
-    const response = await fetch('/api/partial-lead/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-    return response.ok;
-  } catch (error) {
-    console.error('[AutoSave] Error saving:', error);
-    return false;
-  }
-}
-
 function hasAnyData(formData: FormData): boolean {
   return !!(
     formData.role ||
@@ -74,48 +50,79 @@ function hasAnyData(formData: FormData): boolean {
   );
 }
 
-export function useAutoSave(formData: FormData, currentStep: number) {
+export function useAutoSave(formData: FormData, currentStep: number, attribution?: any) {
   const draftIdRef = useRef<string>(getDraftId());
   const lastSavedStepRef = useRef<number>(0);
   const isSavingRef = useRef<boolean>(false);
 
-  const saveNow = useCallback(async (status: 'draft' | 'finalizado' = 'draft') => {
+  const saveToSupabase = useCallback(async (status: 'parcial' | 'completo' = 'parcial') => {
     if (isSavingRef.current) return;
     
-    if (status === 'draft' && !hasAnyData(formData)) {
+    if (status === 'parcial' && !hasAnyData(formData)) {
       return;
     }
 
     isSavingRef.current = true;
 
-    const payload: AutoSavePayload = {
-      draftId: draftIdRef.current,
+    const upsertData = {
+      draft_id: draftIdRef.current,
+      name: formData.name || null,
       email: formData.email || null,
       phone: formData.phone || null,
-      currentStep,
-      answers: formData,
-      status,
+      role: formData.role || null,
+      bottleneck: formData.bottleneck || null,
+      revenue: formData.revenue || null,
+      team_size: formData.teamSize || null,
+      segment: formData.segment || null,
+      urgency: formData.urgency || null,
+      has_partner: formData.hasPartner || null,
+      social_media: formData.socialMedia || null,
+      current_step: currentStep,
+      status: status,
+      utm_source: attribution?.utm_source || null,
+      utm_medium: attribution?.utm_medium || null,
+      utm_campaign: attribution?.utm_campaign || null,
+      utm_content: attribution?.utm_content || null,
+      utm_term: attribution?.utm_term || null,
+      referrer: attribution?.referrer || null,
+      first_page: attribution?.first_page || null,
+      current_page: attribution?.current_page || null,
+      device: attribution?.device || null,
     };
 
-    console.log('[AutoSave] Saving now:', { step: currentStep, status, role: formData.role, name: formData.name });
+    console.log('[AutoSave] Saving to Supabase:', { step: currentStep, status, role: formData.role, name: formData.name });
     
-    await savePartialLead(payload);
-    lastSavedStepRef.current = currentStep;
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .upsert(upsertData, { onConflict: 'draft_id' })
+        .select();
+      
+      if (error) {
+        console.error('[AutoSave] Supabase error:', error);
+      } else {
+        console.log('[AutoSave] Saved successfully:', data);
+        lastSavedStepRef.current = currentStep;
+      }
+    } catch (err) {
+      console.error('[AutoSave] Error:', err);
+    }
+
     isSavingRef.current = false;
-  }, [formData, currentStep]);
+  }, [formData, currentStep, attribution]);
 
   // Save immediately when step increases (user answered a question and moved forward)
   useEffect(() => {
     if (currentStep > lastSavedStepRef.current && hasAnyData(formData)) {
       console.log('[AutoSave] Step increased, saving immediately');
-      saveNow('draft');
+      saveToSupabase('parcial');
     }
-  }, [currentStep, formData, saveNow]);
+  }, [currentStep, formData, saveToSupabase]);
 
   const markAsFinalized = useCallback(() => {
-    saveNow('finalizado');
+    saveToSupabase('completo');
     localStorage.removeItem(DRAFT_ID_KEY);
-  }, [saveNow]);
+  }, [saveToSupabase]);
 
   const clearDraft = useCallback(() => {
     localStorage.removeItem(DRAFT_ID_KEY);
@@ -127,6 +134,6 @@ export function useAutoSave(formData: FormData, currentStep: number) {
     draftId: draftIdRef.current,
     markAsFinalized,
     clearDraft,
-    saveNow,
+    saveNow: saveToSupabase,
   };
 }
