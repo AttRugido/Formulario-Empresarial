@@ -1283,7 +1283,7 @@ export const Element = (): JSX.Element => {
   
   return (
     <div className={!isDarkMode ? 'light-mode' : ''}>
-      {renderFormLayout(stepContent(), step - 1)}
+      {renderFormLayout(stepContent(), step <= 3 ? 0 : step - 3)}
     </div>
   );
 };

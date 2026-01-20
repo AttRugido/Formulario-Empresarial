@@ -1228,7 +1228,7 @@ export const DarkForm = (): JSX.Element => {
   
   return (
     <div>
-      {renderFormLayout(stepContent(), step - 1)}
+      {renderFormLayout(stepContent(), step <= 3 ? 0 : step - 3)}
     </div>
   );
 };
