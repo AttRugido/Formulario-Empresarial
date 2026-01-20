@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 const DRAFT_ID_KEY = 'grupo_rugido_draft_id';
-const DEBOUNCE_DELAY = 1000;
 
 function generateUUID(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -54,6 +53,7 @@ async function savePartialLead(payload: AutoSavePayload): Promise<boolean> {
     });
     return response.ok;
   } catch (error) {
+    console.error('[AutoSave] Error saving:', error);
     return false;
   }
 }
@@ -75,118 +75,47 @@ function hasAnyData(formData: FormData): boolean {
 }
 
 export function useAutoSave(formData: FormData, currentStep: number) {
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const lastSavedRef = useRef<string>('');
   const draftIdRef = useRef<string>(getDraftId());
-  const formDataRef = useRef<FormData>(formData);
-  const currentStepRef = useRef<number>(currentStep);
+  const lastSavedStepRef = useRef<number>(0);
+  const isSavingRef = useRef<boolean>(false);
 
-  // Keep refs in sync with latest values
-  useEffect(() => {
-    formDataRef.current = formData;
-    currentStepRef.current = currentStep;
-    console.log('[AutoSave] Refs updated:', { step: currentStep, hasData: hasAnyData(formData), role: formData.role, name: formData.name });
-  }, [formData, currentStep]);
-
-  const saveData = useCallback((status: 'draft' | 'finalizado' = 'draft') => {
-    // Use refs to get the latest values
-    const currentFormData = formDataRef.current;
-    const step = currentStepRef.current;
+  const saveNow = useCallback(async (status: 'draft' | 'finalizado' = 'draft') => {
+    if (isSavingRef.current) return;
     
-    // Only save if there's actual data (unless finalizing)
-    if (status === 'draft' && !hasAnyData(currentFormData)) {
-      console.log('[AutoSave] Skipping save - no data yet');
+    if (status === 'draft' && !hasAnyData(formData)) {
       return;
     }
+
+    isSavingRef.current = true;
 
     const payload: AutoSavePayload = {
       draftId: draftIdRef.current,
-      email: currentFormData.email || null,
-      phone: currentFormData.phone || null,
-      currentStep: step,
-      answers: currentFormData,
+      email: formData.email || null,
+      phone: formData.phone || null,
+      currentStep,
+      answers: formData,
       status,
     };
 
-    const payloadString = JSON.stringify(payload);
+    console.log('[AutoSave] Saving now:', { step: currentStep, status, role: formData.role, name: formData.name });
     
-    if (payloadString === lastSavedRef.current && status === 'draft') {
-      console.log('[AutoSave] Skipping save - no changes');
-      return;
-    }
+    await savePartialLead(payload);
+    lastSavedStepRef.current = currentStep;
+    isSavingRef.current = false;
+  }, [formData, currentStep]);
 
-    console.log('[AutoSave] Saving data:', { step, hasData: hasAnyData(currentFormData), status });
-    lastSavedRef.current = payloadString;
-    savePartialLead(payload);
-  }, []);
-
-  const debouncedSave = useCallback(() => {
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-    
-    debounceTimerRef.current = setTimeout(() => {
-      saveData('draft');
-    }, DEBOUNCE_DELAY);
-  }, [saveData]);
-
-  // Trigger save whenever formData or step changes
+  // Save immediately when step increases (user answered a question and moved forward)
   useEffect(() => {
-    // Skip the initial mount - wait for actual data changes
-    if (!hasAnyData(formData)) {
-      console.log('[AutoSave] useEffect: no data yet, skipping debounce setup');
-      return;
+    if (currentStep > lastSavedStepRef.current && hasAnyData(formData)) {
+      console.log('[AutoSave] Step increased, saving immediately');
+      saveNow('draft');
     }
-    
-    console.log('[AutoSave] useEffect: triggering debounced save');
-    debouncedSave();
-    
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, [formData, currentStep, debouncedSave]);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      // Use refs to get the latest values when the user leaves
-      const currentFormData = formDataRef.current;
-      const step = currentStepRef.current;
-      
-      console.log('[AutoSave] beforeunload triggered:', { step, hasData: hasAnyData(currentFormData), role: currentFormData.role, name: currentFormData.name });
-      
-      // Only save if there's actual data
-      if (!hasAnyData(currentFormData)) {
-        console.log('[AutoSave] beforeunload: no data to save');
-        return;
-      }
-
-      const payload: AutoSavePayload = {
-        draftId: draftIdRef.current,
-        email: currentFormData.email || null,
-        phone: currentFormData.phone || null,
-        currentStep: step,
-        answers: currentFormData,
-        status: 'draft',
-      };
-
-      console.log('[AutoSave] beforeunload: sending beacon with payload');
-      const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-      navigator.sendBeacon('/api/partial-lead/save', blob);
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
+  }, [currentStep, formData, saveNow]);
 
   const markAsFinalized = useCallback(() => {
-    saveData('finalizado');
+    saveNow('finalizado');
     localStorage.removeItem(DRAFT_ID_KEY);
-  }, [saveData]);
+  }, [saveNow]);
 
   const clearDraft = useCallback(() => {
     localStorage.removeItem(DRAFT_ID_KEY);
@@ -198,5 +127,6 @@ export function useAutoSave(formData: FormData, currentStep: number) {
     draftId: draftIdRef.current,
     markAsFinalized,
     clearDraft,
+    saveNow,
   };
 }
