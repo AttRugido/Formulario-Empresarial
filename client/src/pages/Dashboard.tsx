@@ -13,16 +13,6 @@ interface FunnelData {
   count: number;
 }
 
-interface PartialLead {
-  id: string;
-  draftId: string;
-  email: string | null;
-  phone: string | null;
-  currentStep: number;
-  answers: string;
-  status: string;
-  updatedAt: string | null;
-}
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
@@ -105,23 +95,28 @@ export default function Dashboard() {
   };
   
   const { data: submissions = [], isLoading: loadingSubmissions } = useQuery<Lead[]>({
-    queryKey: ["supabase-leads"],
+    queryKey: ["supabase-leads-complete"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('leads')
         .select('*')
+        .eq('status', 'completo')
         .order('created_at', { ascending: false });
       if (error) throw error;
       return data || [];
     }
   });
 
-  const { data: partialLeads = [], isLoading: loadingPartialLeads } = useQuery<PartialLead[]>({
-    queryKey: ["partial-leads"],
+  const { data: partialLeads = [], isLoading: loadingPartialLeads } = useQuery<Lead[]>({
+    queryKey: ["supabase-leads-partial"],
     queryFn: async () => {
-      const response = await fetch('/api/partial-leads');
-      if (!response.ok) throw new Error('Failed to fetch partial leads');
-      return response.json();
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .eq('status', 'parcial')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return data || [];
     }
   });
 
@@ -997,7 +992,7 @@ export default function Dashboard() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'partial' ? 'bg-[#A646E6] text-white' : 'bg-[#1A1A1F] text-[#979BA2] hover:bg-[#252530]'}`}
                 data-testid="tab-partial-leads"
               >
-                Leads Parciais ({partialLeads.filter(p => p.status === 'draft').length})
+                Leads Parciais ({partialLeads.length})
               </button>
             </div>
 
@@ -1159,46 +1154,40 @@ export default function Dashboard() {
                       <td colSpan={8} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead parcial encontrado</td>
                     </tr>
                   ) : (
-                    paginatedPartialLeads.map((lead, index) => {
-                      let parsedAnswers: any = {};
-                      try {
-                        parsedAnswers = JSON.parse(lead.answers || '{}');
-                      } catch (e) {}
-                      return (
-                        <tr key={lead.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
-                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(lead.updatedAt)}</td>
-                          <td className="text-center px-4">
-                            <span 
-                              className="whitespace-nowrap px-3 py-1 rounded-full text-sm"
-                              style={{ 
-                                background: lead.status === 'finalizado' ? 'rgba(108, 235, 123, 0.15)' : 'rgba(246, 166, 70, 0.15)',
-                                color: lead.status === 'finalizado' ? '#6CEB7B' : '#F6A646'
-                              }}
+                    paginatedPartialLeads.map((lead, index) => (
+                      <tr key={lead.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(lead.updated_at || lead.created_at)}</td>
+                        <td className="text-center px-4">
+                          <span 
+                            className="whitespace-nowrap px-3 py-1 rounded-full text-sm"
+                            style={{ 
+                              background: 'rgba(246, 166, 70, 0.15)',
+                              color: '#F6A646'
+                            }}
+                          >
+                            Abandonado
+                          </span>
+                        </td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>Step {lead.current_step || 1} de 11</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.name || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.email || "-"}</td>
+                        <td className="text-center px-4">
+                          {lead.phone ? (
+                            <button
+                              onClick={() => openWhatsApp(lead.phone)}
+                              className="underline hover:opacity-80 whitespace-nowrap"
+                              style={{ color: 'white', fontSize: '16px' }}
                             >
-                              {lead.status === 'finalizado' ? 'Finalizado' : 'Abandonado'}
-                            </span>
-                          </td>
-                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>Step {lead.currentStep} de 11</td>
-                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{parsedAnswers.name || "-"}</td>
-                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.email || parsedAnswers.email || "-"}</td>
-                          <td className="text-center px-4">
-                            {(lead.phone || parsedAnswers.phone) ? (
-                              <button
-                                onClick={() => openWhatsApp(lead.phone || parsedAnswers.phone)}
-                                className="underline hover:opacity-80 whitespace-nowrap"
-                                style={{ color: 'white', fontSize: '16px' }}
-                              >
-                                {formatPhone(lead.phone || parsedAnswers.phone)}
-                              </button>
-                            ) : (
-                              <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>
-                            )}
-                          </td>
-                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{parsedAnswers.role || "-"}</td>
-                          <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{parsedAnswers.revenue || "-"}</td>
-                        </tr>
-                      );
-                    })
+                              {formatPhone(lead.phone)}
+                            </button>
+                          ) : (
+                            <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>
+                          )}
+                        </td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.role || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{lead.revenue || "-"}</td>
+                      </tr>
+                    ))
                   )}
                 </tbody>
               </table>

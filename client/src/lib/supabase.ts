@@ -8,6 +8,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export interface Lead {
   id?: string;
   created_at?: string;
+  updated_at?: string;
   name: string | null;
   email: string | null;
   phone: string | null;
@@ -28,4 +29,7 @@ export interface Lead {
   first_page: string | null;
   current_page: string | null;
   device: string | null;
+  status: string | null;
+  draft_id: string | null;
+  current_step: number | null;
 }
