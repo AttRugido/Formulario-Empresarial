@@ -13,6 +13,17 @@ interface FunnelData {
   count: number;
 }
 
+interface PartialLead {
+  id: string;
+  draftId: string;
+  email: string | null;
+  phone: string | null;
+  currentStep: number;
+  answers: string;
+  status: string;
+  updatedAt: string | null;
+}
+
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,6 +49,7 @@ export default function Dashboard() {
   });
   const [generatedUrl, setGeneratedUrl] = useState('');
   const [urlCopied, setUrlCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<'leads' | 'partial'>('leads');
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -98,6 +110,15 @@ export default function Dashboard() {
         .order('created_at', { ascending: false });
       if (error) throw error;
       return data || [];
+    }
+  });
+
+  const { data: partialLeads = [], isLoading: loadingPartialLeads } = useQuery<PartialLead[]>({
+    queryKey: ["partial-leads"],
+    queryFn: async () => {
+      const response = await fetch('/api/partial-leads');
+      if (!response.ok) throw new Error('Failed to fetch partial leads');
+      return response.json();
     }
   });
 
@@ -953,7 +974,26 @@ export default function Dashboard() {
               )}
             </div>
 
+            {/* Tab Navigation */}
+            <div className="flex gap-2 mb-4">
+              <button
+                onClick={() => setActiveTab('leads')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'leads' ? 'bg-[#A646E6] text-white' : 'bg-[#1A1A1F] text-[#979BA2] hover:bg-[#252530]'}`}
+                data-testid="tab-leads"
+              >
+                Leads Completos ({submissions.length})
+              </button>
+              <button
+                onClick={() => setActiveTab('partial')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'partial' ? 'bg-[#A646E6] text-white' : 'bg-[#1A1A1F] text-[#979BA2] hover:bg-[#252530]'}`}
+                data-testid="tab-partial-leads"
+              >
+                Leads Parciais ({partialLeads.filter(p => p.status === 'draft').length})
+              </button>
+            </div>
+
             {/* Leads Table */}
+            {activeTab === 'leads' && (
             <div className="overflow-x-auto custom-scrollbar" style={{ background: '#0B0C0E', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.03)' }}>
               <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
                 <thead>
@@ -1049,6 +1089,79 @@ export default function Dashboard() {
                 </tbody>
               </table>
             </div>
+            )}
+
+            {/* Partial Leads Table */}
+            {activeTab === 'partial' && (
+            <div className="overflow-x-auto custom-scrollbar" style={{ background: '#0B0C0E', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.03)' }}>
+              <table className="w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
+                <thead>
+                  <tr style={{ background: '#101115', borderBottom: '1px solid rgba(255, 255, 255, 0.03)', height: '63px' }}>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Última Atualização</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Status</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Step Atual</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Nome</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>E-mail</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>WhatsApp</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Cargo</th>
+                    <th className="text-center px-4 whitespace-nowrap font-medium" style={{ color: '#979BA2', fontSize: '16px' }}>Faturamento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loadingPartialLeads ? (
+                    <tr style={{ height: '53px' }}>
+                      <td colSpan={8} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Carregando...</td>
+                    </tr>
+                  ) : partialLeads.length === 0 ? (
+                    <tr style={{ height: '53px' }}>
+                      <td colSpan={8} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead parcial encontrado</td>
+                    </tr>
+                  ) : (
+                    partialLeads.map((lead, index) => {
+                      let parsedAnswers: any = {};
+                      try {
+                        parsedAnswers = JSON.parse(lead.answers || '{}');
+                      } catch (e) {}
+                      return (
+                        <tr key={lead.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
+                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(lead.updatedAt)}</td>
+                          <td className="text-center px-4">
+                            <span 
+                              className="whitespace-nowrap px-3 py-1 rounded-full text-sm"
+                              style={{ 
+                                background: lead.status === 'finalizado' ? 'rgba(108, 235, 123, 0.15)' : 'rgba(246, 166, 70, 0.15)',
+                                color: lead.status === 'finalizado' ? '#6CEB7B' : '#F6A646'
+                              }}
+                            >
+                              {lead.status === 'finalizado' ? 'Finalizado' : 'Abandonado'}
+                            </span>
+                          </td>
+                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>Step {lead.currentStep} de 11</td>
+                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{parsedAnswers.name || "-"}</td>
+                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.email || parsedAnswers.email || "-"}</td>
+                          <td className="text-center px-4">
+                            {(lead.phone || parsedAnswers.phone) ? (
+                              <button
+                                onClick={() => openWhatsApp(lead.phone || parsedAnswers.phone)}
+                                className="underline hover:opacity-80 whitespace-nowrap"
+                                style={{ color: 'white', fontSize: '16px' }}
+                              >
+                                {formatPhone(lead.phone || parsedAnswers.phone)}
+                              </button>
+                            ) : (
+                              <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>
+                            )}
+                          </td>
+                          <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{parsedAnswers.role || "-"}</td>
+                          <td className="text-center px-4 whitespace-nowrap" style={{ color: 'white', fontSize: '16px' }}>{parsedAnswers.revenue || "-"}</td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+            )}
           </div>
 
           {/* Fluxo de Visitantes Section */}
