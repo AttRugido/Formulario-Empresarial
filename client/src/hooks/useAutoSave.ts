@@ -58,12 +58,41 @@ async function savePartialLead(payload: AutoSavePayload): Promise<boolean> {
   }
 }
 
+function hasAnyData(formData: FormData): boolean {
+  return !!(
+    formData.role ||
+    formData.name ||
+    formData.email ||
+    formData.phone ||
+    formData.bottleneck ||
+    formData.revenue ||
+    formData.teamSize ||
+    formData.segment ||
+    formData.urgency ||
+    formData.hasPartner ||
+    formData.socialMedia
+  );
+}
+
 export function useAutoSave(formData: FormData, currentStep: number) {
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSavedRef = useRef<string>('');
   const draftIdRef = useRef<string>(getDraftId());
+  const formDataRef = useRef<FormData>(formData);
+  const currentStepRef = useRef<number>(currentStep);
+
+  // Keep refs in sync with latest values
+  useEffect(() => {
+    formDataRef.current = formData;
+    currentStepRef.current = currentStep;
+  }, [formData, currentStep]);
 
   const saveData = useCallback((status: 'draft' | 'finalizado' = 'draft') => {
+    // Only save if there's actual data (unless finalizing)
+    if (status === 'draft' && !hasAnyData(formData)) {
+      return;
+    }
+
     const payload: AutoSavePayload = {
       draftId: draftIdRef.current,
       email: formData.email || null,
@@ -105,12 +134,21 @@ export function useAutoSave(formData: FormData, currentStep: number) {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
+      // Use refs to get the latest values when the user leaves
+      const currentFormData = formDataRef.current;
+      const step = currentStepRef.current;
+      
+      // Only save if there's actual data
+      if (!hasAnyData(currentFormData)) {
+        return;
+      }
+
       const payload: AutoSavePayload = {
         draftId: draftIdRef.current,
-        email: formData.email || null,
-        phone: formData.phone || null,
-        currentStep,
-        answers: formData,
+        email: currentFormData.email || null,
+        phone: currentFormData.phone || null,
+        currentStep: step,
+        answers: currentFormData,
         status: 'draft',
       };
 
@@ -123,7 +161,7 @@ export function useAutoSave(formData: FormData, currentStep: number) {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [formData, currentStep]);
+  }, []);
 
   const markAsFinalized = useCallback(() => {
     saveData('finalizado');
