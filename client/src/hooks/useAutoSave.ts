@@ -88,29 +88,36 @@ export function useAutoSave(formData: FormData, currentStep: number) {
   }, [formData, currentStep]);
 
   const saveData = useCallback((status: 'draft' | 'finalizado' = 'draft') => {
+    // Use refs to get the latest values
+    const currentFormData = formDataRef.current;
+    const step = currentStepRef.current;
+    
     // Only save if there's actual data (unless finalizing)
-    if (status === 'draft' && !hasAnyData(formData)) {
+    if (status === 'draft' && !hasAnyData(currentFormData)) {
+      console.log('[AutoSave] Skipping save - no data yet');
       return;
     }
 
     const payload: AutoSavePayload = {
       draftId: draftIdRef.current,
-      email: formData.email || null,
-      phone: formData.phone || null,
-      currentStep,
-      answers: formData,
+      email: currentFormData.email || null,
+      phone: currentFormData.phone || null,
+      currentStep: step,
+      answers: currentFormData,
       status,
     };
 
     const payloadString = JSON.stringify(payload);
     
     if (payloadString === lastSavedRef.current && status === 'draft') {
+      console.log('[AutoSave] Skipping save - no changes');
       return;
     }
 
+    console.log('[AutoSave] Saving data:', { step, hasData: hasAnyData(currentFormData), status });
     lastSavedRef.current = payloadString;
     savePartialLead(payload);
-  }, [formData, currentStep]);
+  }, []);
 
   const debouncedSave = useCallback(() => {
     if (debounceTimerRef.current) {
@@ -122,7 +129,13 @@ export function useAutoSave(formData: FormData, currentStep: number) {
     }, DEBOUNCE_DELAY);
   }, [saveData]);
 
+  // Trigger save whenever formData or step changes
   useEffect(() => {
+    // Skip the initial mount - wait for actual data changes
+    if (!hasAnyData(formData)) {
+      return;
+    }
+    
     debouncedSave();
     
     return () => {
