@@ -85,6 +85,7 @@ export function useAutoSave(formData: FormData, currentStep: number) {
   useEffect(() => {
     formDataRef.current = formData;
     currentStepRef.current = currentStep;
+    console.log('[AutoSave] Refs updated:', { step: currentStep, hasData: hasAnyData(formData), role: formData.role, name: formData.name });
   }, [formData, currentStep]);
 
   const saveData = useCallback((status: 'draft' | 'finalizado' = 'draft') => {
@@ -133,9 +134,11 @@ export function useAutoSave(formData: FormData, currentStep: number) {
   useEffect(() => {
     // Skip the initial mount - wait for actual data changes
     if (!hasAnyData(formData)) {
+      console.log('[AutoSave] useEffect: no data yet, skipping debounce setup');
       return;
     }
     
+    console.log('[AutoSave] useEffect: triggering debounced save');
     debouncedSave();
     
     return () => {
@@ -151,8 +154,11 @@ export function useAutoSave(formData: FormData, currentStep: number) {
       const currentFormData = formDataRef.current;
       const step = currentStepRef.current;
       
+      console.log('[AutoSave] beforeunload triggered:', { step, hasData: hasAnyData(currentFormData), role: currentFormData.role, name: currentFormData.name });
+      
       // Only save if there's actual data
       if (!hasAnyData(currentFormData)) {
+        console.log('[AutoSave] beforeunload: no data to save');
         return;
       }
 
@@ -165,6 +171,7 @@ export function useAutoSave(formData: FormData, currentStep: number) {
         status: 'draft',
       };
 
+      console.log('[AutoSave] beforeunload: sending beacon with payload');
       const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
       navigator.sendBeacon('/api/partial-lead/save', blob);
     };
