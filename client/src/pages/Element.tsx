@@ -101,6 +101,8 @@ const testimonials = [
 const sidebarMessages = [
   "",
   "Junte-se a quem já estruturou receita",
+  "Junte-se a quem já estruturou receita",
+  "Junte-se a quem já estruturou receita",
   "87% das empresas perdem dinheiro sem saber onde",
   "Receita previsível não é sorte. É sistema.",
   "Preparação personalizada. Zero papo genérico.",
@@ -188,7 +190,7 @@ export const Element = (): JSX.Element => {
   };
 
   const handleNext = async () => {
-    if (step < 9) {
+    if (step < 11) {
       transitionToStep(step + 1);
     } else {
       if (hasSubmitted) {
@@ -1243,20 +1245,24 @@ export const Element = (): JSX.Element => {
       case 1:
         return renderRoleQuestion();
       case 2:
-        return renderBottleneckQuestion();
+        return renderRoleQuestion();
       case 3:
-        return renderRevenueQuestion();
+        return renderRoleQuestion();
       case 4:
-        return renderSocialMediaQuestion();
+        return renderBottleneckQuestion();
       case 5:
-        return renderTeamSizeQuestion();
+        return renderRevenueQuestion();
       case 6:
-        return renderSegmentQuestion();
+        return renderSocialMediaQuestion();
       case 7:
-        return renderUrgencyQuestion();
+        return renderTeamSizeQuestion();
       case 8:
-        return renderPartnerQuestion();
+        return renderSegmentQuestion();
       case 9:
+        return renderUrgencyQuestion();
+      case 10:
+        return renderPartnerQuestion();
+      case 11:
         return renderContactForm();
       default:
         return null;
