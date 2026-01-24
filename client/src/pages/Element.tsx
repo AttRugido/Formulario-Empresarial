@@ -171,6 +171,12 @@ export const Element = (): JSX.Element => {
     return emailRegex.test(email);
   };
 
+  const validatePhone = (phone: string): boolean => {
+    // Phone mask is "(99) 9.9999-9999" - check if all digits are filled (11 digits total)
+    const digitsOnly = phone.replace(/\D/g, '');
+    return digitsOnly.length >= 11;
+  };
+
   const handleEmailChange = (value: string) => {
     setFormData({ ...formData, email: value });
     if (value && !validateEmail(value)) {
@@ -783,7 +789,7 @@ export const Element = (): JSX.Element => {
           </InputMask>
           <button
             onClick={handleNext}
-            disabled={!formData.phone || isTransitioning}
+            disabled={!validatePhone(formData.phone) || isTransitioning}
             className="green-animated-button w-full disabled:opacity-50"
             data-testid="button-prosseguir-whatsapp"
           >
@@ -1347,7 +1353,7 @@ export const Element = (): JSX.Element => {
         </div>
         <button
           onClick={handleNext}
-          disabled={!formData.name || !formData.email || !formData.phone || emailError !== "" || isTransitioning || isSubmitting}
+          disabled={!formData.name || !formData.email || !validatePhone(formData.phone) || emailError !== "" || isTransitioning || isSubmitting}
           className="green-animated-button w-full disabled:opacity-50"
           data-testid="button-prosseguir"
         >
