@@ -302,16 +302,28 @@ export const Element = (): JSX.Element => {
           console.log("GTM dataLayer push: generate_lead event");
         }
         
-        // Redirect to /obrigado2 for qualified leads (revenue >= R$50k)
-        const qualifiedRevenues = [
-          "Entre R$40 mil e R$70 mil",
-          "Entre R$70 mil e R$150 mil",
-          "Entre R$150 mil e R$300 mil",
-          "Entre R$300 mil e R$1 milhão",
-          "Acima de R$1 milhão"
+        // Redirect based on revenue tier
+        const mql50kRevenues = [
+          "De R$51 mil à R$70 mil",
+          "De R$71 mil à R$100 mil"
         ];
-        const isQualifiedLead = qualifiedRevenues.includes(formData.revenue);
-        setLocation(isQualifiedLead ? "/obrigado2" : "/obrigado");
+        const mql100Revenues = [
+          "De R$101 mil à R$200 mil",
+          "De R$201 mil à R$400 mil",
+          "De R$401 mil à R$1 milhão",
+          "De R$1 à R$4 milhões",
+          "De R$4 à R$16 milhões",
+          "De R$16 a R$40 milhões",
+          "Mais de R$40 milhões"
+        ];
+        
+        let redirectUrl = "/obrigado";
+        if (mql100Revenues.includes(formData.revenue)) {
+          redirectUrl = "/obrigado-3";
+        } else if (mql50kRevenues.includes(formData.revenue)) {
+          redirectUrl = "/obrigado2";
+        }
+        setLocation(redirectUrl);
       } catch (error: any) {
         console.error("Failed to submit form:", error);
         toast({
@@ -847,12 +859,16 @@ export const Element = (): JSX.Element => {
 
   const renderRevenueQuestion = () => {
     const options = [
-      "Até R$40 mil",
-      "Entre R$40 mil e R$70 mil",
-      "Entre R$70 mil e R$150 mil",
-      "Entre R$150 mil e R$300 mil",
-      "Entre R$300 mil e R$1 milhão",
-      "Acima de R$1 milhão"
+      "Até R$50 mil",
+      "De R$51 mil à R$70 mil",
+      "De R$71 mil à R$100 mil",
+      "De R$101 mil à R$200 mil",
+      "De R$201 mil à R$400 mil",
+      "De R$401 mil à R$1 milhão",
+      "De R$1 à R$4 milhões",
+      "De R$4 à R$16 milhões",
+      "De R$16 a R$40 milhões",
+      "Mais de R$40 milhões"
     ];
 
     const handleOptionClick = (option: string) => {
