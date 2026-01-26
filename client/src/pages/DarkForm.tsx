@@ -833,7 +833,7 @@ export const DarkForm = (): JSX.Element => {
     return (
       <div className="flex flex-col gap-6 sm:gap-[37px]">
         <h2 
-          className="font-['Inter'] font-medium text-[22px] sm:text-[28px] leading-[110%] max-w-[420px]"
+          className="font-['Inter'] font-medium text-[18px] sm:text-[22px] md:text-[28px] leading-[120%] sm:leading-[110%] break-words"
           style={{
             backgroundImage: theme.textGradient,
             backgroundClip: 'text',
