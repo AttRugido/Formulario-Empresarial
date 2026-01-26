@@ -617,8 +617,13 @@ export const Element = (): JSX.Element => {
             {children}
           </div>
         </div>
-        {/* Testimonial - Visible on lg screens with reduced padding for smaller displays */}
-        <div className="hidden lg:block absolute bottom-[60px] left-1/2 -translate-x-1/2 w-[90%] lg:w-[85%] xl:w-auto xl:max-w-[540px]">
+        {/* Testimonial - Visible only on screens 1440px and above */}
+        <style>{`
+          @media (min-width: 1440px) {
+            .testimonial-1440 { display: block !important; }
+          }
+        `}</style>
+        <div className="hidden absolute bottom-[60px] left-1/2 -translate-x-1/2 w-[85%] xl:w-auto xl:max-w-[540px] testimonial-1440">
           <div className="relative">
             {/* Desktop: quotes positioned to the left of the box */}
             <svg xmlns="http://www.w3.org/2000/svg" width="58" height="50" viewBox="0 0 58 50" fill="none" className="absolute -left-[39px] top-[21px] w-[58px] h-[50px]">
