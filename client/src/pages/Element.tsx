@@ -517,13 +517,13 @@ export const Element = (): JSX.Element => {
           className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ease-in-out"
           style={{ opacity: displayStep === 11 ? 1 : 0 }}
         />
-        <div className={`relative z-10 p-[120px] flex-1 flex flex-col justify-end transition-opacity duration-200 ease-in-out ${
+        <div className={`relative z-10 p-8 lg:p-16 xl:p-[120px] flex-1 flex flex-col justify-end transition-opacity duration-200 ease-in-out ${
           container1Visible ? 'opacity-100' : 'opacity-0'
         }`}>
           <h2 
-            className="font-['Inter'] font-medium text-[39.278px] leading-[110%] mb-4"
+            className="font-['Inter'] font-medium text-[24px] lg:text-[32px] xl:text-[39.278px] leading-[120%] lg:leading-[110%] mb-4 break-words"
             style={{ 
-              width: (displayStep === 1 || displayStep === 2 || displayStep === 3) ? '379px' :
+              maxWidth: (displayStep === 1 || displayStep === 2 || displayStep === 3) ? '379px' :
                      displayStep === 4 ? '591px' :
                      displayStep === 5 ? '591px' :
                      displayStep === 6 ? '505px' :
@@ -542,8 +542,8 @@ export const Element = (): JSX.Element => {
           </h2>
           {(displayStep === 1 || displayStep === 2 || displayStep === 3) && (
             <>
-              <div className="w-[418px] h-[1px] mt-[17px] mb-[17px]" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
-              <p className="font-['Inter'] font-normal text-[18px] leading-[1.3] w-[417px] mb-6" style={{ color: '#858585' }}>
+              <div className="w-full max-w-[418px] h-[1px] mt-[17px] mb-[17px]" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
+              <p className="font-['Inter'] font-normal text-[14px] lg:text-[16px] xl:text-[18px] leading-[1.3] max-w-[417px] mb-6" style={{ color: '#858585' }}>
                 Veja abaixo algumas empresas que multiplicaram as vendas com a nossa ajuda:
               </p>
               <div className="flex flex-col gap-3">
