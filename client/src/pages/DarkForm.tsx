@@ -140,7 +140,7 @@ export const DarkForm = (): JSX.Element => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const attribution = useAttribution();
-  const { markAsFinalized } = useAutoSave(formData, step, attribution);
+  const { markAsFinalized, draftId } = useAutoSave(formData, step, attribution);
   const isDarkMode = true;
 
   // Theme colors
@@ -212,8 +212,9 @@ export const DarkForm = (): JSX.Element => {
       
       setIsSubmitting(true);
       try {
-        // Save to Supabase
-        const insertData = {
+        // Save to Supabase using upsert to update existing draft record
+        const upsertData = {
+          draft_id: draftId,
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -225,6 +226,8 @@ export const DarkForm = (): JSX.Element => {
           urgency: formData.urgency,
           has_partner: formData.hasPartner,
           social_media: formData.socialMedia,
+          status: 'completo',
+          current_step: 11,
           utm_source: attribution.utm_source || null,
           utm_medium: attribution.utm_medium || null,
           utm_campaign: attribution.utm_campaign || null,
@@ -236,9 +239,9 @@ export const DarkForm = (): JSX.Element => {
           device: attribution.device || null
         };
         
-        console.log("Inserting data to Supabase:", insertData);
+        console.log("Upserting data to Supabase:", upsertData);
         
-        const { data, error } = await supabase.from('leads').insert(insertData).select();
+        const { data, error } = await supabase.from('leads').upsert(upsertData, { onConflict: 'draft_id' }).select();
         
         console.log("Supabase response - data:", data);
         console.log("Supabase response - error:", error);
@@ -255,7 +258,7 @@ export const DarkForm = (): JSX.Element => {
         
         // Send all data to webhook directly
         const webhookData = {
-          ...insertData,
+          ...upsertData,
           submitted_at: new Date().toISOString()
         };
         
