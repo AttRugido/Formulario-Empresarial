@@ -310,17 +310,17 @@ export const DarkForm = (): JSX.Element => {
         
         // Redirect based on revenue tier
         const mql50kRevenues = [
-          "De R$51 mil à R$70 mil",
-          "De R$71 mil à R$100 mil"
+          "De 51 mil a 70 mil",
+          "De 71 mil a 100 mil"
         ];
         const mql100Revenues = [
-          "De R$101 mil à R$200 mil",
-          "De R$201 mil à R$400 mil",
-          "De R$401 mil à R$1 milhão",
-          "De R$1 à R$4 milhões",
-          "De R$4 à R$16 milhões",
-          "De R$16 a R$40 milhões",
-          "Mais de R$40 milhões"
+          "De 101 mil a 200 mil",
+          "De 201 mil a 400 mil",
+          "De 401 mil a 1 milhão",
+          "De 1 a 4 milhões",
+          "De 4 a 16 milhões",
+          "De 16 a 40 milhões",
+          "Mais de 40 milhões"
         ];
         
         let redirectUrl = "/obrigado";
@@ -810,16 +810,16 @@ export const DarkForm = (): JSX.Element => {
 
   const renderRevenueQuestion = () => {
     const options = [
-      "Até R$50 mil",
-      "De R$51 mil à R$70 mil",
-      "De R$71 mil à R$100 mil",
-      "De R$101 mil à R$200 mil",
-      "De R$201 mil à R$400 mil",
-      "De R$401 mil à R$1 milhão",
-      "De R$1 à R$4 milhões",
-      "De R$4 à R$16 milhões",
-      "De R$16 a R$40 milhões",
-      "Mais de R$40 milhões"
+      "Até 50 mil",
+      "De 51 mil a 70 mil",
+      "De 71 mil a 100 mil",
+      "De 101 mil a 200 mil",
+      "De 201 mil a 400 mil",
+      "De 401 mil a 1 milhão",
+      "De 1 a 4 milhões",
+      "De 4 a 16 milhões",
+      "De 16 a 40 milhões",
+      "Mais de 40 milhões"
     ];
 
     const handleOptionClick = (option: string) => {
