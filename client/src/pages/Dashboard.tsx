@@ -1165,17 +1165,19 @@ export default function Dashboard() {
                       <td colSpan={19} className="text-center" style={{ color: '#979BA2', fontSize: '16px' }}>Nenhum lead parcial encontrado</td>
                     </tr>
                   ) : (
-                    paginatedPartialLeads.map((lead, index) => (
+                    paginatedPartialLeads.map((lead, index) => {
+                      const step = lead.current_step || 1;
+                      return (
                       <tr key={lead.id || index} className="hover:bg-[#101115]" style={{ height: '53px', borderBottom: '1px solid rgba(255, 255, 255, 0.03)' }}>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{formatDate(lead.created_at)}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#F6A646', fontSize: '16px', fontWeight: 'bold' }}>{lead.current_step || 1}/11</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: (lead.current_step || 0) >= 2 ? 'white' : '#979BA2', fontSize: '16px' }}>{lead.name || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: '#F6A646', fontSize: '16px', fontWeight: 'bold' }}>{step}/11</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: step >= 2 ? 'white' : '#979BA2', fontSize: '16px' }}>{step >= 2 ? (lead.name || "-") : "-"}</td>
                         <td className="text-center px-4">
-                          {lead.phone ? (
+                          {step >= 3 && lead.phone ? (
                             <button
                               onClick={() => openWhatsApp(lead.phone)}
                               className="underline hover:opacity-80 whitespace-nowrap"
-                              style={{ color: (lead.current_step || 0) >= 3 ? 'white' : '#979BA2', fontSize: '16px' }}
+                              style={{ color: 'white', fontSize: '16px' }}
                             >
                               {formatPhone(lead.phone)}
                             </button>
@@ -1183,23 +1185,23 @@ export default function Dashboard() {
                             <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>
                           )}
                         </td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: (lead.current_step || 0) >= 4 ? 'white' : '#979BA2', fontSize: '16px' }}>{lead.role || "-"}</td>
-                        <td className="text-center px-4" style={{ color: (lead.current_step || 0) >= 5 ? 'white' : '#979BA2', fontSize: '16px', minWidth: '200px', maxWidth: '250px' }}>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: step >= 4 ? 'white' : '#979BA2', fontSize: '16px' }}>{step >= 4 ? (lead.role || "-") : "-"}</td>
+                        <td className="text-center px-4" style={{ color: step >= 5 ? 'white' : '#979BA2', fontSize: '16px', minWidth: '200px', maxWidth: '250px' }}>
                           <span style={{ 
                             display: '-webkit-box', 
                             WebkitLineClamp: 2, 
                             WebkitBoxOrient: 'vertical', 
                             overflow: 'hidden'
                           }}>
-                            {lead.bottleneck || "-"}
+                            {step >= 5 ? (lead.bottleneck || "-") : "-"}
                           </span>
                         </td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: (lead.current_step || 0) >= 6 ? 'white' : '#979BA2', fontSize: '16px' }}>{lead.revenue || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: (lead.current_step || 0) >= 7 ? 'white' : '#979BA2', fontSize: '16px' }}>{lead.team_size || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: (lead.current_step || 0) >= 8 ? 'white' : '#979BA2', fontSize: '16px' }}>{lead.segment || "-"}</td>
-                        <td className="text-center px-4">{(lead.current_step || 0) >= 9 ? getUrgencyBadge(lead.urgency) : <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: (lead.current_step || 0) >= 10 ? 'white' : '#979BA2', fontSize: '16px' }}>{lead.has_partner || "-"}</td>
-                        <td className="text-center px-4 whitespace-nowrap" style={{ color: (lead.current_step || 0) >= 11 ? 'white' : '#979BA2', fontSize: '16px' }}>{lead.social_media || "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: step >= 6 ? 'white' : '#979BA2', fontSize: '16px' }}>{step >= 6 ? (lead.revenue || "-") : "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: step >= 7 ? 'white' : '#979BA2', fontSize: '16px' }}>{step >= 7 ? (lead.team_size || "-") : "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: step >= 8 ? 'white' : '#979BA2', fontSize: '16px' }}>{step >= 8 ? (lead.segment || "-") : "-"}</td>
+                        <td className="text-center px-4">{step >= 9 ? getUrgencyBadge(lead.urgency) : <span style={{ color: '#979BA2', fontSize: '16px' }}>-</span>}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: step >= 10 ? 'white' : '#979BA2', fontSize: '16px' }}>{step >= 10 ? (lead.has_partner || "-") : "-"}</td>
+                        <td className="text-center px-4 whitespace-nowrap" style={{ color: step >= 11 ? 'white' : '#979BA2', fontSize: '16px' }}>{step >= 11 ? (lead.social_media || "-") : "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.email || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_source || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_medium || "-"}</td>
@@ -1208,7 +1210,7 @@ export default function Dashboard() {
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.utm_term || "-"}</td>
                         <td className="text-center px-4 whitespace-nowrap" style={{ color: '#979BA2', fontSize: '16px' }}>{lead.device || "-"}</td>
                       </tr>
-                    ))
+                    );})
                   )}
                 </tbody>
               </table>
