@@ -181,6 +181,47 @@ export default function Dashboard() {
     return subDate.toDateString() === today.toDateString();
   }).length;
 
+  // Calculate yesterday's submissions for trend comparison
+  const yesterdaySubmissions = submissions.filter(s => {
+    if (!s.created_at) return false;
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const subDate = new Date(s.created_at);
+    return subDate.toDateString() === yesterday.toDateString();
+  }).length;
+
+  // Calculate this week vs last week for total leads trend
+  const thisWeekSubmissions = submissions.filter(s => {
+    if (!s.created_at) return false;
+    const now = new Date();
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    const subDate = new Date(s.created_at);
+    return subDate >= weekAgo && subDate <= now;
+  }).length;
+
+  const lastWeekSubmissions = submissions.filter(s => {
+    if (!s.created_at) return false;
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    const twoWeeksAgo = new Date();
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+    const subDate = new Date(s.created_at);
+    return subDate >= twoWeeksAgo && subDate < weekAgo;
+  }).length;
+
+  // Calculate trend percentages
+  const calculateTrend = (current: number, previous: number) => {
+    if (previous === 0) {
+      return current > 0 ? { value: 100, isPositive: true } : { value: 0, isPositive: true };
+    }
+    const change = ((current - previous) / previous) * 100;
+    return { value: Math.abs(Math.round(change * 100) / 100), isPositive: change >= 0 };
+  };
+
+  const todayTrend = calculateTrend(todaySubmissions, yesterdaySubmissions);
+  const weeklyTrend = calculateTrend(thisWeekSubmissions, lastWeekSubmissions);
+
   const completionRate = (() => {
     const step1 = funnelData.find(f => f.step === 1)?.count || 0;
     const step9 = funnelData.find(f => f.step === 9)?.count || 0;
@@ -1293,16 +1334,16 @@ export default function Dashboard() {
                   <span 
                     className="inline-flex items-center gap-1"
                     style={{ 
-                      background: 'rgba(224, 50, 50, 0.15)',
+                      background: weeklyTrend.isPositive ? 'rgba(16, 185, 129, 0.15)' : 'rgba(224, 50, 50, 0.15)',
                       padding: '4px 10px',
                       borderRadius: '60px',
                       fontSize: '14px',
                       fontFamily: 'Inter',
-                      color: '#E03232'
+                      color: weeklyTrend.isPositive ? '#10B981' : '#E03232'
                     }}
                   >
-                    <TrendingDown className="w-3 h-3" />
-                    +1.06%
+                    {weeklyTrend.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                    {weeklyTrend.isPositive ? '+' : '-'}{weeklyTrend.value}%
                   </span>
                 </div>
               </div>
@@ -1324,16 +1365,16 @@ export default function Dashboard() {
                   <span 
                     className="inline-flex items-center gap-1"
                     style={{ 
-                      background: 'rgba(224, 50, 50, 0.15)',
+                      background: weeklyTrend.isPositive ? 'rgba(16, 185, 129, 0.15)' : 'rgba(224, 50, 50, 0.15)',
                       padding: '4px 10px',
                       borderRadius: '60px',
                       fontSize: '14px',
                       fontFamily: 'Inter',
-                      color: '#E03232'
+                      color: weeklyTrend.isPositive ? '#10B981' : '#E03232'
                     }}
                   >
-                    <TrendingDown className="w-3 h-3" />
-                    +1.06%
+                    {weeklyTrend.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                    {weeklyTrend.isPositive ? '+' : '-'}{weeklyTrend.value}%
                   </span>
                 </div>
               </div>
@@ -1348,7 +1389,7 @@ export default function Dashboard() {
                 }}
               >
                 <p style={{ color: '#979BA2', fontFamily: 'Inter', fontWeight: 500, marginBottom: '0', fontSize: '14px' }}>Leads novos</p>
-                <p style={{ color: '#979BA2', fontSize: '12px', fontFamily: 'Inter', marginBottom: '8px' }}>Últimas 24h</p>
+                <p style={{ color: '#979BA2', fontSize: '12px', fontFamily: 'Inter', marginBottom: '8px' }}>Hoje vs ontem</p>
                 <span className="text-[32px] md:text-[48px]" style={{ fontFamily: 'Inter', fontWeight: 500, color: 'white' }} data-testid="text-new-leads">
                   {loadingSubmissions ? "..." : todaySubmissions}
                 </span>
@@ -1356,16 +1397,16 @@ export default function Dashboard() {
                   <span 
                     className="inline-flex items-center gap-1"
                     style={{ 
-                      background: 'rgba(16, 185, 129, 0.15)',
+                      background: todayTrend.isPositive ? 'rgba(16, 185, 129, 0.15)' : 'rgba(224, 50, 50, 0.15)',
                       padding: '4px 10px',
                       borderRadius: '60px',
                       fontSize: '14px',
                       fontFamily: 'Inter',
-                      color: '#10B981'
+                      color: todayTrend.isPositive ? '#10B981' : '#E03232'
                     }}
                   >
-                    <TrendingUp className="w-3 h-3" />
-                    +1.06%
+                    {todayTrend.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                    {todayTrend.isPositive ? '+' : '-'}{todayTrend.value}%
                   </span>
                 </div>
               </div>
