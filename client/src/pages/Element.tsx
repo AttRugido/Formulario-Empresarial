@@ -313,17 +313,13 @@ export const Element = (): JSX.Element => {
         
         // Redirect based on revenue tier
         const mql50kRevenues = [
-          "De 51 mil a 70 mil",
-          "De 71 mil a 100 mil"
+          "De 51 mil a 100 mil"
         ];
         const mql100Revenues = [
-          "De 101 mil a 200 mil",
-          "De 201 mil a 400 mil",
-          "De 401 mil a 1 milhão",
-          "De 1 a 4 milhões",
-          "De 4 a 16 milhões",
-          "De 16 a 40 milhões",
-          "Mais de 40 milhões"
+          "De 101 mil a 300 mil",
+          "De 301 mil a 1 milhão",
+          "De 1 milhão a 4 milhões",
+          "Mais de 4 milhões"
         ];
         
         let redirectUrl = "/obrigado";
@@ -873,16 +869,13 @@ export const Element = (): JSX.Element => {
 
   const renderRevenueQuestion = () => {
     const options = [
-      "Até 50 mil",
-      "De 51 mil a 70 mil",
-      "De 71 mil a 100 mil",
-      "De 101 mil a 200 mil",
-      "De 201 mil a 400 mil",
-      "De 401 mil a 1 milhão",
-      "De 1 a 4 milhões",
-      "De 4 a 16 milhões",
-      "De 16 a 40 milhões",
-      "Mais de 40 milhões"
+      "Até 30 mil",
+      "De 31 mil a 50 mil",
+      "De 51 mil a 100 mil",
+      "De 101 mil a 300 mil",
+      "De 301 mil a 1 milhão",
+      "De 1 milhão a 4 milhões",
+      "Mais de 4 milhões"
     ];
 
     const handleOptionClick = (option: string) => {
