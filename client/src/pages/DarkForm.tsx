@@ -264,7 +264,7 @@ export const DarkForm = (): JSX.Element => {
         
         try {
           // Try direct call first (works if webhook has CORS enabled)
-          const webhookResponse = await fetch('https://webhook-agencia.lucasfelix.com/webhook/dfcd0293-86ea-4d13-9d41-8c09efaae495', {
+          const webhookResponse = await fetch('https://fifty-milion.vercel.app/api/webhooks/form-leads', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -275,7 +275,7 @@ export const DarkForm = (): JSX.Element => {
         } catch (webhookError) {
           // Fallback: use no-cors mode (request still sent, just can't read response)
           try {
-            await fetch('https://webhook-agencia.lucasfelix.com/webhook/dfcd0293-86ea-4d13-9d41-8c09efaae495', {
+            await fetch('https://fifty-milion.vercel.app/api/webhooks/form-leads', {
               method: 'POST',
               headers: {
                 'Content-Type': 'text/plain',
