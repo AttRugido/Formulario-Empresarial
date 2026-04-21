@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { captureAttributionParams } from "@/lib/tracking";
 
 type AttributionData = Record<string, string>;
 
@@ -69,6 +70,8 @@ export function useAttribution(currentUrl?: string) {
 
   useEffect(() => {
     const url = currentUrl ?? window.location.href;
+
+    captureAttributionParams();
 
     const utms = getUTMsFromURL(url);
 

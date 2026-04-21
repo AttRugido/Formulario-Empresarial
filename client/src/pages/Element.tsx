@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { useAttribution } from "@/hooks/useAttribution";
 import { useToast } from "@/hooks/use-toast";
 import { useAutoSave } from "@/hooks/useAutoSave";
+import { buildTrackingEnrichment, generateEventId } from "@/lib/tracking";
 
 import logoArtsPortas from "@assets/Logo_branco_e_amarelo_1766593059522.png";
 import logoWallTravel from "@assets/Logo_Branco_1766593059522.png";
@@ -257,8 +258,14 @@ export const Element = (): JSX.Element => {
         }
         
         // Send all data to webhook directly
+        const eventId = generateEventId();
+        const trackingEnrichment = await buildTrackingEnrichment({
+          email: formData.email,
+          eventId,
+        });
         const webhookData = {
           ...upsertData,
+          ...trackingEnrichment,
           submitted_at: new Date().toISOString()
         };
         
